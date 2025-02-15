@@ -4,7 +4,12 @@ import {
 import { createRoot } from 'react-dom/client'
 import router from "./router";
 import './index.css'
+import { ToastContainer } from "react-toastify"
+import { AppContextProvider } from "./context-api/AppContext"
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <AppContextProvider>
+    <ToastContainer/>
+    <RouterProvider router={router} />
+  </AppContextProvider>
 )

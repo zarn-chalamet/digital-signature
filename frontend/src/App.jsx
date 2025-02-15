@@ -1,15 +1,29 @@
 import { Outlet } from "react-router-dom"
-
+import Navbar from "./components/Navbar"
+import Sidebar from "./components/Sidebar"
+import { useContext } from "react"
+import { AppContext } from "./context-api/AppContext"
 
 
 function App() {
 
+  const {isLoggedIn} = useContext(AppContext);
+
   return (
-    <>
-      <h1>Nav bar</h1>
-      <hr />
-      <Outlet/>
-    </>
+    <div className="h-screen flex flex-col bg-gray-50">
+      {/* Navbar */}
+      <Navbar />
+
+      {/* Sidebar and Main Content */}
+      <div className="flex flex-1">
+        <div className="">
+          {isLoggedIn && <Sidebar />}
+        </div>
+        <div className="flex-1 p-6 bg-white shadow-inner overflow-y-auto">
+          <Outlet />
+        </div>
+      </div>
+    </div>
   )
 }
 
