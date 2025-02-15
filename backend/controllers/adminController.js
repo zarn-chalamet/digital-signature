@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { v2: cloudinary } = require("cloudinary");
 const userModel = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 //create new user
 const addNewUser = async (req, res) => {
@@ -51,4 +52,28 @@ const addNewUser = async (req, res) => {
   }
 };
 
-module.exports = { addNewUser };
+//admin login
+const loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+
+  //check the inputs are null or not
+  if (!email || !password) {
+    return res.json({ success: false, message: "Invalid Email" });
+  }
+
+  try {
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.ACCESS_TOKEN_SECRET);
+      return res.json({ success: true, token });
+    } else {
+      return res.json({ success: false, message: "Invalid credentials" });
+    }
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { addNewUser, loginAdmin };
