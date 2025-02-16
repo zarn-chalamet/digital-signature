@@ -5,6 +5,8 @@ const {
   loginAdmin,
   getUsersList,
   toggleRestrictedValue,
+  deleteUser,
+  updateUserData,
 } = require("../controllers/adminController");
 const adminAuth = require("../middleware/adminAuth");
 
@@ -17,5 +19,14 @@ adminRouter.post("/login", loginAdmin);
 adminRouter.post("/users-list", adminAuth, getUsersList);
 
 adminRouter.post("/toggle-restricted", adminAuth, toggleRestrictedValue);
+
+adminRouter.post(
+  "/update-user/:id",
+  upload.single("image"),
+  adminAuth,
+  updateUserData
+);
+
+adminRouter.post("/delete-user/:id", adminAuth, deleteUser);
 
 module.exports = adminRouter;

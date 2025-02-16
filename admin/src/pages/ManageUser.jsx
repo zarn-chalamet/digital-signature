@@ -10,6 +10,8 @@ Modal.setAppElement("#root");
 
 export default function ManageUser() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const {backendUrl,token,users,getUsersList,toggleRestricted} = useContext(AppContext);
 
@@ -45,6 +47,7 @@ export default function ManageUser() {
         setPassword("")
 
         setModalIsOpen(false)
+        getUsersList()
       }else{
         toast.error(data.message)
       }
@@ -55,6 +58,64 @@ export default function ManageUser() {
 
   const toggleRestriction = (userId) => {
     toggleRestricted(userId);
+  };
+
+  //delete user by id
+  const deleteUser = async (userId) => {
+    try {
+      console.log(userId)
+      const {data} = await axios.post(backendUrl + `/api/admin/delete-user/${userId}`,{},{headers:{token}})
+      if(data.success){
+        toast.success(data.message)
+        getUsersList();
+      }else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const openUpdateModal = (user) => {
+    setSelectedUser(user);
+    setFirstname(user.first_name);
+    setLastname(user.last_name);
+    setEmail(user.email);
+    setPassword(user.password);
+    setUpdateModalIsOpen(true);
+  };
+
+  const updateUser = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      if (image) formData.append("image", image);
+      formData.append("first_name", firstname);
+      formData.append("last_name", lastname);
+      formData.append("email", email);
+      formData.append("password", password);
+
+      const { data } = await axios.post(
+        `${backendUrl}/api/admin/update-user/${selectedUser._id}`,
+        formData,
+        { headers: { token } }
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        setUpdateModalIsOpen(false);
+        getUsersList();
+        setImage(false)
+        setFirstname("")
+        setLastname("")
+        setEmail("")
+        setPassword("")
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(()=>{
@@ -74,7 +135,7 @@ export default function ManageUser() {
         </button>
       </div>
 
-      {/* Modal */}
+      {/* Modal for create new useer*/}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
@@ -139,6 +200,73 @@ export default function ManageUser() {
         </form>
       </Modal>
 
+      {/* Update Modal */}
+      <Modal
+        isOpen={updateModalIsOpen}
+        onRequestClose={() => setUpdateModalIsOpen(false)}
+        contentLabel="Update User"
+        className="bg-white p-5 rounded-lg shadow-lg max-w-md mx-auto mt-20"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      >
+        <h2 className="text-xl font-bold">Update User</h2>
+        <form className="mt-4">
+          <label htmlFor="doc-img">
+            <img className="w-20" src={image ? URL.createObjectURL(image) : (selectedUser ? selectedUser.image : uploadArea) } alt=""/>
+          </label>
+          <input onChange={(e) => setImage(e.target.files[0])} type="file" id="doc-img" hidden />
+
+          <label>User's Firstname</label>
+          <input
+            type="text"
+            className="border p-2 w-full mb-3"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+          />
+
+          <label>User's Lastname</label>
+          <input
+            type="text"
+            className="border p-2 w-full mb-3"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+          />
+
+          <label>User's Email</label>
+          <input
+            type="email"
+            className="border p-2 w-full mb-3"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <label>User's Password</label>
+          <input
+            type="text"
+            className="border p-2 w-full mb-3"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button onClick={updateUser} className="px-4 py-2 bg-blue-500 text-white rounded">
+            Update User
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setUpdateModalIsOpen(false)
+              setImage(false)
+              setFirstname("")
+              setLastname("")
+              setEmail("")
+              setPassword("")
+            }}
+            className="ml-3 px-4 py-2 bg-gray-500 text-white rounded"
+          >
+            Close
+          </button>
+        </form>
+      </Modal>
+
       {/* users list */}
       <div>
         {
@@ -151,7 +279,7 @@ export default function ManageUser() {
               <p>{user.date}</p>
 
               {/* toggle switch button */}
-              la
+              
               <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
@@ -161,6 +289,10 @@ export default function ManageUser() {
             />
             <div className="w-11 h-6 bg-gray-300 peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-600 peer-checked:bg-blue-600 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:left-1 after:top-1 after:bg-white after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           </label>
+          <div>
+            <button onClick={() => openUpdateModal(user)}>update</button>
+            <button onClick={()=>deleteUser(user._id)}>delete</button>
+          </div>
             </div>
           ))
         }

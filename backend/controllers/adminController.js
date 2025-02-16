@@ -9,9 +9,6 @@ const addNewUser = async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
     const imageFile = req.file;
 
-    console.log(first_name, last_name, email, password);
-    console.log(imageFile);
-
     if (!first_name || !last_name || !email || !password) {
       return res.json({ success: false, message: "Missing Details" });
     }
@@ -100,7 +97,7 @@ const toggleRestrictedValue = async (req, res) => {
       });
     }
 
-    const updatedUser = await userModel.findByIdAndUpdate(userId, {
+    await userModel.findByIdAndUpdate(userId, {
       isRestricted: !user.isRestricted,
     });
 
@@ -113,9 +110,75 @@ const toggleRestrictedValue = async (req, res) => {
   }
 };
 
+//update user
+const updateUserData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { first_name, last_name, email, password } = req.body;
+    const imageFile = req.file;
+
+    if (!id) {
+      return res.json({ success: false, message: "User id is needed" });
+    }
+
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "No user with the provided id",
+      });
+    }
+
+    await userModel.findByIdAndUpdate(id, {
+      first_name,
+      last_name,
+      email,
+      password,
+    });
+
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
+      const imageUrl = imageUpload.secure_url;
+      await userModel.findByIdAndUpdate(id, { image: imageUrl });
+    }
+
+    return res.json({ success: true, message: "Updated successfully" });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+//delete user
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.json({ success: false, message: "User id is needed" });
+    }
+
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "No user with the provided id",
+      });
+    }
+
+    await userModel.findByIdAndDelete(id);
+
+    return res.json({ success: true, message: "Deleted user successfully" });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   addNewUser,
   loginAdmin,
   getUsersList,
   toggleRestrictedValue,
+  updateUserData,
+  deleteUser,
 };
