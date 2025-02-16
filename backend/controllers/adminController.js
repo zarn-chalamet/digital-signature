@@ -76,4 +76,46 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-module.exports = { addNewUser, loginAdmin };
+const getUsersList = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    return res.json({ success: true, users });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+const toggleRestrictedValue = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.json({ success: false, message: "User id is needed" });
+    }
+
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "No user with the provided id",
+      });
+    }
+
+    const updatedUser = await userModel.findByIdAndUpdate(userId, {
+      isRestricted: !user.isRestricted,
+    });
+
+    return res.json({
+      success: true,
+      message: user.isRestricted ? "Unestricted" : "restricted",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  addNewUser,
+  loginAdmin,
+  getUsersList,
+  toggleRestrictedValue,
+};
