@@ -8,6 +8,8 @@ const {
   getCurrentUser,
 } = require("../controllers/userController");
 const userAuth = require("../middleware/userAuth");
+const { uploadTemplate } = require("../controllers/templateController");
+const uploadPdf = require("../middleware/multerPdf");
 
 const userRouter = express.Router();
 
@@ -27,5 +29,13 @@ userRouter.post("/send-reset-otp", sendResetOtp);
 userRouter.post("/reset-password", resetPassword);
 
 userRouter.get("/user-data", userAuth, getCurrentUser);
+
+//upload template including pdf file
+userRouter.post(
+  "/upload-template",
+  uploadPdf.single("pdf"),
+  userAuth,
+  uploadTemplate
+);
 
 module.exports = userRouter;

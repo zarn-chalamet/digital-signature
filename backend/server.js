@@ -5,8 +5,11 @@ const corsOptions = require("./config/cors");
 const cookiesParser = require("cookie-parser");
 const connectDb = require("./config/database");
 const connectCloudinary = require("./config/cloudinary");
+const path = require("path");
 
 const app = express();
+
+app.use("/files", express.static(path.join(__dirname, "files")));
 
 //connect mongodb database
 connectDb();
