@@ -16,6 +16,7 @@ export const AppContextProvider = ({children}) => {
     const [otherUsers,setOtherUsers] = useState([]);
     const [myRequests, setMyRequests] = useState([]);
     const [requestsByOthers,setRequestsByOthers] = useState([]);
+    const [publicTemplates,setPublicTemplates] = useState([]);
 
 
     const getAuthState = async () => {
@@ -71,7 +72,6 @@ export const AppContextProvider = ({children}) => {
     const getOtherUsersList = async () => {
         try {
             const {data} = await axios.get(backendUrl+"/api/auth/users");
-            console.log(data)
             if(data.success){
                 setOtherUsers(data.users);
             }else{
@@ -85,7 +85,6 @@ export const AppContextProvider = ({children}) => {
     const getMyRequests = async () => {
         try {
             const {data} = await axios.get(backendUrl+"/api/auth/my-requests");
-            console.log(data)
             if(data.success){
                 setMyRequests(data.requests);
             }else{
@@ -99,9 +98,22 @@ export const AppContextProvider = ({children}) => {
     const getRequestsByOthers = async () => {
         try {
             const {data} = await axios.get(backendUrl+"/api/auth/requests-by-others");
-            console.log(data)
             if(data.success){
                 setRequestsByOthers(data.requests);
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    const getPublicTemplates =  async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/auth/public-templates");
+            console.log(data)
+            if(data.success){
+                setPublicTemplates(data.templates)
             }else{
                 toast.error(data.message)
             }
@@ -124,7 +136,8 @@ export const AppContextProvider = ({children}) => {
         templateById,getTemplateById,
         otherUsers,getOtherUsersList,
         myRequests,getMyRequests,
-        requestsByOthers,getRequestsByOthers
+        requestsByOthers,getRequestsByOthers,
+        publicTemplates,getPublicTemplates
     }
 
     return (

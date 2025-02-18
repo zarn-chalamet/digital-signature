@@ -143,10 +143,31 @@ const getTemplateByTemplateId = async (req, res) => {
   }
 };
 
+//get all the public templates for the other users(but no include the public templates from thes current user)
+const getAllPublicTemplates = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.json({ success: false, message: "User ID is required" });
+    }
+
+    //public templates but exclude the ones created by the current user
+    const templates = await templateModel.find({
+      isPublic: true,
+      uploaderId: { $ne: userId },
+    });
+
+    return res.json({ success: true, templates });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   uploadTemplate,
   getAllTemplatesByUser,
   renameTemplateTitle,
   deleteTemplate,
   getTemplateByTemplateId,
+  getAllPublicTemplates,
 };

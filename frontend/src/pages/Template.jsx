@@ -10,7 +10,7 @@ Modal.setAppElement("#root");
 
 export default function Template() {
 
-  const {backendUrl,templatesByCurrentUser,getTemplatesByCurrentUser} = useContext(AppContext)
+  const {backendUrl,templatesByCurrentUser,getTemplatesByCurrentUser,publicTemplates,getPublicTemplates} = useContext(AppContext)
 
   const navigate = useNavigate();
 
@@ -104,14 +104,17 @@ export default function Template() {
 
   useEffect(()=>{
     getTemplatesByCurrentUser();
+    getPublicTemplates();
   },[])
+
+
   return (
     <div>
       <div>
         {/* my template and upload button */}
-        <div>
+        <div className='flex flex-row justify-between'>
           <h2>My Template</h2>
-          <button onClick={() => setModalIsOpen(true)}>+ Upload</button>
+          <button className='bg-blue-400 px-2 py-1 rounded-md' onClick={() => setModalIsOpen(true)}>+ Upload</button>
         </div>
         {/* Templates */}
         <div className="grid grid-cols-3 gap-4 mt-4">
@@ -243,7 +246,41 @@ export default function Template() {
               </Modal>
       </div>
       <div>
-        
+        <h2>Choose from templates (Public Templates)</h2>
+        {/* Public Templates */}
+        <div className="grid grid-cols-3 gap-4 mt-4">
+          {publicTemplates &&
+            publicTemplates.map((template, index) => (
+              <div key={index} className="border rounded-lg shadow-md p-3 text-center">
+                {/* Template Image */}
+                <div className="h-40 flex justify-center items-center bg-gray-100 rounded">
+                  {template.filePath ? (
+                    <img 
+                      src={pdfPhoto} 
+                      alt={template.title} 
+                      className="h-full object-cover"
+                    />
+                  ) : (
+                    <p className="text-gray-500">No Preview</p>
+                  )}
+                </div>
+
+                {/* Template Title */}
+                <p className="mt-2 font-semibold">{template.title}</p>
+
+                {/* Buttons */}
+                <div className="mt-2 flex justify-end">
+                  <button
+                    onClick={()=>navigate("/template/"+template._id)}
+                    // onClick={() => showPdf(template.filePath)}
+                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   )
