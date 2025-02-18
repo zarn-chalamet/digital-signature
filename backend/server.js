@@ -9,6 +9,11 @@ const path = require("path");
 
 const app = express();
 
+//cors
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookiesParser());
+
 app.use("/files", express.static(path.join(__dirname, "files")));
 
 //connect mongodb database
@@ -18,11 +23,6 @@ connectDb();
 connectCloudinary();
 
 const PORT = process.env.PORT || 5000;
-
-//cors
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(cookiesParser());
 
 //api routes
 app.use("/api/auth", require("./routes/userRoute"));

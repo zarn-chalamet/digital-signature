@@ -11,6 +11,7 @@ export const AppContextProvider = ({children}) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [isLoggedIn ,setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState(false);
+    const [templatesByCurrentUser,setTemplatesByCurrentUser] = useState([]);
 
 
     const getAuthState = async () => {
@@ -36,6 +37,20 @@ export const AppContextProvider = ({children}) => {
         }
     }
 
+    const getTemplatesByCurrentUser = async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/auth/templates");
+            console.log(data)
+            if(data.success){
+                setTemplatesByCurrentUser(data.templates)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
     useEffect(()=>{
         getAuthState()
     },[])
@@ -45,6 +60,7 @@ export const AppContextProvider = ({children}) => {
         isLoggedIn,setIsLoggedIn,
         userData,setUserData,
         getUserData,
+        templatesByCurrentUser,getTemplatesByCurrentUser
     }
 
     return (

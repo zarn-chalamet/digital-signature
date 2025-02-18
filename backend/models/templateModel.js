@@ -5,6 +5,10 @@ const templateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
   uploadedAt: {
     type: Date,
     default: Date.now,

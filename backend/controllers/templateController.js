@@ -5,7 +5,7 @@ const fs = require("fs");
 //create template including
 const uploadTemplate = async (req, res) => {
   try {
-    const { userId, isPublic } = req.body;
+    const { userId, isPublic, title } = req.body;
     console.log(req.file);
 
     if (!req.file) {
@@ -22,6 +22,7 @@ const uploadTemplate = async (req, res) => {
 
     const newTemplate = new templateModel({
       uploaderId: userId,
+      title,
       isPublic,
       filePath: req.file.filename,
       uploadedAt: Date.now(),
@@ -31,10 +32,31 @@ const uploadTemplate = async (req, res) => {
     // Delete the locally uploaded file (since it's already uploaded to Cloudinary)
     // fs.unlinkSync(req.file.path);
 
-    return res.json({ success: true });
+    return res.json({
+      success: true,
+      message: "Uploaded template successfully.",
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
 };
 
-module.exports = { uploadTemplate };
+//get all templates
+const getAllTemplatesByUser = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User ID is required" });
+    }
+
+    const templates = await templateModel.find({ uploaderId: userId });
+    return res.json({ success: true, templates });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { uploadTemplate, getAllTemplatesByUser };

@@ -8,7 +8,11 @@ const {
   getCurrentUser,
 } = require("../controllers/userController");
 const userAuth = require("../middleware/userAuth");
-const { uploadTemplate } = require("../controllers/templateController");
+const {
+  uploadTemplate,
+  getAllTemplates,
+  getAllTemplatesByUser,
+} = require("../controllers/templateController");
 const uploadPdf = require("../middleware/multerPdf");
 
 const userRouter = express.Router();
@@ -37,5 +41,7 @@ userRouter.post(
   userAuth,
   uploadTemplate
 );
+
+userRouter.get("/templates", userAuth, getAllTemplatesByUser);
 
 module.exports = userRouter;
