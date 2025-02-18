@@ -12,6 +12,9 @@ const {
   uploadTemplate,
   getAllTemplates,
   getAllTemplatesByUser,
+  deleteTemplate,
+  renameTemplateTitle,
+  getTemplateByTemplateId,
 } = require("../controllers/templateController");
 const uploadPdf = require("../middleware/multerPdf");
 
@@ -43,5 +46,11 @@ userRouter.post(
 );
 
 userRouter.get("/templates", userAuth, getAllTemplatesByUser);
+
+userRouter.post("/rename-template", userAuth, renameTemplateTitle);
+
+userRouter.post("/delete-template", userAuth, deleteTemplate);
+
+userRouter.get("/templates/:id", userAuth, getTemplateByTemplateId);
 
 module.exports = userRouter;

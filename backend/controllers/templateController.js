@@ -47,9 +47,7 @@ const getAllTemplatesByUser = async (req, res) => {
     const { userId } = req.body;
 
     if (!userId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User ID is required" });
+      return res.json({ success: false, message: "User ID is required" });
     }
 
     const templates = await templateModel.find({ uploaderId: userId });
@@ -59,4 +57,96 @@ const getAllTemplatesByUser = async (req, res) => {
   }
 };
 
-module.exports = { uploadTemplate, getAllTemplatesByUser };
+//Rename template title(user can rename the template uploaded by himself)
+const renameTemplateTitle = async (req, res) => {
+  try {
+    const { userId, templateId, newTitle } = req.body;
+    if (!userId) {
+      return res.json({ success: false, message: "User ID is required" });
+    }
+
+    const template = await templateModel.findById(templateId);
+    if (!template) {
+      return res.json({
+        success: false,
+        message: "No template with provided template id",
+      });
+    }
+
+    if (template.uploaderId !== userId) {
+      return res.json({
+        success: false,
+        message: "You can't rename others' template",
+      });
+    }
+
+    await templateModel.findByIdAndUpdate(templateId, { title: newTitle });
+
+    return res.json({
+      success: true,
+      message: "Updated new title successfully",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+//delete template(user can delete the template uploaded by himself)
+const deleteTemplate = async (req, res) => {
+  try {
+    const { userId, templateId } = req.body;
+    if (!userId) {
+      return res.json({ success: false, message: "User ID is required" });
+    }
+
+    const template = await templateModel.findById(templateId);
+    if (!template) {
+      return res.json({
+        success: false,
+        message: "No template with provided template id",
+      });
+    }
+
+    if (template.uploaderId !== userId) {
+      return res.json({
+        success: false,
+        message: "You can't delete others' template",
+      });
+    }
+
+    await templateModel.findByIdAndDelete(templateId);
+
+    return res.json({
+      success: true,
+      message: "Deleted template successfully",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+//get template by template id
+const getTemplateByTemplateId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const template = await templateModel.findById(id);
+    if (!template) {
+      return res.json({
+        success: false,
+        message: "No template with provided template id",
+      });
+    }
+
+    return res.json({ success: true, template });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  uploadTemplate,
+  getAllTemplatesByUser,
+  renameTemplateTitle,
+  deleteTemplate,
+  getTemplateByTemplateId,
+};

@@ -12,6 +12,7 @@ export const AppContextProvider = ({children}) => {
     const [isLoggedIn ,setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState(false);
     const [templatesByCurrentUser,setTemplatesByCurrentUser] = useState([]);
+    const [templateById,setTemplateById] = useState("");
 
 
     const getAuthState = async () => {
@@ -51,6 +52,20 @@ export const AppContextProvider = ({children}) => {
         }
     }
 
+    const getTemplateById = async (templateId) => {
+        try {
+            const {data} = await axios.get(backendUrl+`/api/auth/templates/${templateId}`);
+            console.log(data)
+            if(data.success){
+                setTemplateById(data.template);
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
     useEffect(()=>{
         getAuthState()
     },[])
@@ -60,7 +75,8 @@ export const AppContextProvider = ({children}) => {
         isLoggedIn,setIsLoggedIn,
         userData,setUserData,
         getUserData,
-        templatesByCurrentUser,getTemplatesByCurrentUser
+        templatesByCurrentUser,getTemplatesByCurrentUser,
+        templateById,getTemplateById
     }
 
     return (

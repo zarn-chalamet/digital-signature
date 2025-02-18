@@ -6,6 +6,7 @@ import Request from "../pages/Request";
 import Template from "../pages/Template";
 import Report from "../pages/Report";
 import History from "../pages/History";
+import IndividualTemplate from "../pages/IndividualTemplate";
 
 const router = createBrowserRouter([
     {
@@ -35,7 +36,11 @@ const router = createBrowserRouter([
             {
                 path: "/history",
                 element: <History/>
-            }
+            },
+            {
+                path: "/template/:id",
+                element: <IndividualTemplate/>
+            },
         ]
     }
 ])

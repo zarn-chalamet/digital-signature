@@ -11,8 +11,9 @@ function PdfViewer({ pdfFile }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-lg rounded-lg p-4">
+    <div className="flex bg-gray-100 min-h-screen p-6">
+      {/* Main PDF Viewer */}
+      <div className="flex flex-col items-center bg-white shadow-lg rounded-lg p-4 w-4/5">
         <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
           <Page
             pageNumber={pageNumber}
@@ -23,7 +24,7 @@ function PdfViewer({ pdfFile }) {
         </Document>
 
         {/* Pagination Controls */}
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-center mt-4 w-full">
           <button
             className={`p-2 rounded-full ${
               pageNumber <= 1
@@ -55,6 +56,29 @@ function PdfViewer({ pdfFile }) {
             <ChevronRight size={20} />
           </button>
         </div>
+      </div>
+
+      {/* Sidebar with Page Thumbnails */}
+      <div className="w-1/5 bg-white shadow-lg rounded-lg p-4 ml-4 overflow-y-auto max-h-[80vh]">
+        <h3 className="text-center font-bold mb-2">Pages</h3>
+        {Array.from(new Array(numPages), (el, index) => (
+          <div
+            key={index}
+            className={`cursor-pointer mb-2 p-1 border rounded ${
+              pageNumber === index + 1 ? "border-blue-500" : "border-gray-300"
+            }`}
+            onClick={() => setPageNumber(index + 1)}
+          >
+            <Document file={pdfFile}>
+              <Page
+                pageNumber={index + 1}
+                width={100} // Small thumbnail size
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+              />
+            </Document>
+          </div>
+        ))}
       </div>
     </div>
   );
