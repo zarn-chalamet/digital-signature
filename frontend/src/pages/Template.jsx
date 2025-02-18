@@ -40,6 +40,7 @@ export default function Template() {
 
       if(data.success){
         toast.success(data.message);
+        getTemplatesByCurrentUser();
         setModalIsOpen(false); // Close modal after successful upload
         setTitle("");
         setFile(null);

@@ -13,6 +13,9 @@ export const AppContextProvider = ({children}) => {
     const [userData, setUserData] = useState(false);
     const [templatesByCurrentUser,setTemplatesByCurrentUser] = useState([]);
     const [templateById,setTemplateById] = useState("");
+    const [otherUsers,setOtherUsers] = useState([]);
+    const [myRequests, setMyRequests] = useState([]);
+    const [requestsByOthers,setRequestsByOthers] = useState([]);
 
 
     const getAuthState = async () => {
@@ -55,7 +58,6 @@ export const AppContextProvider = ({children}) => {
     const getTemplateById = async (templateId) => {
         try {
             const {data} = await axios.get(backendUrl+`/api/auth/templates/${templateId}`);
-            console.log(data)
             if(data.success){
                 setTemplateById(data.template);
             }else{
@@ -65,6 +67,49 @@ export const AppContextProvider = ({children}) => {
             toast.error(error.message)
         }
     }
+
+    const getOtherUsersList = async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/auth/users");
+            console.log(data)
+            if(data.success){
+                setOtherUsers(data.users);
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    const getMyRequests = async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/auth/my-requests");
+            console.log(data)
+            if(data.success){
+                setMyRequests(data.requests);
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    const getRequestsByOthers = async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/auth/requests-by-others");
+            console.log(data)
+            if(data.success){
+                setRequestsByOthers(data.requests);
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
 
     useEffect(()=>{
         getAuthState()
@@ -76,7 +121,10 @@ export const AppContextProvider = ({children}) => {
         userData,setUserData,
         getUserData,
         templatesByCurrentUser,getTemplatesByCurrentUser,
-        templateById,getTemplateById
+        templateById,getTemplateById,
+        otherUsers,getOtherUsersList,
+        myRequests,getMyRequests,
+        requestsByOthers,getRequestsByOthers
     }
 
     return (

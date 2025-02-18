@@ -172,6 +172,18 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
+//get other users list (not include current user)
+const getOtherUsersList = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    // Find all users except the current user
+    const users = await userModel.find({ _id: { $ne: userId } });
+    return res.json({ success: true, users });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   loginUser,
   logout,
@@ -179,4 +191,5 @@ module.exports = {
   sendResetOtp,
   resetPassword,
   getCurrentUser,
+  getOtherUsersList,
 };
