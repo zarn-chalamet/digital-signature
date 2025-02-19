@@ -14,8 +14,11 @@ function PlaceSign({ pdfFile, signatures,setSignatures }) {
   function handlePdfClick(event) {
     // Get click position relative to the page
     const rect = event.target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const scaleX = event.target.offsetWidth / rect.width;
+    const scaleY = event.target.offsetHeight / rect.height;
+
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
 
     console.log(x)
     console.log(y)
