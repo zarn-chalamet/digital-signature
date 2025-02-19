@@ -27,6 +27,13 @@ const requestSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        signaturePositions: [
+          {
+            page: { type: Number, required: true }, // PDF Page Number
+            x: { type: Number, required: true }, // X-coordinate
+            y: { type: Number, required: true }, // Y-coordinate
+          },
+        ],
       },
     ],
     emailSubject: {

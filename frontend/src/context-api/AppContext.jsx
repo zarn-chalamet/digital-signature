@@ -18,6 +18,8 @@ export const AppContextProvider = ({children}) => {
     const [requestsByOthers,setRequestsByOthers] = useState([]);
     const [publicTemplates,setPublicTemplates] = useState([]);
 
+    const [signature,setSignature] = useState(localStorage.getItem("savedSignature") ? localStorage.getItem("savedSignature") : null)
+
 
     const getAuthState = async () => {
         try {
@@ -137,7 +139,8 @@ export const AppContextProvider = ({children}) => {
         otherUsers,getOtherUsersList,
         myRequests,getMyRequests,
         requestsByOthers,getRequestsByOthers,
-        publicTemplates,getPublicTemplates
+        publicTemplates,getPublicTemplates,
+        signature,setSignature
     }
 
     return (

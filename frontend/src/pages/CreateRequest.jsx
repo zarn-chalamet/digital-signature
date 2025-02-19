@@ -3,10 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../context-api/AppContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+import PlaceSign from "../components/PlaceSign";
+import Modal from "react-modal";
 
 export default function CreateRequest() {
   const location = useLocation();
   const templateId = location.state?.templateId;
+  const filePath = location.state?.filePath;
 
   const navigate = useNavigate();
 
@@ -18,6 +21,11 @@ export default function CreateRequest() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [recipients, setRecipients] = useState([]);
+
+  const[currentRecipient,setCurrentRecipient] = useState(null);
+
+  const [isPlaceSignModalOpen,setIsPlaceSignModalOpen] = useState(false);
+  const [signaturesForRecipient, setSignaturesForRecipient] = useState([]);
 
   useEffect(() => {
     getOtherUsersList();
@@ -44,6 +52,32 @@ export default function CreateRequest() {
     setSearchTerm(""); // Clear search input after selecting
   };
 
+  const closeModalAndAddSignatureToTheRecipient = () => {
+    //close the modal
+    setIsPlaceSignModalOpen(false);
+    console.log(currentRecipient)
+
+    //add the signatures to the current recipient
+    setRecipients((prevRecipients) =>
+      prevRecipients.map((recipient) => {
+        
+        console.log(recipient._id)
+        return recipient._id === currentRecipient._id
+          ? { ...recipient, signaturePositions: signaturesForRecipient }
+          : recipient
+  })
+    );
+    console.log("signatures for current recipient")
+    console.log(signaturesForRecipient)
+
+    //clear the signatures place
+    setSignaturesForRecipient([]);
+
+    console.log("recipients")
+    console.log(recipients)
+
+  }
+
   // Remove recipient from the list
   const removeRecipient = (id) => {
     setRecipients(recipients.filter((user) => user._id !== id));
@@ -58,10 +92,13 @@ export default function CreateRequest() {
         }
 
 
-        const formattedRecipients = recipients.map(user => ({
-            userId: user._id, 
-            signed: false,
+        const formattedRecipients = recipients.map((user) => ({
+          userId: user._id,
+          signed: false,
+          signaturePositions: user.signaturePositions || [],
         }));
+
+        console.log(formattedRecipients)
 
         const {data} = await axios.post(backendUrl + "/api/auth/create-request",{
             recipients: formattedRecipients,
@@ -98,7 +135,7 @@ export default function CreateRequest() {
         />
 
         {/* Search Results */}
-        {filteredUsers.length > 0 && (
+        {filteredUsers && filteredUsers.length > 0 && (
           <div className="border mt-2 rounded shadow-lg max-h-40 overflow-auto">
             {filteredUsers.map((user) => (
               <div
@@ -117,9 +154,17 @@ export default function CreateRequest() {
           <div className="mt-4">
             <h4 className="font-semibold">Selected Recipients:</h4>
             <div className="flex flex-wrap gap-2 mt-2">
-              {recipients.map((user) => (
+              {recipients && recipients.map((user) => (
                 <div key={user._id} className="flex items-center bg-gray-300 px-3 py-1 rounded-full">
                   <span>{user.first_name} {user.last_name}</span>
+                  <button 
+                    className="ml-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    onClick={()=>{
+                      setCurrentRecipient(user)
+                      setIsPlaceSignModalOpen(true); 
+                    }}>
+                    place sign
+                  </button>
                   <button
                     className="ml-2 text-red-500 hover:text-red-700"
                     onClick={() => removeRecipient(user._id)}
@@ -162,6 +207,18 @@ export default function CreateRequest() {
       </div>
 
       <button onClick={createNewRequest}>Create</button>
+
+      {/* Modal for create new useer*/}
+      <Modal
+        isOpen={isPlaceSignModalOpen}
+        onRequestClose={closeModalAndAddSignatureToTheRecipient}
+        contentLabel="Create New User"
+        className="bg-white p-5 rounded-lg shadow-lg  mt-20"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      >
+        <h2 className="text-xl font-bold">Place Signature</h2>
+        <PlaceSign pdfFile={`http://localhost:5001/files/${filePath}`} setSignatures={setSignaturesForRecipient} signatures={signaturesForRecipient}/>
+      </Modal>
     </div>
   );
 }

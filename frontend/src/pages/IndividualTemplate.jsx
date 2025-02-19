@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../context-api/AppContext';
 import PdfViewer from '../components/PdfViewer';
+import SignPDF from '../components/SignPDF';
 
 export default function IndividualTemplate() {
     const {id} = useParams();
@@ -19,9 +20,13 @@ export default function IndividualTemplate() {
             <p>{templateById.isPublic ? 'public':'private'}</p>
         </div>
         <div>
-          <button onClick={()=>navigate("/create-request",{state: {templateId: id}})}>Use Template</button>
+          <button onClick={()=>navigate("/create-request",{state: {templateId: id, filePath:templateById.filePath}})}>Use Template</button>
         </div>
         <PdfViewer pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>
+
+        <div>
+          <SignPDF pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>
+        </div>
     </div>
   )
 }
