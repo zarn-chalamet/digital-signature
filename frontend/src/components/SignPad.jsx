@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 // import { PDFDocument, rgb } from "pdf-lib";
-import SignaturePad from "../components/SignaturePad";
+import SignaturePad from "./SignaturePad";
 import { AppContext } from "../context-api/AppContext";
 
-export default function SignPDF({ pdfFile }) {
+export default function SignPad({ pdfFile }) {
   const [showPad, setShowPad] = useState(false);
   
   const {signature, setSignature} = useContext(AppContext)

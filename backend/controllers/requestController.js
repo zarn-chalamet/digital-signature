@@ -89,8 +89,29 @@ const getRequestsRecievedFromOtherUsers = async (req, res) => {
   }
 };
 
+//get request by request id
+const getRequestById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.json({ success: false, message: "Request ID is required" });
+    }
+
+    // Fetch the request by ID and populate the template field
+    const request = await requestModel.findById(id).populate("templateId");
+    if (!request) {
+      return res.json({ success: false, message: "Request not found" });
+    }
+
+    return res.json({ success: true, request });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createNewRequest,
   getRequestsByCurrentUser,
   getRequestsRecievedFromOtherUsers,
+  getRequestById,
 };

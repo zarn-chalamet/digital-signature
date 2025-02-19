@@ -8,6 +8,7 @@ import Report from "../pages/Report";
 import History from "../pages/History";
 import IndividualTemplate from "../pages/IndividualTemplate";
 import CreateRequest from "../pages/CreateRequest";
+import SignPdf from "../pages/SignPdf";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
             {
                 path: "/create-request",
                 element: <CreateRequest/>
+            },
+            {
+                path: "/sign-pdf/:id",
+                element: <SignPdf/>
             }
         ]
     }

@@ -17,6 +17,7 @@ export const AppContextProvider = ({children}) => {
     const [myRequests, setMyRequests] = useState([]);
     const [requestsByOthers,setRequestsByOthers] = useState([]);
     const [publicTemplates,setPublicTemplates] = useState([]);
+    const [requestById,setRequestById] = useState("");
 
     const [signature,setSignature] = useState(localStorage.getItem("savedSignature") ? localStorage.getItem("savedSignature") : null)
 
@@ -124,6 +125,20 @@ export const AppContextProvider = ({children}) => {
         }
     }
 
+    const getRequestById = async (requestId) => {
+        try {
+            const {data} = await axios.get(backendUrl+`/api/auth/requests/${requestId}`);
+            console.log(data)
+            if(data.success){
+                setRequestById(data.request);
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
 
     useEffect(()=>{
         getAuthState()
@@ -140,7 +155,8 @@ export const AppContextProvider = ({children}) => {
         myRequests,getMyRequests,
         requestsByOthers,getRequestsByOthers,
         publicTemplates,getPublicTemplates,
-        signature,setSignature
+        signature,setSignature,
+        requestById,getRequestById
     }
 
     return (

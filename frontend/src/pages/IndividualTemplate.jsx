@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../context-api/AppContext';
 import PdfViewer from '../components/PdfViewer';
-import SignPDF from '../components/SignPDF';
+import SignPad from '../components/SignPad';
 
 export default function IndividualTemplate() {
     const {id} = useParams();
@@ -25,7 +25,7 @@ export default function IndividualTemplate() {
         <PdfViewer pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>
 
         <div>
-          <SignPDF pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>
+          <SignPad pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>
         </div>
     </div>
   )

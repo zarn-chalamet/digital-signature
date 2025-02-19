@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "../context-api/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Request() {
   const { myRequests, getMyRequests, requestsByOthers, getRequestsByOthers } =
     useContext(AppContext);
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMyRequests();
@@ -102,7 +105,7 @@ export default function Request() {
                       {new Date(request.createdAt).toLocaleDateString()}
                     </td>
                     <td className="p-3 border">
-                      <button className="border border-black px-2 hover:bg-blue-400"> action </button>
+                      <button onClick={()=>navigate(`/sign-pdf/${request._id}`)} className="border border-black px-2 hover:bg-blue-400"> sign </button>
                     </td>
                   </tr>
                 ))
