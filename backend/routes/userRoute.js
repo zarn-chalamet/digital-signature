@@ -23,6 +23,7 @@ const {
   getRequestsByCurrentUser,
   getRequestsRecievedFromOtherUsers,
   getRequestById,
+  getAllRequests,
 } = require("../controllers/requestController");
 const uploadPdf = require("../middleware/multerPdf");
 const { getUsersList } = require("../controllers/adminController");
@@ -77,5 +78,7 @@ userRouter.get(
 userRouter.get("/public-templates", userAuth, getAllPublicTemplates);
 
 userRouter.get("/requests/:id", getRequestById);
+
+userRouter.get("/requests", getAllRequests);
 
 module.exports = userRouter;

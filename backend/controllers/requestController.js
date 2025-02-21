@@ -109,9 +109,24 @@ const getRequestById = async (req, res) => {
   }
 };
 
+//get all requests
+const getAllRequests = async (req, res) => {
+  try {
+    const requests = await requestModel
+      .find()
+      .populate("senderId", "first_name last_name email") // Get sender details
+      .populate("recipients.userId", "first_name last_name email"); // Get recipient details
+
+    return res.json({ success: true, requests });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createNewRequest,
   getRequestsByCurrentUser,
   getRequestsRecievedFromOtherUsers,
   getRequestById,
+  getAllRequests,
 };
