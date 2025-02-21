@@ -21,6 +21,10 @@ const templateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  frequency: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Template", templateSchema);

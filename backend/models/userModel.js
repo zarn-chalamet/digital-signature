@@ -32,6 +32,12 @@ const userSchema = mongoose.Schema({
   },
   image: { type: String, default: "" },
   date: { type: Date, required: true },
+  recentTemplates: [
+    {
+      templateId: { type: mongoose.Schema.Types.ObjectId, ref: "Template" },
+      lastOpened: { type: Date, default: Date.now },
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);

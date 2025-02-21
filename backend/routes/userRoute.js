@@ -17,6 +17,7 @@ const {
   renameTemplateTitle,
   getTemplateByTemplateId,
   getAllPublicTemplates,
+  getRecentTemplates,
 } = require("../controllers/templateController");
 const {
   createNewRequest,
@@ -80,5 +81,7 @@ userRouter.get("/public-templates", userAuth, getAllPublicTemplates);
 userRouter.get("/requests/:id", getRequestById);
 
 userRouter.get("/requests", getAllRequests);
+
+userRouter.get("/recent-templates", userAuth, getRecentTemplates);
 
 module.exports = userRouter;

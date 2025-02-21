@@ -1,6 +1,7 @@
 const { v2: cloudinary } = require("cloudinary");
 const templateModel = require("../models/templateModel");
 const fs = require("fs");
+const userModel = require("../models/userModel");
 
 //create template including
 const uploadTemplate = async (req, res) => {
@@ -129,13 +130,33 @@ const deleteTemplate = async (req, res) => {
 const getTemplateByTemplateId = async (req, res) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
     const template = await templateModel.findById(id);
     if (!template) {
       return res.json({
         success: false,
-        message: "No template with provided template id",
+        message: "Template not found",
       });
     }
+
+    // Update User's Recent Templates List
+    // Remove if already exists
+    await userModel.findByIdAndUpdate(userId, {
+      $pull: { recentTemplates: { templateId: id } },
+    });
+
+    await userModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          recentTemplates: {
+            templateId: id,
+            lastOpened: Date.now(),
+          },
+        },
+      },
+      { new: true }
+    );
 
     return res.json({ success: true, template });
   } catch (error) {
@@ -163,6 +184,28 @@ const getAllPublicTemplates = async (req, res) => {
   }
 };
 
+//get recent templates by the current user
+const getRecentTemplates = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    // Get User's Recent Templates with full template details
+    const user = await userModel
+      .findById(userId)
+      .populate("recentTemplates.templateId");
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    return res.json({ success: true, recentTemplates: user.recentTemplates });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   uploadTemplate,
   getAllTemplatesByUser,
@@ -170,4 +213,5 @@ module.exports = {
   deleteTemplate,
   getTemplateByTemplateId,
   getAllPublicTemplates,
+  getRecentTemplates,
 };

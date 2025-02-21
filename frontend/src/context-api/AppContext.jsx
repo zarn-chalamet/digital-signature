@@ -19,6 +19,7 @@ export const AppContextProvider = ({children}) => {
     const [publicTemplates,setPublicTemplates] = useState([]);
     const [requestById,setRequestById] = useState("");
     const [requests,setRequests] = useState([]);
+    const [recentTemplates,setRecentTemplates] = useState([]);
 
     const [signature,setSignature] = useState(localStorage.getItem("savedSignature") ? localStorage.getItem("savedSignature") : null)
 
@@ -65,6 +66,8 @@ export const AppContextProvider = ({children}) => {
             const {data} = await axios.get(backendUrl+`/api/auth/templates/${templateId}`);
             if(data.success){
                 setTemplateById(data.template);
+                // updateLastOpendTime(data.template._id);
+
             }else{
                 toast.error(data.message)
             }
@@ -154,6 +157,19 @@ export const AppContextProvider = ({children}) => {
         }
     }
 
+    const getRecentTemplatesByCurrentUser = async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/auth/recent-templates")
+            if(data.success){
+                setRecentTemplates(data.recentTemplates)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
 
     useEffect(()=>{
         getAuthState()
@@ -172,7 +188,8 @@ export const AppContextProvider = ({children}) => {
         publicTemplates,getPublicTemplates,
         signature,setSignature,
         requestById,getRequestById,
-        requests,getRequests
+        requests,getRequests,
+        recentTemplates,getRecentTemplatesByCurrentUser,
     }
 
     return (
