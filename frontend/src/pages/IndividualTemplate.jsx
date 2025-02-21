@@ -23,6 +23,16 @@ export default function IndividualTemplate() {
           <button onClick={()=>navigate("/create-request",{state: {templateId: id, filePath:templateById.filePath}})}>Use Template</button>
         </div>
         <PdfViewer pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>
+        {/* <PdfViewer pdfFile={templateById.filePath}/> */}
+
+        <div>
+        <iframe
+          src={`http://localhost:5001/files/${templateById.filePath}`}
+          width="100%"
+          height="1200px"
+          style={{ border: "none" }}
+    ></iframe>
+        </div>
 
         <div>
           <SignPad pdfFile={`http://localhost:5001/files/${templateById.filePath}`}/>

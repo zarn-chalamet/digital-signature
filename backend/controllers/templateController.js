@@ -17,9 +17,10 @@ const uploadTemplate = async (req, res) => {
 
     // const fileUpload = await cloudinary.uploader.upload(pdfFile, {
     //   resource_type: "raw",
-    //   access_mode: "public",
+    //   folder: "pdfs",
+    //   type: "upload",
     // });
-    // const fileUrl = fileUpload.secure_url;
+    // const fileUrl = fileUpload.url;
 
     const newTemplate = new templateModel({
       uploaderId: userId,
@@ -116,6 +117,13 @@ const deleteTemplate = async (req, res) => {
     }
 
     await templateModel.findByIdAndDelete(templateId);
+
+    // Remove templateId from recentTemplates of the user
+    await userModel.findByIdAndUpdate(
+      userId,
+      { $pull: { recentTemplates: { templateId: templateId } } },
+      { new: true }
+    );
 
     return res.json({
       success: true,
