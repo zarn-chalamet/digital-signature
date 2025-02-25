@@ -31,7 +31,7 @@ export default function IndividualTemplate() {
           width="100%"
           height="1200px"
           style={{ border: "none" }}
-    ></iframe>
+        ></iframe>
         </div>
 
         <div>

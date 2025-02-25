@@ -8,8 +8,10 @@ const storage = multer.diskStorage({
     callback(null, "./files");
   },
   filename: function (req, file, callback) {
-    const uniqueSuffix = Date.now();
-    callback(null, uniqueSuffix + file.originalname);
+    const fileExt = path.extname(file.originalname) || ".pdf"; // Ensure file has an extension
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+
+    callback(null, uniqueSuffix + fileExt); // Ensure the correct extension
   },
 });
 const uploadPdf = multer({ storage });

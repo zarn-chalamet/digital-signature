@@ -51,8 +51,22 @@ const requestSchema = new mongoose.Schema(
       ref: "Template",
       required: true,
     },
+    pdfVersions: [
+      {
+        version: { type: Number, required: true },
+        filePath: { type: String, required: true },
+        signedBy: {
+          userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+          },
+          signedAt: { type: Date, default: Date.now },
+        },
+      },
+    ],
   },
-  { timestamps: true } // Automatically manages createdAt & updatedAt
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Request", requestSchema);

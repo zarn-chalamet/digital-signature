@@ -2,10 +2,29 @@ import React, { useContext, useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import SignaturePad from "./SignaturePad";
 import { AppContext } from "../context-api/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SignPad({ request ,setIsModalOpen}) {
   const [showPad, setShowPad] = useState(false);
-  const { signature, setSignature, userData, getUserData } = useContext(AppContext);
+  const { backendUrl,signature, setSignature, userData, getUserData } = useContext(AppContext);
+  const [currentPdfVersion, setCurrentPdfVersion] = useState(null);
+
+  useEffect(() => {
+      if (request) {
+  
+        if (request.pdfVersions && request.pdfVersions.length > 0) {
+          const latestVersion = request.pdfVersions.sort((a, b) => b.version - a.version)[0];
+          setCurrentPdfVersion(latestVersion);
+        } else {
+          // If no versions exist, use the templateId file path
+          setCurrentPdfVersion({
+            filePath: request.templateId.filePath,
+            // version: 1, // Mark this as the first version
+          });
+        }
+      }
+    }, [request]);
 
   useEffect(() => {
     getUserData();
@@ -26,7 +45,7 @@ export default function SignPad({ request ,setIsModalOpen}) {
 
     try {
       // Fetch and load the PDF document
-      const pdfBytes = await fetch(`http://localhost:5001/files/${request.templateId.filePath}`).then((res) => res.arrayBuffer());
+      const pdfBytes = await fetch(`http://localhost:5001/files/${currentPdfVersion.filePath}`).then((res) => res.arrayBuffer());
       const pdfDoc = await PDFDocument.load(pdfBytes);
       const sigImage = await pdfDoc.embedPng(signature);
       const pages = pdfDoc.getPages();
@@ -62,10 +81,23 @@ export default function SignPad({ request ,setIsModalOpen}) {
       // Save and generate a new PDF URL
       const signedPdfBytes = await pdfDoc.save();
       const signedPdfBlob = new Blob([signedPdfBytes], { type: "application/pdf" });
-      const signedPdfUrl = URL.createObjectURL(signedPdfBlob);
+      // const signedPdfUrl = URL.createObjectURL(signedPdfBlob);
       setIsModalOpen(false)
       // Open or download the signed PDF
-      window.open(signedPdfUrl);
+      // window.open(signedPdfUrl);
+
+      // Create FormData to send the signed PDF to the backend
+      const formData = new FormData();
+      formData.append("pdf", signedPdfBlob, signed-document.pdf);
+      formData.append("requestId", request._id);
+
+      axios.defaults.withCredentials = true;
+      const {data} = await axios.post(backendUrl + "/api/auth/signed-by-user",formData)
+      if(data.success){
+        toast.success(data.message)
+      }else{
+        toast.error(data.message)
+      }
     } catch (error) {
       console.error("Error signing PDF:", error);
     }

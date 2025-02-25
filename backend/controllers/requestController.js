@@ -98,7 +98,10 @@ const getRequestById = async (req, res) => {
     }
 
     // Fetch the request by ID and populate the template field
-    const request = await requestModel.findById(id).populate("templateId");
+    const request = await requestModel
+      .findById(id)
+      .populate("templateId")
+      .populate("pdfVersions.signedBy.userId");
     if (!request) {
       return res.json({ success: false, message: "Request not found" });
     }
@@ -123,10 +126,93 @@ const getAllRequests = async (req, res) => {
   }
 };
 
+//signed by the user and then save it to the pdf version
+const signedByTheCurrentUser = async (req, res) => {
+  try {
+    const { userId, requestId } = req.body;
+
+    if (!userId || !requestId) {
+      return res.json({
+        success: false,
+        message: "User ID and request Id are required",
+      });
+    }
+
+    console.log("Received File:", req.file);
+
+    if (!req.file) {
+      return res.json({ success: false, message: "No file uploaded" });
+    }
+
+    // Find the request document
+    const request = await requestModel.findById(requestId);
+    if (!request) {
+      return res.json({
+        success: false,
+        message: "No request found with this ID",
+      });
+    }
+
+    // Check if the user is a recipient
+    const recipientIndex = request.recipients.findIndex(
+      (r) => r.userId.toString() === userId
+    );
+    if (recipientIndex === -1) {
+      return res.json({
+        success: false,
+        message: "User is not a recipient of this request",
+      });
+    }
+
+    // Check if the user has already signed
+    if (request.recipients[recipientIndex].signed) {
+      return res.json({
+        success: false,
+        message: "User has already signed this document",
+      });
+    }
+
+    // Determine the new version number
+    const version = request.pdfVersions.length + 1;
+
+    // Add the new signed version to pdfVersions[]
+    request.pdfVersions.push({
+      version,
+      filePath: req.file.filename,
+      signedBy: {
+        userId: userId,
+        signedAt: new Date(),
+      },
+    });
+
+    // Mark user as signed in recipients array
+    request.recipients[recipientIndex].signed = true;
+
+    // Check if all recipients have signed
+    const allSigned = request.recipients.every((r) => r.signed);
+    // Change status if all signed
+    if (allSigned) {
+      request.status = "approved";
+    }
+
+    // Save the updated request document
+    await request.save();
+
+    return res.json({
+      success: true,
+      message: "Signature saved successfully",
+      request,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createNewRequest,
   getRequestsByCurrentUser,
   getRequestsRecievedFromOtherUsers,
   getRequestById,
   getAllRequests,
+  signedByTheCurrentUser,
 };

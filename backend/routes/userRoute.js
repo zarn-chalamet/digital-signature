@@ -25,6 +25,7 @@ const {
   getRequestsRecievedFromOtherUsers,
   getRequestById,
   getAllRequests,
+  signedByTheCurrentUser,
 } = require("../controllers/requestController");
 const uploadPdf = require("../middleware/multerPdf");
 const { getUsersList } = require("../controllers/adminController");
@@ -83,5 +84,12 @@ userRouter.get("/requests/:id", getRequestById);
 userRouter.get("/requests", getAllRequests);
 
 userRouter.get("/recent-templates", userAuth, getRecentTemplates);
+
+userRouter.post(
+  "/signed-by-user",
+  uploadPdf.single("pdf"),
+  userAuth,
+  signedByTheCurrentUser
+);
 
 module.exports = userRouter;

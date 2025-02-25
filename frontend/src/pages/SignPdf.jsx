@@ -21,7 +21,7 @@ export default function SignPdf() {
 
   return (
     <div>
-      <h2>Sign Pdf</h2>
+      <h2>Sign Pdf 1</h2>
       <button onClick={() => setIsModalOpen(true)}>Sign here</button>
       <div>
         <PdfViewer pdfFile={`http://localhost:5001/files/${requestById.templateId.filePath}`} />
@@ -37,6 +37,25 @@ export default function SignPdf() {
       >
         <SignPad request={requestById} setIsModalOpen={setIsModalOpen}/>
       </Modal>
+
+      {/* show many pdf versions */}
+      {
+        console.log(requestById.pdfVersions)
+      }
+      {
+        requestById.pdfVersions && requestById.pdfVersions.map((pdf,index) => (
+          <div key={index}>
+            <h2>Version - {pdf.version}</h2>
+            <p>Signed By - {pdf.signedBy.userId.first_name + " " + pdf.signedBy.userId.last_name}</p>
+            <iframe
+              src={`http://localhost:5001/files/${pdf.filePath}`}
+              width="100%"
+              height="1200px"
+              style={{ border: "none" }}
+            ></iframe>
+          </div>
+        ))
+      }
     </div>
   );
 }
