@@ -8,6 +8,11 @@ export default function Request() {
   
   const navigate = useNavigate();
 
+  const checkFinishedSignedCount = (recipients) => {
+    if (!Array.isArray(recipients)) return [];
+    return recipients.filter((recipient) => recipient.signed === true);
+  };
+  
   useEffect(() => {
     getMyRequests();
     getRequestsByOthers();
@@ -46,7 +51,7 @@ export default function Request() {
                     </td>
                       {/* need to update data */}
                     <td className="p-3 border">
-                      0/2
+                    {request.recipients ? checkFinishedSignedCount(request.recipients).length : 0}/{request.recipients.length}
                     </td>
                     <td className="p-3 border">
                       {new Date(request.createdAt).toLocaleDateString()}

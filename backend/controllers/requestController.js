@@ -79,7 +79,7 @@ const getRequestsRecievedFromOtherUsers = async (req, res) => {
 
     // Find requests where the current user is in the recipients array
     const requests = await requestModel
-      .find({ "recipients.userId": userId }) // Match recipient userId
+      .find({ recipients: { $elemMatch: { userId, signed: false } } })
       .populate("senderId", "first_name last_name email") // Get sender details
       .populate("recipients.userId", "first_name last_name email"); // Get recipient details
 
