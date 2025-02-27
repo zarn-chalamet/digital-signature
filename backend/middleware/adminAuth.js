@@ -19,6 +19,7 @@ const adminAuth = async (req, res, next) => {
         message: "Not Authorized Login Again",
       });
     }
+    // req.body.adminId = process.env.ADMIN_ID;
     next();
   } catch (error) {
     console.log(error);

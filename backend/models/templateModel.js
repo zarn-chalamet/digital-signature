@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const templateSchema = new mongoose.Schema({
   uploaderId: {
     type: String,
-    required: true,
+    // required: true,
   },
   title: {
     type: String,

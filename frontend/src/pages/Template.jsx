@@ -200,7 +200,7 @@ export default function Template() {
                 <input type="checkbox" checked={isPublic}
                 onChange={e => setIsPublic(e.target.checked)}  />
                   <button type="submit" onClick={uploadNewTemplate} className="px-4 py-2 bg-blue-500 text-white rounded">
-                    Add user
+                    Add template
                   </button>
                   <button
                     type="button"

@@ -214,6 +214,92 @@ const getRecentTemplates = async (req, res) => {
   }
 };
 
+//get all templates
+const getAllTemplates = async (req, res) => {
+  try {
+    const templates = await templateModel.find();
+
+    return res.json({ success: true, templates });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//upload template by admin
+const uploadTemplateByAdmin = async (req, res) => {
+  try {
+    const { isPublic, title } = req.body;
+    console.log(req.file);
+
+    if (!req.file) {
+      return res.json({ success: false, message: "No file uploaded" });
+    }
+
+    const newTemplate = new templateModel({
+      title,
+      isPublic,
+      filePath: req.file.filename,
+      uploadedAt: Date.now(),
+    });
+    await newTemplate.save();
+
+    return res.json({
+      success: true,
+      message: "Uploaded template successfully.",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+//delete template by admin
+const deleteTemplateByAdmin = async (req, res) => {
+  try {
+    const { templateId } = req.body;
+
+    const template = await templateModel.findById(templateId);
+    if (!template) {
+      return res.json({
+        success: false,
+        message: "No template with provided template id",
+      });
+    }
+
+    await templateModel.findByIdAndDelete(templateId);
+
+    return res.json({
+      success: true,
+      message: "Deleted template successfully",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+//Rename template title by admin
+const renameTemplateTitleByAdmin = async (req, res) => {
+  try {
+    const { templateId, newTitle } = req.body;
+
+    const template = await templateModel.findById(templateId);
+    if (!template) {
+      return res.json({
+        success: false,
+        message: "No template with provided template id",
+      });
+    }
+
+    await templateModel.findByIdAndUpdate(templateId, { title: newTitle });
+
+    return res.json({
+      success: true,
+      message: "Updated new title successfully",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   uploadTemplate,
   getAllTemplatesByUser,
@@ -222,4 +308,8 @@ module.exports = {
   getTemplateByTemplateId,
   getAllPublicTemplates,
   getRecentTemplates,
+  getAllTemplates,
+  uploadTemplateByAdmin,
+  deleteTemplateByAdmin,
+  renameTemplateTitleByAdmin,
 };

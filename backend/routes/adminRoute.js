@@ -9,6 +9,13 @@ const {
   updateUserData,
 } = require("../controllers/adminController");
 const adminAuth = require("../middleware/adminAuth");
+const {
+  getAllTemplates,
+  uploadTemplateByAdmin,
+  deleteTemplateByAdmin,
+  renameTemplateTitleByAdmin,
+} = require("../controllers/templateController");
+const uploadPdf = require("../middleware/multerPdf");
 
 const adminRouter = express.Router();
 
@@ -28,5 +35,18 @@ adminRouter.post(
 );
 
 adminRouter.post("/delete-user/:id", adminAuth, deleteUser);
+
+adminRouter.get("/templates", getAllTemplates);
+
+adminRouter.post(
+  "/upload-template",
+  uploadPdf.single("pdf"),
+  adminAuth,
+  uploadTemplateByAdmin
+);
+
+adminRouter.post("/delete-template", adminAuth, deleteTemplateByAdmin);
+
+adminRouter.post("/rename-template", adminAuth, renameTemplateTitleByAdmin);
 
 module.exports = adminRouter;

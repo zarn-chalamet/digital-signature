@@ -12,6 +12,7 @@ const AppContextProvider = ({children}) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     const [users,setUsers] = useState([]);
+    const [templates,setTemplates] = useState([]);
 
     const getUsersList = async () => {
         try {
@@ -42,11 +43,26 @@ const AppContextProvider = ({children}) => {
         }
     }
 
+    const getAllTemplates = async () => {
+        try {
+            const {data} = await axios.get(backendUrl+"/api/admin/templates")
+
+            if(data.success){
+                setTemplates(data.templates)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
     const value = {
         token,setToken,
         backendUrl,
         users,getUsersList,
-        toggleRestricted
+        toggleRestricted,
+        templates,getAllTemplates
     }
 
     return (
