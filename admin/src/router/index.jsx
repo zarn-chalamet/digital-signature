@@ -1,33 +1,33 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import Login from "../pages/Login";
-import ManageUser from "../pages/ManageUser";
-import Report from "../pages/Report";
-import Template from "../pages/Template";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import LoginPage from "../pages/LoginPage";
+import Layout from "../pages/layout/Layout";
+import Dashboard from "../pages/Dashboard";
+import useAuth from "../hooks/useAuth";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "/",
-        element: <ManageUser />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/report",
-        element: <Report />,
-      },
-      {
-        path: "/template",
-        element: <Template />,
-      },
-    ],
-  },
-]);
+export default function Router() {
+  const { isAuthenticated, authReady } = useAuth()
 
-export default router;
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: isAuthenticated ? <Dashboard /> : <Navigate to="/login" />,
+        },
+        {
+          path: "/login",
+          element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" />,
+        }
+      ],
+    },
+  ]);
+
+  return (
+    authReady && <RouterProvider router={router} />
+  )
+}
+
+
+

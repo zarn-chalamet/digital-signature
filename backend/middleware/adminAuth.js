@@ -1,29 +1,26 @@
 const jwt = require("jsonwebtoken");
 
-//admin authentication middleware
+// Admin authentication middleware
 const adminAuth = async (req, res, next) => {
   try {
-    const { token } = req.headers;
+    const token = req.headers.authorization?.split(" ")[1]; // Expecting Bearer token
     if (!token) {
-      return res.json({
-        success: false,
-        message: "Not Authorized Login Again admin",
-      });
+      return res.status(401).json({ success: false, message: "Not Authorized. Login Again." });
     }
 
-    const token_decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    // ✅ Properly Decode JWT
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    if (token_decode !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
-      return res.json({
-        success: false,
-        message: "Not Authorized Login Again",
-      });
+    // ✅ Validate Token Structure
+    if (!decoded.email || decoded.role !== "admin") {
+      return res.status(403).json({ success: false, message: "Forbidden: Invalid Token" });
     }
-    // req.body.adminId = process.env.ADMIN_ID;
+
+    // Attach decoded admin info to `req.admin`
+    req.admin = decoded;
     next();
   } catch (error) {
-    console.log(error);
-    return res.json({ success: false, message: error.message });
+    return res.status(401).json({ success: false, message: "Invalid or Expired Token" });
   }
 };
 

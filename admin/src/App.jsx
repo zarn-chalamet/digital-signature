@@ -10,7 +10,7 @@ function App() {
   const {token} = useContext(AppContext);
   
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="flex flex-col h-screen bg-gray-50">
       {/* Navbar */}
       <Navbar />
 
@@ -19,7 +19,7 @@ function App() {
         <div className="">
           { token && <Sidebar />}
         </div>
-        <div className="flex-1 p-6 bg-white shadow-inner overflow-y-auto">
+        <div className="flex-1 p-6 overflow-y-auto bg-white shadow-inner">
           <Outlet />
         </div>
       </div>

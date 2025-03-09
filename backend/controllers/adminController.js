@@ -53,23 +53,29 @@ const addNewUser = async (req, res) => {
 const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
 
-  //check the inputs are null or not
+  // Check if email and password are provided
   if (!email || !password) {
-    return res.json({ success: false, message: "Invalid Email" });
+    return res.status(400).json({ success: false, message: "Invalid Email" });
   }
 
   try {
-    if (
-      email === process.env.ADMIN_EMAIL &&
-      password === process.env.ADMIN_PASSWORD
-    ) {
-      const token = jwt.sign(email + password, process.env.ACCESS_TOKEN_SECRET);
+    // Authenticate Admin
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      // Correct JWT Payload
+      const tokenPayload = {
+        email: email,
+        role: "admin"
+      };
+
+      // Properly Sign the JWT with Expiry Time
+      const token = jwt.sign(tokenPayload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "7d" });
+
       return res.json({ success: true, token });
     } else {
-      return res.json({ success: false, message: "Invalid credentials" });
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

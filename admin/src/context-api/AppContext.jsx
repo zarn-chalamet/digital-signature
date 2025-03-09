@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from "react";
 import { createContext } from "react";
 import { toast } from "react-toastify";

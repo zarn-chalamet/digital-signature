@@ -1,10 +1,9 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Sidebar() {
     const navigate = useNavigate();
   return (
-    <div className='max-w-20 bg-blue-300 h-40'>
+    <div className='h-40 bg-blue-300 max-w-20'>
         <div onClick={() => navigate("/")}>
           <p >User</p>
         </div>
