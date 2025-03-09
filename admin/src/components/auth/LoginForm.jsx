@@ -7,6 +7,7 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import useAuth from "../../hooks/useAuth"
+import api from "../../utils/api"
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -37,7 +38,8 @@ export default function LoginForm() {
      */
     const onHandleSubmitForm = async (data) => {
         try {
-            const res = await axios.post(backendUrl + "/api/admin/login", { email: data.email, password: data.password })
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+            const res = await api.post(backendUrl + "/api/admin/login", { email: data.email, password: data.password })
             if (res.data.success) {
                 console.log(res.data)
                 toast.success('Logged in successfully.')

@@ -1,17 +1,35 @@
-import { userLists } from '../constants/index'
+import { useState } from 'react';
+import { dummyUsers } from '../constants/index';
+import { cn } from '../utils/cn';
+import { MoreVertical, Edit, Trash2 } from 'lucide-react';
 
 export default function DashboardPage() {
+    const [userLists, setUserLists] = useState(dummyUsers);
+    const [openDropdown, setOpenDropdown] = useState(null);
+
+    const toggleStatus = (userId) => {
+        setUserLists(prevUsers =>
+            prevUsers.map(user =>
+                user.id === userId ? { ...user, status: !user.status } : user
+            )
+        );
+    };
+
+    const deleteUser = (userId) => {
+        setUserLists(prevUsers => prevUsers.filter(user => user.id !== userId));
+        setOpenDropdown(null); 
+    };
 
     return (
         <div className='flex flex-col gap-y-4'>
             <div className="flex items-center justify-between">
                 <h1 className="title">Manage User</h1>
-                <button className='px-4 py-2 text-white transition-colors duration-200 rounded bg-secondary hover:bg-blue-800' type='button'>
+                <button className='px-4 py-2 text-white transition-colors duration-200 rounded-md bg-secondary hover:bg-blue-800' type='button'>
                     Create New User
                 </button>
             </div>
 
-            <div className="card ">
+            <div className="card">
                 <div className="card-header">
                     <p className="card-title">Current Users</p>
                 </div>
@@ -30,25 +48,51 @@ export default function DashboardPage() {
                                 </tr>
                             </thead>
                             <tbody className="table-body">
-                                {userLists.map(user => (
-                                    <tr key={user.id} className="table-row">
-                                        <td className="table-cell">{user.number}</td>
+                                {userLists.map((user, index) => (
+                                    <tr key={index} className="table-row">
+                                        <td className="table-cell">{index + 1}</td>
                                         <td className="table-cell">{user.first_name}</td>
                                         <td className="table-cell">{user.last_name}</td>
                                         <td className="table-cell">{user.email}</td>
                                         <td className="table-cell">{user.password}</td>
                                         <td className="table-cell">{user.created_at}</td>
                                         <td className="table-cell">
-                                            <label className="relative inline-flex items-center cursor-pointer">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={user.status}
-                                                    className="sr-only peer"
+                                            <div className='relative flex items-center'>
+                                                {/* Toggle Switch */}
+                                                <label className="relative inline-flex items-center cursor-pointer">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={user.status}
+                                                        className="sr-only peer"
+                                                        onChange={() => toggleStatus(user.id)}
+                                                    />
+                                                    <div className="h-6 transition-all bg-gray-300 rounded-full w-11 peer-checked:bg-green-500 peer-focus:ring-0">
+                                                        <div className={cn("absolute w-4 h-4 transition-transform bg-white rounded-full top-1", user.status ? 'translate-x-6' : 'translate-x-0 left-1')}></div>
+                                                    </div>
+                                                </label>
+
+                                                
+                                                <MoreVertical
+                                                    className='ml-3 cursor-pointer'
+                                                    onClick={() => setOpenDropdown(openDropdown === user.id ? null : user.id)}
                                                 />
-                                                <div className="h-6 transition-all bg-gray-300 rounded-full w-11 peer-checked:bg-green-500 peer-focus:ring-0">
-                                                    <div className="absolute w-4 h-4 transition-transform bg-white rounded-full left-1 top-1 peer-checked:translate-x-5"></div>
-                                                </div>
-                                            </label>
+
+                                                {openDropdown === user.id && (
+                                                    <div className="absolute right-0 z-10 w-32 bg-white border rounded-md shadow-md top-8">
+                                                        <button className="flex items-center w-full gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                            <Edit size={16} />
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={() => deleteUser(user.id)}
+                                                            className="flex items-center w-full gap-2 px-3 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -58,5 +102,5 @@ export default function DashboardPage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

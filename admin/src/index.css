@@ -58,7 +58,7 @@
     }
 
     .table-header {
-        @apply sticky top-0 bg-slate-200 transition-[background] 
+        @apply sticky top-0 bg-slate-200 transition-[background] z-50
     }
 
     .table-row {
