@@ -13,7 +13,7 @@ export default {
         lightPurple: '#F0EFFF'
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
+        sans: ['Nunito', 'sans-serif'],
       }
     },
   },

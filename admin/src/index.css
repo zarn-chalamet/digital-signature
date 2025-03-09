@@ -1,3 +1,87 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply [scrollbar-color:_#cbd5e1_transparent] dark:[scrollbar-color:_#334155_transparent];
+    }
+}
+
+@layer components {
+    .sidebar-group {
+        @apply flex flex-col w-full gap-y-2;
+    }
+
+    .sidebar-group-title {
+        @apply overflow-hidden text-sm font-medium text-ellipsis text-slate-600;
+    }
+
+    .sidebar-item {
+        @apply flex h-[40px] w-full flex-shrink-0 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 transition-colors hover:bg-red-50;
+        &.active {
+            @apply bg-primary text-slate-50;
+        }
+    }
+
+    .title {
+        @apply text-xl font-semibold transition-colors lg:text-3xl text-slate-900;
+    }
+
+    .btn-ghost {
+        @apply flex items-center justify-center flex-shrink-0 h-10 p-2 transition-colors rounded-lg gap-x-2 text-slate-400 hover:bg-red-50 hover:text-slate-500 ;
+    }
+
+
+    .input {
+        @apply hidden h-10 flex-shrink-0 items-center gap-x-2 rounded-lg border border-slate-300 px-2 text-base text-slate-900 transition-colors has-[input:focus]:border-blue-500 md:flex md:w-auto lg:w-80 dark:border-slate-700 dark:text-slate-50 dark:focus:border-blue-600;
+    }
+
+    .card {
+        @apply flex flex-col p-4 transition-colors bg-white border rounded-lg gap-y-4 border-slate-300;
+    }
+
+    .card-header {
+        @apply flex items-center gap-x-2;
+    }
+
+    .card-title {
+        @apply font-medium transition-colors text-slate-900 ;
+    }
+
+    .card-body {
+        @apply flex flex-col p-4 rounded-lg gap-y-2;
+    }
+
+    .table {
+        @apply h-full w-full text-slate-900 
+    }
+
+    .table-header {
+        @apply sticky top-0 bg-slate-200 transition-[background] 
+    }
+
+    .table-row {
+        @apply transition-colors border-b border-slate-300 last:border-none 
+    }
+
+    .table-head {
+        @apply h-12 px-4 text-start 
+    }
+
+    .table-cell {
+        @apply w-fit whitespace-nowrap p-4 font-medium
+    }
+}
+
+.recharts-default-tooltip {
+    @apply !rounded-lg !border !border-slate-300 !bg-white transition-colors dark:!border-slate-700 dark:!bg-slate-900;
+}
+
+.recharts-tooltip-label {
+    @apply text-base font-medium text-slate-900 dark:text-slate-50;
+}
+
+.recharts-tooltip-item {
+    @apply text-base font-medium !text-blue-500 dark:!text-blue-600;
+}

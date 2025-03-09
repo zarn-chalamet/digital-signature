@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../context-api/AppContext";
+import { AppContext } from "./AppContext";
 
 
 // eslint-disable-next-line react/prop-types
@@ -13,7 +13,7 @@ export const ProfileInfo = ({ onLogout }) => {
     setIsModalOpen(!isModalOpen);
   };
 
-  
+
 
   return (
     <div className="relative">
@@ -25,7 +25,7 @@ export const ProfileInfo = ({ onLogout }) => {
           {/* <img src={userData.image} alt="" /> */}
           imgae
         </div>
-        
+
       </div>
 
       {isModalOpen && (
@@ -42,7 +42,7 @@ export const ProfileInfo = ({ onLogout }) => {
                 View Profile
               </button>
             </li>
-            
+
             <li>
               <button
                 className="w-full text-left text-red-600 hover:bg-red-100 px-2 py-1 rounded"

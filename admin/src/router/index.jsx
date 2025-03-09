@@ -3,6 +3,7 @@ import LoginPage from "../pages/LoginPage";
 import Layout from "../pages/layout/Layout";
 import Dashboard from "../pages/Dashboard";
 import useAuth from "../hooks/useAuth";
+import DashboardLayout from "../pages/DashboardLayout";
 
 export default function Router() {
   const { isAuthenticated, authReady } = useAuth()
@@ -13,8 +14,22 @@ export default function Router() {
       element: <Layout />,
       children: [
         {
-          index: true,
-          element: isAuthenticated ? <Dashboard /> : <Navigate to="/login" />,
+          index: '',
+          element: isAuthenticated ? <DashboardLayout /> : <Navigate to="/login" />,
+          children: [
+            {
+              index: true,
+              element: <Dashboard />,
+            },
+            {
+              path: "template",
+              element: <h1 className="title">Template</h1>,
+            },
+            {
+              path: "reports",
+              element: <h1 className="title">Reports</h1>,
+            },
+          ]
         },
         {
           path: "/login",
