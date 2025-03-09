@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import useAuth from "../../hooks/useAuth"
 import api from "../../utils/api"
+import useTheme from "../../hooks/useTheme"
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -21,6 +22,7 @@ const FormFieldsSchema = z.object({
 })
 
 export default function LoginForm() {
+    const { isDark } = useTheme()
     const { dispatch } = useAuth()
     const navigate = useNavigate()
     const [isVisible, setIsVisible] = useState(false)
@@ -57,8 +59,8 @@ export default function LoginForm() {
         }
     }
     return (
-        <form onSubmit={handleSubmit(onHandleSubmitForm)} className="relative w-full max-w-sm p-6 space-y-6 bg-white rounded-lg md:w-1/2">
-            <h2 className="text-xl font-medium text-black md:text-2xl">SignIn Here</h2>
+        <form onSubmit={handleSubmit(onHandleSubmitForm)} className={cn('relative w-full max-w-sm p-6 space-y-6 bg-white rounded-lg md:w-1/2', isDark && 'bg-slate-900')}>
+            <h2 className={cn('text-xl font-medium text-black md:text-2xl', isDark && 'text-slate-50')}>SignIn Here</h2>
 
             {/* Email */}
             <div>
@@ -107,8 +109,8 @@ export default function LoginForm() {
                 {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
 
-            <p className="text-center lg:hidden">
-                If you don’t have an account register <br /><strong className='text-primary'>You can Contact the IT department!</strong>
+            <p className={cn('max-w-xs text-center lg:hidden', isDark && 'text-slate-50')}>
+                If you don’t have an account register, <strong className='text-primary'>You can Contact the IT department!</strong>
             </p>
         </form>
     )
