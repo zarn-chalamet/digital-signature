@@ -18,7 +18,7 @@
     }
 
     .sidebar-item {
-        @apply flex h-[40px] w-full flex-shrink-0 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 transition-colors hover:bg-slate-100;
+        @apply flex h-[40px] w-full flex-shrink-0 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 transition-colors hover:bg-slate-200;
         &.active {
             @apply bg-primary text-slate-50;
         }
@@ -58,7 +58,7 @@
     }
 
     .table-header {
-        @apply sticky top-0 bg-slate-200 transition-[background] z-50
+        @apply sticky top-0 bg-lightBlue transition-[background] z-50
     }
 
     .table-row {

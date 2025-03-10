@@ -22,7 +22,9 @@ export const navbarLinks = [
     }
 ];
 
-
+export const tableHeaders = [
+    'No', 'First Name', 'Last Name', 'Email', 'Password', 'Created Date', 'Status'
+]
 
 export const dummyUsers = [
     {
