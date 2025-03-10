@@ -17,7 +17,7 @@ export default function Router() {
       children: [
         {
           index: '',
-          element: isAuthenticated ? <DashboardLayout /> : <Navigate to="/login" />,
+          element: isAuthenticated ? <DashboardLayout /> : <Navigate to="/login" replace />,
           children: [
             {
               index: true,
@@ -35,7 +35,7 @@ export default function Router() {
         },
         {
           path: "/login",
-          element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" />,
+          element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" replace />,
         }
       ],
     },

@@ -34,7 +34,7 @@ export default function DashboardLayout() {
                 ref={sidebarRef}
                 collapsed={collapsed}
             />
-            <div className={cn("transition-[margin] duration-300", collapsed ? "md:ml-[100px]" : "md:ml-[320px]")}>
+            <div className={cn("transition-[margin] duration-300", collapsed ? "md:ml-[100px]" : "md:ml-[280px]")}>
                 <Header
                     collapsed={collapsed}
                     setCollapsed={setCollapsed}

@@ -47,7 +47,7 @@ export default function LoginForm() {
                 toast.success('Logged in successfully.')
                 localStorage.setItem('accessToken', res.data.token)
                 dispatch({ type: 'auth/login' })
-                navigate('/')
+                navigate('/', { replace: true })
             }
         }
         catch (err) {

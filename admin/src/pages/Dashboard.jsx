@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { dummyUsers } from '../constants/index';
+import { dummyUsers, tableHeaders } from '../constants/index';
 import { cn } from '../utils/cn';
-import { MoreVertical, Edit, Trash2 } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import useTheme from '../hooks/useTheme';
+import CreateBtn from '../components/dashboard/btns/CreateBtn';
+import Title from '../components/dashboard/Title';
+import StatusBtn from '../components/dashboard/btns/StatusBtn';
+import MoreModal from '../components/dashboard/modals/MoreModal';
 
 export default function DashboardPage() {
     const { isDark } = useTheme();
@@ -19,16 +23,14 @@ export default function DashboardPage() {
 
     const deleteUser = (userId) => {
         setUserLists(prevUsers => prevUsers.filter(user => user.id !== userId));
-        setOpenDropdown(null); 
+        setOpenDropdown(null);
     };
 
     return (
-        <div className='flex flex-col gap-y-4'>
+        <section className='flex flex-col gap-y-4'>
             <div className="flex items-center justify-between">
-                <h1 className={cn('title', isDark && 'text-slate-50')}>Manage User</h1>
-                <button className='px-4 py-2 text-white transition-colors duration-200 rounded-md bg-secondary hover:bg-blue-800' type='button'>
-                    Create New User
-                </button>
+                <Title />
+                <CreateBtn />
             </div>
 
             <div className={cn('card', isDark && 'bg-slate-900 border-slate-700')}>
@@ -40,13 +42,11 @@ export default function DashboardPage() {
                         <table className="table">
                             <thead className={cn('table-header', isDark && 'bg-slate-800 text-slate-50')}>
                                 <tr className="table-row">
-                                    <th className="table-head">#</th>
-                                    <th className="table-head">First Name</th>
-                                    <th className="table-head">Last Name</th>
-                                    <th className="table-head">Email</th>
-                                    <th className="table-head">Password</th>
-                                    <th className="table-head">Created Date</th>
-                                    <th className="table-head">Status</th>
+                                    {
+                                        tableHeaders.map((header, index) => (
+                                            <th key={index} className="table-head">{header}</th>
+                                        ))
+                                    }
                                 </tr>
                             </thead>
                             <tbody className={cn('table-body', isDark && 'text-slate-50')}>
@@ -60,39 +60,16 @@ export default function DashboardPage() {
                                         <td className="table-cell">{user.created_at}</td>
                                         <td className="table-cell">
                                             <div className='relative flex items-center'>
-                                                {/* Toggle Switch */}
-                                                <label className="relative inline-flex items-center cursor-pointer">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={user.status}
-                                                        className="sr-only peer"
-                                                        onChange={() => toggleStatus(user.id)}
-                                                    />
-                                                    <div className="h-6 transition-all bg-gray-300 rounded-full w-11 peer-checked:bg-green-500 peer-focus:ring-0">
-                                                        <div className={cn("absolute w-4 h-4 transition-transform bg-white rounded-full top-1", user.status ? 'translate-x-6' : 'translate-x-0 left-1')}></div>
-                                                    </div>
-                                                </label>
+                                                {/* Switch btn to toogle status */}
+                                                <StatusBtn user={user} toggleStatus={toggleStatus} />
 
-                                                
                                                 <MoreVertical
                                                     className='ml-3 cursor-pointer'
                                                     onClick={() => setOpenDropdown(openDropdown === user.id ? null : user.id)}
                                                 />
 
                                                 {openDropdown === user.id && (
-                                                    <div className="absolute right-0 z-10 w-32 bg-white border rounded-md shadow-md top-8">
-                                                        <button className="flex items-center w-full gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                            <Edit size={16} />
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            onClick={() => deleteUser(user.id)}
-                                                            className="flex items-center w-full gap-2 px-3 py-2 text-sm text-red-600 hover:bg-gray-100"
-                                                        >
-                                                            <Trash2 size={16} />
-                                                            Delete
-                                                        </button>
-                                                    </div>
+                                                    <MoreModal user={user} deleteUser={deleteUser} />
                                                 )}
                                             </div>
                                         </td>
@@ -103,6 +80,6 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
