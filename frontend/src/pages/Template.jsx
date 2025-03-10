@@ -114,7 +114,10 @@ export default function Template() {
         {/* my template and upload button */}
         <div className='flex flex-row justify-between'>
           <h2>My Template</h2>
-          <button className='bg-blue-400 px-2 py-1 rounded-md' onClick={() => setModalIsOpen(true)}>+ Upload</button>
+          <div>
+            <button className='bg-blue-400 px-2 py-1 rounded-md' onClick={() => setModalIsOpen(true)}>+ Upload</button>
+            <button className='bg-blue-400 px-2 py-1 rounded-md' onClick={() => {navigate("/react-quill")}}>Create</button>
+          </div>
         </div>
         {/* Templates */}
         <div className="grid grid-cols-3 gap-4 mt-4">

@@ -9,6 +9,7 @@ import History from "../pages/History";
 import IndividualTemplate from "../pages/IndividualTemplate";
 import CreateRequest from "../pages/CreateRequest";
 import SignPdf from "../pages/SignPdf";
+import ReactQuillPage from "../pages/ReactQuillPage";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path: "/sign-pdf/:id",
                 element: <SignPdf/>
+            },
+            {
+                path: "/react-quill",
+                element: <ReactQuillPage/>
             }
         ]
     }

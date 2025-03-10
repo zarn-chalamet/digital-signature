@@ -18,6 +18,7 @@ const {
   getTemplateByTemplateId,
   getAllPublicTemplates,
   getRecentTemplates,
+  generateAndUploadPDF,
 } = require("../controllers/templateController");
 const {
   createNewRequest,
@@ -91,5 +92,7 @@ userRouter.post(
   userAuth,
   signedByTheCurrentUser
 );
+
+userRouter.post("/generate-pdf", userAuth, generateAndUploadPDF);
 
 module.exports = userRouter;
