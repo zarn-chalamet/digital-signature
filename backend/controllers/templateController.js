@@ -322,11 +322,11 @@ const generateAndUploadPDF = async (req, res) => {
       return res.json({ success: false, message: "Content is required" });
     }
 
-    // ✅ Start Puppeteer browser
+    // Start Puppeteer browser
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    // ✅ Define proper CSS styling
+    // Define proper CSS styling
     const htmlContent = `
       <html>
         <head>
@@ -366,14 +366,14 @@ const generateAndUploadPDF = async (req, res) => {
 
     await page.setContent(htmlContent);
 
-    // ✅ Define the PDF file path
+    // Define the PDF file path
     const pdfFilePath = path.join(
       __dirname,
       "../files",
       `${Date.now()}_document.pdf`
     );
 
-    // ✅ Generate the PDF
+    // Generate the PDF
     await page.pdf({
       path: pdfFilePath,
       format: "A4",
@@ -383,10 +383,10 @@ const generateAndUploadPDF = async (req, res) => {
 
     await browser.close();
 
-    // ✅ Attach the generated PDF to the request object (same structure as multer)
+    // Attach the generated PDF to the request object (same structure as multer)
     req.file = { path: pdfFilePath, filename: path.basename(pdfFilePath) };
 
-    // ✅ Call the existing uploadTemplate function to upload the file
+    // Call the existing uploadTemplate function to upload the file
     await uploadTemplate(req, res); // This will handle the upload logic
   } catch (error) {
     return res.json({ success: false, message: error.message });

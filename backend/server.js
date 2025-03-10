@@ -11,7 +11,8 @@ const app = express();
 
 //cors
 app.use(cors(corsOptions));
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(cookiesParser());
 
 app.use("/files", express.static(path.join(__dirname, "files")));
