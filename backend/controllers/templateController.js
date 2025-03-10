@@ -127,6 +127,12 @@ const deleteTemplate = async (req, res) => {
       { new: true }
     );
 
+    // Remove templateId from all other users' recentTemplates
+    await userModel.updateMany(
+      { "recentTemplates.templateId": templateId },
+      { $pull: { recentTemplates: { templateId: templateId } } }
+    );
+
     return res.json({
       success: true,
       message: "Deleted template successfully",
@@ -268,6 +274,12 @@ const deleteTemplateByAdmin = async (req, res) => {
     }
 
     await templateModel.findByIdAndDelete(templateId);
+
+    // Remove templateId from all other users' recentTemplates
+    await userModel.updateMany(
+      { "recentTemplates.templateId": templateId },
+      { $pull: { recentTemplates: { templateId: templateId } } }
+    );
 
     return res.json({
       success: true,
