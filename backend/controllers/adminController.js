@@ -35,7 +35,7 @@ const addNewUser = async (req, res) => {
       last_name,
       email,
       password: password,
-      image: imageUrl,
+      image: imageUrl || "",
       date: Date.now(),
     };
 

@@ -9,6 +9,9 @@
 }
 
 @layer components {
+    .input{
+        @apply w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 focus:border-indigo-500
+    }
     .sidebar-group {
         @apply flex flex-col w-full gap-y-2;
     }
@@ -58,7 +61,7 @@
     }
 
     .table-header {
-        @apply sticky top-0 bg-lightBlue transition-[background] z-40
+        @apply sticky top-0 bg-lightBlue transition-[background] z-40 whitespace-nowrap
     }
 
     .table-row {

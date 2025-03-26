@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { z } from "zod"
 import { cn } from "../../utils/cn"
 import { useForm } from "react-hook-form"
 import axios from "axios"
@@ -9,17 +8,9 @@ import { useNavigate } from "react-router-dom"
 import useAuth from "../../hooks/useAuth"
 import api from "../../utils/api"
 import useTheme from "../../hooks/useTheme"
+import { LogInFormFieldsSchema } from "../../utils/zSchema"
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL
-
-const FormFieldsSchema = z.object({
-    email: z.string()
-        .min(1, { message: "Email is required." })
-        .email({ message: "Invalid email format" }),
-    password: z.string()
-        .min(1, { message: 'Password is required.' })
-        .min(6, { message: 'Password must be at least 6 characters long.' })
-})
 
 export default function LoginForm() {
     const { isDark } = useTheme()
@@ -32,7 +23,7 @@ export default function LoginForm() {
             email: 'admin@digital.com',
             password: '123456'
         },
-        resolver: zodResolver(FormFieldsSchema)
+        resolver: zodResolver(LogInFormFieldsSchema)
     })
 
     /**
