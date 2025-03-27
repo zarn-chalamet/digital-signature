@@ -234,10 +234,10 @@ const getAllTemplates = async (req, res) => {
 };
 
 //upload template by admin
+//upload template by admin
 const uploadTemplateByAdmin = async (req, res) => {
   try {
     const { isPublic, title } = req.body;
-    console.log(req.file);
 
     if (!req.file) {
       return res.json({ success: false, message: "No file uploaded" });
@@ -249,11 +249,13 @@ const uploadTemplateByAdmin = async (req, res) => {
       filePath: req.file.filename,
       uploadedAt: Date.now(),
     });
+
     await newTemplate.save();
 
     return res.json({
       success: true,
       message: "Uploaded template successfully.",
+      template: newTemplate,
     });
   } catch (error) {
     return res.json({ success: false, message: error.message });

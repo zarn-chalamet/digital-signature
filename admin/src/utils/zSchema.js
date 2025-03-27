@@ -22,3 +22,8 @@ export const createUserFormFieldSchema = z.object({
         .min(6, { message: 'Password must be at least 6 characters long.' }
         )
 })
+
+export const uploadTemplateFormFieldSchema = z.object({
+    title: z.string()
+        .min(1, { message: "Title is required." }),
+})

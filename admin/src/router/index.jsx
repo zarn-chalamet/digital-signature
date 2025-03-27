@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import useAuth from "../hooks/useAuth";
 import DashboardLayout from "../pages/DashboardLayout";
 import useTheme from "../hooks/useTheme";
+import TemplatePage from "../pages/TemplatePage";
 
 export default function Router() {
   const { isAuthenticated, authReady } = useAuth()
@@ -25,7 +26,7 @@ export default function Router() {
             },
             {
               path: "template",
-              element: <h1 className={`title ${isDark && 'text-slate-50'}`}>Template</h1>,
+              element: <TemplatePage />
             },
             {
               path: "reports",

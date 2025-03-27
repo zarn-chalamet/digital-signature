@@ -8,9 +8,9 @@ import { cn } from "../../../utils/cn";
 import api from "../../../utils/api";
 import { useDispatch } from 'react-redux';
 import { createUser, updateUserInfo } from "../../../features/userSlice";
-import { toast } from "react-toastify"
 import { UserCog, UserPlus } from "lucide-react";
 import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast"
 
 export default function UserModal({ user = {}, setShowModal }) {
     const { accessToken } = useAuth()
@@ -66,11 +66,12 @@ export default function UserModal({ user = {}, setShowModal }) {
                 if (res.data.success) {
                     dispatch(updateUserInfo(user._id, res.data.user))
                     setShowModal(false);
+                    toast.success('User updated successfully')
                 }
 
             } catch (err) {
                 console.error("Error updating user:", err);
-                toast.error(err.message)
+                toast.error('Something went wrong')
             }
         }
         else {
@@ -88,10 +89,11 @@ export default function UserModal({ user = {}, setShowModal }) {
                     //? client side update
                     dispatch(createUser(res.data.user))
                     setShowModal(false);
+                    toast.success('User created successfully')
                 }
             } catch (err) {
                 console.error("Error creating user:", err);
-                toast.error(err.message)
+                toast.error('Something went wrong')
             }
         }
     };

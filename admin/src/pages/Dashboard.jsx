@@ -7,12 +7,14 @@ import useTheme from '../hooks/useTheme';
 import CreateBtn from '../components/dashboard/btns/CreateBtn';
 import Title from '../components/dashboard/Title';
 import StatusBtn from '../components/dashboard/btns/StatusBtn';
-import MoreModal from '../components/dashboard/modals/MoreModal';
+import MoreModal from '../components/dashboard/modals/MoreUserModal';
 import api from '../utils/api';
 import useAuth from '../hooks/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser, getUsers, setUsers, updateUserStatus } from '../features/userSlice';
 import moment from 'moment';
+import toast from "react-hot-toast"
+import UserModal from '../components/dashboard/modals/UserModal'
 
 export default function DashboardPage() {
     const { isDark } = useTheme();
@@ -20,9 +22,10 @@ export default function DashboardPage() {
     const users = useSelector(getUsers)
     const dispatch = useDispatch()
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchUsersList = async () => {
             try {
                 const { data } = await api.post('/api/admin/users-list', {}, {
                     headers: {
@@ -36,7 +39,7 @@ export default function DashboardPage() {
             }
         }
 
-        fetchData()
+        fetchUsersList()
     }, [accessToken, dispatch])
 
     const toggleStatus = async (userId) => {
@@ -67,6 +70,7 @@ export default function DashboardPage() {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            toast.success("User deleted successfully");
         } catch (err) {
             console.error("Delete user failed:", err);
         } finally {
@@ -76,8 +80,8 @@ export default function DashboardPage() {
     return (
         <section className='flex flex-col gap-y-4'>
             <div className="flex items-center justify-between">
-                <Title />
-                <CreateBtn />
+                <Title title={"Manage Users"} />
+                <CreateBtn text={'Create New User'} setShowModal={setIsCreateModalOpen} />
             </div>
 
             <div className={cn('card', isDark && 'bg-slate-900 border-slate-700')}>
@@ -127,6 +131,9 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </div>
+            {isCreateModalOpen && (
+                <UserModal setShowModal={setIsCreateModalOpen} />
+            )}
         </section>
     );
 }
