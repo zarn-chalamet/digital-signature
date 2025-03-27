@@ -43,7 +43,7 @@ const addNewUser = async (req, res) => {
     const newUser = new userModel(userData);
     await newUser.save();
 
-    return res.json({ success: true, message: "New Doctor created" });
+    return res.json({ success: true, message: "New Doctor created", user: newUser });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
@@ -117,6 +117,7 @@ const toggleRestrictedValue = async (req, res) => {
 };
 
 //update user
+//update user
 const updateUserData = async (req, res) => {
   try {
     const { id } = req.params;
@@ -135,22 +136,26 @@ const updateUserData = async (req, res) => {
       });
     }
 
-    await userModel.findByIdAndUpdate(id, {
+    // Create update object
+    const updateData = {
       first_name,
       last_name,
       email,
       password,
-    });
+    };
 
     if (imageFile) {
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
         resource_type: "image",
       });
-      const imageUrl = imageUpload.secure_url;
-      await userModel.findByIdAndUpdate(id, { image: imageUrl });
+      updateData.image = imageUpload.secure_url;
     }
 
-    return res.json({ success: true, message: "Updated successfully" });
+    const updatedUser = await userModel.findByIdAndUpdate(id, updateData, {
+      new: true, // returns the updated document
+    });
+
+    return res.json({ success: true, message: "Updated successfully", user: updatedUser });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }

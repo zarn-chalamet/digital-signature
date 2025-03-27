@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { tableHeaders } from '../constants/index';
 import { cn } from '../utils/cn';
@@ -28,7 +29,6 @@ export default function DashboardPage() {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
-                console.log(data.users)
                 dispatch(setUsers(data.users))
             }
             catch (err) {
@@ -62,12 +62,11 @@ export default function DashboardPage() {
 
         //? client side update
         try {
-            const res = await api.post(`/api/admin/delete-user/${userId}`, {}, {
+            await api.post(`/api/admin/delete-user/${userId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            console.log(res.data);
         } catch (err) {
             console.error("Delete user failed:", err);
         } finally {
@@ -105,7 +104,7 @@ export default function DashboardPage() {
                                         <td className="table-cell">{user.last_name}</td>
                                         <td className="table-cell">{user.email}</td>
                                         <td className="table-cell">{user.password}</td>
-                                        <td className="table-cell">{moment(user?.date).format('ll') || 'N/A'}</td>
+                                        <td className="table-cell">{moment(user?.date).format('L') || 'N/A'}</td>
                                         <td className="table-cell">
                                             <div className='relative flex items-center'>
                                                 {/* Switch btn to toogle status */}

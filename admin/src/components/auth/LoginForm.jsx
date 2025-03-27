@@ -3,12 +3,12 @@ import { useState } from "react"
 import { cn } from "../../utils/cn"
 import { useForm } from "react-hook-form"
 import axios from "axios"
-import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import useAuth from "../../hooks/useAuth"
 import api from "../../utils/api"
 import useTheme from "../../hooks/useTheme"
 import { LogInFormFieldsSchema } from "../../utils/zSchema"
+import toast from "react-hot-toast"
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL
 

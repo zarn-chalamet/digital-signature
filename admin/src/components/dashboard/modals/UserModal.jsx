@@ -7,11 +7,13 @@ import { createUserFormFieldSchema } from "../../../utils/zSchema";
 import { cn } from "../../../utils/cn";
 import api from "../../../utils/api";
 import { useDispatch } from 'react-redux';
-import { createUser } from "../../../features/userSlice";
+import { createUser, updateUserInfo } from "../../../features/userSlice";
 import { toast } from "react-toastify"
 import { UserCog, UserPlus } from "lucide-react";
+import useAuth from "../../../hooks/useAuth";
 
 export default function UserModal({ user = {}, setShowModal }) {
+    const { accessToken } = useAuth()
     const modalRef = useRef(null);
     const dispatch = useDispatch()
     const [isEdit, setIsEdit] = useState(false)
@@ -24,6 +26,7 @@ export default function UserModal({ user = {}, setShowModal }) {
         resolver: zodResolver(createUserFormFieldSchema)
     })
 
+    //? Data popoulation on edit
     useEffect(() => {
         if (user._id) {
             setIsEdit(true)
@@ -38,7 +41,7 @@ export default function UserModal({ user = {}, setShowModal }) {
     }, [user._id, user.email, user.first_name, user.last_name, user.password, user.image, reset])
 
     const onSubmitForm = async (data) => {
-        if (!pPic) {
+        if (!pPic && !isEdit) {
             toast.error("Please select a profile picture!")
             return;
         }
@@ -50,29 +53,47 @@ export default function UserModal({ user = {}, setShowModal }) {
         formData.append('email', data.email);
         formData.append('password', data.password);
 
-        if (pPic) {
-            formData.append('image', pPic);
-        }
+        if (isEdit) {
+            pPic ? formData.append('image', pPic) : formData.append('image', user.image);
+            try {
+                const res = await api.post(`/api/admin/update-user/${user._id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
 
-        try {
-            const res = await api.post('/api/admin/add-user', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+                if (res.data.success) {
+                    dispatch(updateUserInfo(user._id, res.data.user))
+                    setShowModal(false);
+                }
 
-            if (res.data.success) {
-                setShowModal(false);
-            } else {
-                toast.error(res.data.message)
+            } catch (err) {
+                console.error("Error updating user:", err);
+                toast.error(err.message)
             }
-        } catch (error) {
-            console.error("Error creating user:", error);
-            toast.error(error.message)
         }
+        else {
+            if (pPic) {
+                formData.append('image', pPic);
+            }
+            try {
+                const res = await api.post('/api/admin/add-user', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
 
-        //? client update
-        dispatch(createUser(data))
+                if (res.data.success) {
+                    //? client side update
+                    dispatch(createUser(res.data.user))
+                    setShowModal(false);
+                }
+            } catch (err) {
+                console.error("Error creating user:", err);
+                toast.error(err.message)
+            }
+        }
     };
 
     const onHandleFileChange = (e) => {
@@ -105,20 +126,22 @@ export default function UserModal({ user = {}, setShowModal }) {
                         <div className="flex flex-col w-1/2 space-y-1">
                             <label className="text-sm" htmlFor="">First Name <span className="text-red-600">*</span></label>
                             <input
+                                disabled={isSubmitting}
                                 {...register('first_name')}
                                 type="text"
                                 placeholder="First Name"
-                                className={cn(errors.email && 'border-red-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 focus:border-indigo-500')}
+                                className={cn(errors.first_name ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
                             />
                             {errors.first_name && <span className="text-xs italic text-red-500">{errors.first_name.message}</span>}
                         </div>
                         <div className="flex flex-col w-1/2 space-y-1">
                             <label className="text-sm" htmlFor="">Last Name <span className="text-red-600">*</span></label>
                             <input
+                                disabled={isSubmitting}
                                 {...register('last_name')}
                                 type="text"
                                 placeholder="Last Name"
-                                className={cn(errors.email && 'border-red-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 focus:border-indigo-500')}
+                                className={cn(errors.last_name ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
                             />
                             {errors.last_name && <span className="text-xs italic text-red-500">{errors.last_name.message}</span>}
                         </div>
@@ -126,20 +149,22 @@ export default function UserModal({ user = {}, setShowModal }) {
                     <div className="flex flex-col space-y-1">
                         <label className="text-sm" htmlFor="">Email <span className="text-red-600">*</span></label>
                         <input
+                            disabled={isSubmitting}
                             {...register('email')}
                             type="email"
                             placeholder="Email"
-                            className={cn(errors.email && 'border-red-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 focus:border-indigo-500')}
+                            className={cn(errors.email ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
                         />
                         {errors.email && <span className="text-xs italic text-red-500">{errors.email.message}</span>}
                     </div>
                     <div className="flex flex-col space-y-1">
                         <label className="text-sm" htmlFor="">Password <span className="text-red-600">*</span></label>
                         <input
+                            disabled={isSubmitting}
                             {...register('password')}
                             type="password"
                             placeholder="Password"
-                            className={cn(errors.email && 'border-red-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 focus:border-indigo-500')}
+                            className={cn(errors.password ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
                         />
                         {errors.password && <span className="text-xs italic text-red-500">{errors.password.message}</span>}
                     </div>
@@ -147,6 +172,7 @@ export default function UserModal({ user = {}, setShowModal }) {
                         <label className="text-sm" htmlFor="">Profile Image <span className="text-red-600"></span></label>
                         <div className="flex items-center justify-between">
                             <input
+                                disabled={isSubmitting}
                                 onChange={onHandleFileChange}
                                 type="file"
                                 className=""
@@ -156,9 +182,10 @@ export default function UserModal({ user = {}, setShowModal }) {
                     </div>
                     <div className="flex justify-end gap-3 pt-2">
                         <button
+                            disabled={isSubmitting}
                             type="button"
                             onClick={() => setShowModal(false)}
-                            className="px-4 py-2 text-gray-600 transition-all duration-200 bg-gray-200 rounded-md hover:bg-gray-300"
+                            className="px-4 py-2 text-gray-600 transition-all duration-200 bg-gray-200 rounded-md disabled:cursor-not-allowed hover:bg-gray-300"
                         >
                             Cancel
                         </button>
@@ -167,7 +194,7 @@ export default function UserModal({ user = {}, setShowModal }) {
                             type="submit"
                             className="px-4 py-2 text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:cursor-not-allowed disabled:bg-gray-300 hover:bg-indigo-700"
                         >
-                            {isSubmitting ? 'Creating...' : 'Create'}
+                            {isSubmitting ? isEdit ? 'Updating...' : 'Creating...' : isEdit ? 'Update' : 'Create'}
                         </button>
                     </div>
                 </form>

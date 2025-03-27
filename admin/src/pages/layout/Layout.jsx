@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import useTheme from "../../hooks/useTheme";
+import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
     const { isDark } = useTheme()
@@ -18,7 +17,17 @@ export default function Layout() {
     return (
         <div>
             <Outlet />
-            <ToastContainer />
+            <Toaster position="top-center" toastOptions={{
+                duration: 3000,
+                removeDelay: 1000,
+                style: {
+                    textAlign: 'center',
+                    background: isDark ? '#333' : "#ffffff",
+                    color: isDark ? "#ffffff" : "#333",
+                    padding: "12px",
+                    borderRadius: "8px",
+                },
+            }} />
         </div>
     );
 }
