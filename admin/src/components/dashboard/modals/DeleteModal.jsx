@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 
-export default function DeleteModal({ onCancel, onAction }) {
+export default function DeleteModal({ type, onCancel, onAction }) {
     const modalRef = useRef(null);
     useClickOutside([modalRef], () => onCancel());
 
@@ -30,12 +30,12 @@ export default function DeleteModal({ onCancel, onAction }) {
                             />
                         </svg>
                     </div>
-                    <h2 className="text-lg font-semibold text-white">Delete Template</h2>
+                    <h2 className="text-lg font-semibold text-white">Delete {type === 'user' ? 'User Account.' : 'Template File.'}</h2>
                 </div>
 
                 {/* Body */}
                 <div className="p-6 text-sm text-gray-700">
-                    <p>Are you sure you want to delete this template file?</p>
+                    <p>{type === 'user' ? 'Are you sure you want to delete this user account?' : 'Are you sure you want to delete this template file?'}</p>
                     <p className="mt-2">
                         If you delete this file, you will permanently lose this data.
                     </p>
@@ -53,7 +53,7 @@ export default function DeleteModal({ onCancel, onAction }) {
                         onClick={onAction}
                         className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
                     >
-                        Delete Template
+                        Delete
                     </button>
                 </div>
             </div>

@@ -2,9 +2,11 @@
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import RenameTemplateModal from "./RenameTemplateModal";
+import DeleteModal from "./DeleteModal";
 
-export default function MoreTemplateModal({ template, onAction }) {
+export default function MoreTemplateModal({ template, setShowModal, onAction }) {
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
     return (
         <>
@@ -16,7 +18,7 @@ export default function MoreTemplateModal({ template, onAction }) {
                     Edit
                 </button>
                 <button
-                    onClick={() => onAction(template._id)}
+                    onClick={() => setIsOpenDeleteModal(true)}
                     className="flex items-center w-full gap-2 px-3 py-2 text-sm text-red-600 hover:bg-gray-100"
                 >
                     <Trash2 size={16} />
@@ -24,7 +26,13 @@ export default function MoreTemplateModal({ template, onAction }) {
                 </button>
             </div>
             {
-                isOpenEditModal && <RenameTemplateModal currentId={template._id} currentTitle={template.title} onClose={() => setIsOpenEditModal(false)} />
+                isOpenEditModal && <RenameTemplateModal currentId={template._id} currentTitle={template.title} onClose={() => {
+                    setIsOpenEditModal(false)
+                    setShowModal({})
+                }} />
+            }
+            {
+                isOpenDeleteModal && <DeleteModal type={'template'} onCancel={() => setIsOpenDeleteModal(false)} onAction={() => onAction(template._id)}/>
             }
         </>
     )
