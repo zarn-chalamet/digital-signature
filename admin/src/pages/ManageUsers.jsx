@@ -1,7 +1,7 @@
 import CreateBtn from '../components/dashboard/btns/CreateBtn';
 import Title from '../components/dashboard/Title';
 import Modal from '../components/dashboard/modals/Modal'
-import UserModal from '../components/dashboard/modals/UserModal';
+import CreateEditUserModal from '../features/user/CreateEditUserModal';
 import UserTable from '../features/user/UserTable'
 
 export default function ManageUsers() {
@@ -17,7 +17,7 @@ export default function ManageUsers() {
                     </Modal.Open>
 
                     <Modal.Window name={'create-user'} width='450px'>
-                        <UserModal />
+                        <CreateEditUserModal />
                     </Modal.Window>
                 </Modal>
             </div>

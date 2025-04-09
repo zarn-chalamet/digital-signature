@@ -15,7 +15,7 @@ const authReducer = (state, action) => {
     switch (action.type) {
         case "auth/login":
         case "auth/authenticated":
-            return { ...state, isAuthenticated: true };
+            return { ...state, isAuthenticated: true, accessToken: action.payload };
         case "auth/logout":
         case "auth/unauthenticated":
             localStorage.removeItem('accessToken')
@@ -38,7 +38,7 @@ export default function AuthContextProvider({ children }) {
                 const currentTime = Math.floor(Date.now() / 1000)
 
                 if (expTime > currentTime) {
-                    dispatch({ type: "auth/authenticated" });
+                    dispatch({ type: "auth/authenticated", payload: accessToken });
                     console.log(`Token is valid, expires in ${Math.floor((expTime - currentTime) / 60)} minutes`);
                 } else {
                     dispatch({ type: "auth/unauthenticated" });

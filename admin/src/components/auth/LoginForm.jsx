@@ -34,10 +34,9 @@ export default function LoginForm() {
             await new Promise((resolve) => setTimeout(resolve, 1000))
             const res = await api.post(backendUrl + "/api/admin/login", { email: data.email, password: data.password })
             if (res.data.success) {
-                console.log(res.data)
                 toast.success('Logged in successfully.')
                 localStorage.setItem('accessToken', res.data.token)
-                dispatch({ type: 'auth/login' })
+                dispatch({ type: 'auth/login', payload: res.data.token })
                 navigate('/', { replace: true })
             }
         }

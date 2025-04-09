@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createUserFormFieldSchema } from "../../../utils/zSchema";
-import { cn } from "../../../utils/cn";
+import { createUserFormFieldSchema } from "../../utils/zSchema";
+import { cn } from "../../utils/cn";
 import { UserCog, UserPlus } from "lucide-react";
 import toast from "react-hot-toast"
-import useCreateUser from "../../../features/user/useCreateUser";
-import useEditUser from "../../../features/user/useEditUser";
+import useCreateUser from "./useCreateUser";
+import useEditUser from "./useEditUser";
 
-export default function UserModal({ user = {}, onCloseModal }) {
+export default function CreateEditUserModal({ user = {}, onCloseModal }) {
     const { createUser: createUserApi, isCreating } = useCreateUser()
     const { editUser, isEditing } = useEditUser()
 

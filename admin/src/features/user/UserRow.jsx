@@ -5,7 +5,7 @@ import moment from "moment";
 import Modal from '../../components/dashboard/modals/Modal'
 import Menus from "../../ui/Menus";
 import { HiPencil, HiTrash } from "react-icons/hi2";
-import UserModal from '../../components/dashboard/modals/UserModal'
+import CreateEditUserModal from './CreateEditUserModal'
 import ConfirmDelete from "../../components/dashboard/modals/ConfirmDelete";
 import useDeleteUser from './useDeleteUser'
 
@@ -25,8 +25,10 @@ export default function UserRow({ user, index }) {
                     <StatusBtn user={user} />
                     <Modal>
                         <div className="flex items-center justify-end">
+                            {/* More Btn */}
                             <Menus.Toggle id={user._id} />
 
+                            {/* Edit & Delete */}
                             <Menus.List id={user._id}>
                                 <Modal.Open opens='edit-form'>
                                     <Menus.Button icon={<HiPencil className="text-blue-500" />}>Edit</Menus.Button>
@@ -37,10 +39,12 @@ export default function UserRow({ user, index }) {
                                 </Modal.Open>
                             </Menus.List>
 
+                            {/* Edit Form */}
                             <Modal.Window name='edit-form'>
-                                <UserModal user={user} />
+                                <CreateEditUserModal user={user} />
                             </Modal.Window>
 
+                            {/* Delete Form */}
                             <Modal.Window name='delete'>
                                 <ConfirmDelete type='user' disabled={isDeleting} onAction={() => deleteUser(user._id)} />
                             </Modal.Window>
