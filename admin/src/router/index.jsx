@@ -29,7 +29,7 @@ export default function Router() {
         },
         {
           path: "reports",
-          element: <h1 className={`title ${isDark && 'text-slate-50'}`}>Reports</h1>,
+          element: <h1 className={`title dark:text-slate-50`}>Reports</h1>,
         },
       ]
     },

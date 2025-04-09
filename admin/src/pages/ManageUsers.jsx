@@ -2,6 +2,7 @@ import CreateBtn from '../components/dashboard/btns/CreateBtn';
 import Title from '../components/dashboard/Title';
 import Modal from '../components/dashboard/modals/Modal'
 import UserModal from '../components/dashboard/modals/UserModal';
+import UserTable from '../features/user/UserTable'
 
 export default function ManageUsers() {
     return (
@@ -16,11 +17,11 @@ export default function ManageUsers() {
                     </Modal.Open>
 
                     <Modal.Window name={'create-user'} width='450px'>
-                        {/* <ConfirmLogout /> */}
                         <UserModal />
                     </Modal.Window>
                 </Modal>
             </div>
+            <UserTable />
         </section>
     );
 }

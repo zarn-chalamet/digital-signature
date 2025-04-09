@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useReducer } from "react"
+import { createContext, useEffect, useReducer } from "react"
 
 export const ThemeContext = createContext()
 
@@ -19,6 +19,17 @@ const themeReducer = (state, action) => {
 
 export default function ThemeContextProvider({ children }) {
     const [{ theme }, dispatch] = useReducer(themeReducer, initialState)
+
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark')
+            document.documentElement.classList.remove('light')
+        }
+        else {
+            document.documentElement.classList.remove('dark')
+            document.documentElement.classList.add('light')
+        }
+    }, [theme])
 
     const changeTheme = (theme) => {
         dispatch({ type: 'theme/changed', payload: theme })

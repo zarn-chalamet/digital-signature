@@ -4,16 +4,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createUserFormFieldSchema } from "../../../utils/zSchema";
 import { cn } from "../../../utils/cn";
-import api from "../../../utils/api";
-import { useDispatch } from 'react-redux';
-import { createUser, updateUserInfo } from "../../../features/user/userSlice";
 import { UserCog, UserPlus } from "lucide-react";
-import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast"
+import useCreateUser from "../../../features/user/useCreateUser";
+import useEditUser from "../../../features/user/useEditUser";
 
 export default function UserModal({ user = {}, onCloseModal }) {
-    const { accessToken } = useAuth()
-    const dispatch = useDispatch()
+    const { createUser: createUserApi, isCreating } = useCreateUser()
+    const { editUser, isEditing } = useEditUser()
+
     const [isEdit, setIsEdit] = useState(false)
     const [pPic, setPpic] = useState('')
     const [preview, setPreview] = useState('')
@@ -21,6 +20,8 @@ export default function UserModal({ user = {}, onCloseModal }) {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(createUserFormFieldSchema)
     })
+
+    const isWorking = isSubmitting || isCreating || isEditing
 
     //? Data popoulation on edit
     useEffect(() => {
@@ -51,44 +52,33 @@ export default function UserModal({ user = {}, onCloseModal }) {
 
         if (isEdit) {
             pPic ? formData.append('image', pPic) : formData.append('image', user.image);
-            try {
-                const res = await api.post(`/api/admin/update-user/${user._id}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-
-                if (res.data.success) {
-                    dispatch(updateUserInfo(user._id, res.data.user))
-                    toast.success('User updated successfully')
+            editUser({ userId: user._id, userData: formData }, {
+                onSuccess: () => {
+                    onCloseModal?.()
+                    reset({
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        password: ''
+                    })
                 }
-
-            } catch (err) {
-                console.error("Error updating user:", err);
-                toast.error('Something went wrong')
-            }
+            })
         }
         else {
             if (pPic) {
                 formData.append('image', pPic);
             }
-            try {
-                const res = await api.post('/api/admin/add-user', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-
-                if (res.data.success) {
-                    //? client side update
-                    dispatch(createUser(res.data.user))
-                    toast.success('User created successfully')
+            createUserApi(formData, {
+                onSuccess: () => {
+                    onCloseModal?.()
+                    reset({
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        password: ''
+                    })
                 }
-            } catch (err) {
-                console.error("Error creating user:", err);
-                toast.error('Something went wrong')
-            }
+            })
         }
     };
 
@@ -111,7 +101,6 @@ export default function UserModal({ user = {}, onCloseModal }) {
     }, [pPic])
 
     return (
-
         <>
             <h2 className="flex items-center gap-2 pb-4 mb-4 text-xl font-bold text-indigo-700 border-b border-slate-300">
                 {isEdit ? <UserCog /> : <UserPlus />}
@@ -122,7 +111,7 @@ export default function UserModal({ user = {}, onCloseModal }) {
                     <div className="flex flex-col w-1/2 space-y-1">
                         <label className="text-sm" htmlFor="">First Name <span className="text-red-600">*</span></label>
                         <input
-                            disabled={isSubmitting}
+                            disabled={isWorking}
                             {...register('first_name')}
                             type="text"
                             placeholder="First Name"
@@ -133,7 +122,7 @@ export default function UserModal({ user = {}, onCloseModal }) {
                     <div className="flex flex-col w-1/2 space-y-1">
                         <label className="text-sm" htmlFor="">Last Name <span className="text-red-600">*</span></label>
                         <input
-                            disabled={isSubmitting}
+                            disabled={isWorking}
                             {...register('last_name')}
                             type="text"
                             placeholder="Last Name"
@@ -145,7 +134,7 @@ export default function UserModal({ user = {}, onCloseModal }) {
                 <div className="flex flex-col space-y-1">
                     <label className="text-sm" htmlFor="">Email <span className="text-red-600">*</span></label>
                     <input
-                        disabled={isSubmitting}
+                        disabled={isWorking}
                         {...register('email')}
                         type="email"
                         placeholder="Email"
@@ -156,7 +145,7 @@ export default function UserModal({ user = {}, onCloseModal }) {
                 <div className="flex flex-col space-y-1">
                     <label className="text-sm" htmlFor="">Password <span className="text-red-600">*</span></label>
                     <input
-                        disabled={isSubmitting}
+                        disabled={isWorking}
                         {...register('password')}
                         type="password"
                         placeholder="Password"
@@ -168,7 +157,7 @@ export default function UserModal({ user = {}, onCloseModal }) {
                     <label className="text-sm" htmlFor="">Profile Image <span className="text-red-600"></span></label>
                     <div className="flex items-center justify-between">
                         <input
-                            disabled={isSubmitting}
+                            disabled={isWorking}
                             onChange={onHandleFileChange}
                             type="file"
                             className=""
@@ -178,7 +167,7 @@ export default function UserModal({ user = {}, onCloseModal }) {
                 </div>
                 <div className="flex justify-end gap-3 pt-2">
                     <button
-                        disabled={isSubmitting}
+                        disabled={isWorking}
                         type="button"
                         onClick={onCloseModal}
                         className="px-4 py-2 text-gray-600 transition-all duration-200 bg-gray-200 rounded-md disabled:cursor-not-allowed hover:bg-gray-300"
@@ -186,11 +175,11 @@ export default function UserModal({ user = {}, onCloseModal }) {
                         Cancel
                     </button>
                     <button
-                        disabled={isSubmitting}
+                        disabled={isWorking}
                         type="submit"
                         className="px-4 py-2 text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:cursor-not-allowed disabled:bg-gray-300 hover:bg-indigo-700"
                     >
-                        {isSubmitting ? isEdit ? 'Updating...' : 'Creating...' : isEdit ? 'Update' : 'Create'}
+                        {isWorking ? isEdit ? 'Updating...' : 'Creating...' : isEdit ? 'Update' : 'Create'}
                     </button>
                 </div>
             </form>

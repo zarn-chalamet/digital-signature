@@ -8,7 +8,7 @@ export const getUserLists = async (accessToken) => {
                 Authorization: `Bearer ${accessToken}`
             }
         })
-        return data
+        return data.users
     }
     catch (err) {
         toast.err(err.message)
@@ -40,5 +40,36 @@ export const deleteUser = async ({ accessToken, userId }) => {
     } catch (err) {
         toast.err(err.message)
         console.error("Delete user failed:", err);
+    }
+}
+
+export const createNewUser = async (newUser) => {
+    try {
+        const { data } = await api.post('/api/admin/add-user', newUser, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        return data.user
+    } catch (err) {
+        console.error("Error creating user:", err);
+        toast.error('Something went wrong')
+    }
+}
+
+export const editUser = async ({ accessToken, userId, userData }) => {
+    try {
+        const { data } = await api.post(`/api/admin/update-user/${userId}`, userData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+        return data.user
+
+    } catch (err) {
+        console.error("Error updating user:", err);
+        toast.error('Something went wrong')
     }
 }
