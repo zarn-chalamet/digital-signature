@@ -1,27 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
 import { ChevronsLeft } from 'lucide-react';
-import useAuth from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-
 import useTheme from '../../hooks/useTheme';
 import { cn } from '../../utils/cn';
-import LogoutModal from './modals/LogoutModal';
-import LogoutBtn from './btns/LogoutBtn';
 import ThemeToggleBtn from './btns/ThemeToggleBtn';
 import Avatar from './Avatar';
+import Modal from './modals/Modal';
+import ConfrimLogout from './modals/ConfrimLogout';
+import LogoutBtn from './btns/LogoutBtn';
 
 export default function Header({ collapsed, setCollapsed }) {
-
     const { isDark } = useTheme();
-    const { dispatch } = useAuth();
-    const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
-
-    const onHandleLogout = () => {
-        dispatch({ type: 'auth/logout' });
-        navigate('/login', { replace: true });
-    };
 
     return (
         <>
@@ -34,14 +22,23 @@ export default function Header({ collapsed, setCollapsed }) {
                         <ChevronsLeft className={`${collapsed && 'rotate-180'}`} />
                     </button>
                 </div>
-                <div className="flex items-center gap-x-3">
-                    <ThemeToggleBtn />
-                    <Avatar />
-                    <LogoutBtn setShowModal={setShowModal} />
-                </div>
-            </header>
+                <Modal>
+                    <div className="flex items-center gap-x-3">
+                        <ThemeToggleBtn />
+                        <Avatar />
 
-            {showModal && <LogoutModal setShowModal={setShowModal} onHandleLogout={onHandleLogout} />}
+                        <Modal.Open opens={'logout'}>
+                            <div>
+                                <LogoutBtn />
+                            </div>
+                        </Modal.Open>
+
+                        <Modal.Window name={'logout'}>
+                            <ConfrimLogout />
+                        </Modal.Window>
+                    </div>
+                </Modal>
+            </header>
         </>
     );
 }

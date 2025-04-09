@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import api from "../../../utils/api";
 import useAuth from "../../../hooks/useAuth";
 import { useDispatch } from 'react-redux';
-import { createTemplate } from "../../../features/templateSlice";
+import { createTemplate } from "../../../features/template/templateSlice";
 
 export default function UploadTemplateModal({ setShowModal }) {
     const { accessToken } = useAuth()

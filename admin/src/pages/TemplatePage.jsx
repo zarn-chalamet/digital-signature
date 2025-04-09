@@ -5,7 +5,7 @@ import useAuth from '../hooks/useAuth'
 import { useDispatch, useSelector } from 'react-redux';
 import toast from "react-hot-toast"
 import api from '../utils/api'
-import { deleteTemplate, getTemplates, setTemplates } from '../features/templateSlice'
+import { deleteTemplate, getTemplates, setTemplates } from '../features/template/templateSlice'
 import { ImageMinus, MoreVertical } from "lucide-react";
 import MoreTemplateModal from "../components/dashboard/modals/MoreTemplateModal";
 import UploadTemplateModal from "../components/dashboard/modals/UploadTemplateModal";
@@ -46,7 +46,7 @@ export default function TemplatePage() {
                 }
             })
             dispatch(deleteTemplate(templateId))
-            
+
             toast.success(res.data.message)
         }
         catch (err) {

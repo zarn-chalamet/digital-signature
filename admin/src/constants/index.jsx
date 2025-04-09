@@ -6,7 +6,7 @@ export const navbarLinks = [
             {
                 label: "Manage Users",
                 icon: UserCog,
-                path: "/",
+                path: "/manage-users",
             },
             {
                 label: "Template",
