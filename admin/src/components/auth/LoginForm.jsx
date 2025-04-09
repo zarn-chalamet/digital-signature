@@ -2,20 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { cn } from "../../utils/cn"
 import { useForm } from "react-hook-form"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
-import useAuth from "../../hooks/useAuth"
-import api from "../../utils/api"
-import useTheme from "../../hooks/useTheme"
 import { LogInFormFieldsSchema } from "../../utils/zSchema"
-import toast from "react-hot-toast"
-
-const backendUrl = import.meta.env.VITE_BACKEND_URL
+import useLogin from "../../features/user/useLogin"
 
 export default function LoginForm() {
-    const { isDark } = useTheme()
-    const { dispatch } = useAuth()
-    const navigate = useNavigate()
+    const { logInUser, isLoggingIn } = useLogin()
     const [isVisible, setIsVisible] = useState(false)
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
@@ -26,35 +17,22 @@ export default function LoginForm() {
         resolver: zodResolver(LogInFormFieldsSchema)
     })
 
+    const isWorking = isSubmitting || isLoggingIn
+
     /**
      * @TODO: Implement login
      */
     const onHandleSubmitForm = async (data) => {
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            const res = await api.post(backendUrl + "/api/admin/login", { email: data.email, password: data.password })
-            if (res.data.success) {
-                toast.success('Logged in successfully.')
-                localStorage.setItem('accessToken', res.data.token)
-                dispatch({ type: 'auth/login', payload: res.data.token })
-                navigate('/', { replace: true })
-            }
-        }
-        catch (err) {
-            console.log('Error: ', err)
-            if (axios.isAxiosError(err)) {
-                console.log('Error Response: ', err.response)
-                toast.error(err.response.data.message)
-            }
-        }
+        logInUser({ email: data.email, password: data.password })
     }
     return (
-        <form onSubmit={handleSubmit(onHandleSubmitForm)} className={cn('relative w-full max-w-sm p-6 space-y-6 bg-white rounded-lg md:w-1/2', isDark && 'bg-slate-900')}>
-            <h2 className={cn('text-xl font-medium text-black md:text-2xl', isDark && 'text-slate-50')}>SignIn Here</h2>
+        <form onSubmit={handleSubmit(onHandleSubmitForm)} className={cn('relative w-full max-w-sm p-6 space-y-6 bg-white rounded-lg md:w-1/2 dark:bg-slate-900')}>
+            <h2 className={cn('text-xl font-medium text-black md:text-2xl dark:text-slate-50')}>SignIn Here</h2>
 
             {/* Email */}
             <div>
                 <input
+                    disabled={isWorking}
                     {...register('email')}
                     type="text"
                     placeholder="Enter email or user name"
@@ -68,6 +46,7 @@ export default function LoginForm() {
             {/* Password */}
             <div className="relative">
                 <input
+                    disabled={isWorking}
                     {...register('password')}
                     type={isVisible ? "text" : "password"}
                     placeholder="Password"
@@ -84,22 +63,22 @@ export default function LoginForm() {
             </div>
 
             {/* Forgot Password */}
-            <div className="text-right">
+            {/* <div className="text-right">
                 <span className="text-sm text-gray-400 transition-colors cursor-pointer hover:text-gray-700 druation-300">
                     Forgot password?
                 </span>
-            </div>
+            </div> */}
 
             {/* Login Button */}
             <button
-                disabled={isSubmitting}
+                disabled={isWorking}
                 type='submit'
-                className={cn("flex items-center justify-center w-full py-3 mb-24 text-white transition-colors duration-300 rounded-lg bg-primary hover:bg-red-700", isSubmitting && "cursor-not-allowed")}>
-                {isSubmitting && <svg className="mr-3 -ml-1 text-white size-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>}
-                {isSubmitting ? 'Signing in...' : 'Sign in'}
+                className={cn("flex items-center justify-center w-full py-3 mb-24 text-white transition-colors duration-300 rounded-lg bg-primary hover:bg-red-700", isWorking && "cursor-not-allowed")}>
+                {isWorking && <svg className="mr-3 -ml-1 text-white size-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>}
+                {isWorking ? 'Signing in...' : 'Sign in'}
             </button>
 
-            <p className={cn('max-w-xs text-center lg:hidden', isDark && 'text-slate-50')}>
+            <p className={cn('max-w-xs text-center lg:hidden dark:text-slate-50')}>
                 If you don’t have an account register, <strong className='text-primary'>You can Contact the IT department!</strong>
             </p>
         </form>
