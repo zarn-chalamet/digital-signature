@@ -1,4 +1,3 @@
-import React from 'react'
 import { useContext } from 'react'
 import { AppContext } from '../context-api/AppContext'
 import { useEffect } from 'react';
@@ -96,19 +95,19 @@ export default function Template() {
   return (
     <>
       <div>Template</div>
-      <button className='bg-blue-400 px-2 py-1 rounded-md' onClick={() => setModalIsOpen(true)}>+ Upload</button>
+      <button className='px-2 py-1 bg-blue-400 rounded-md' onClick={() => setModalIsOpen(true)}>+ Upload</button>
       {/* Templates */}
       <div className="grid grid-cols-3 gap-4 mt-4">
         {templates &&
           templates.map((template, index) => (
-            <div key={index} className="border rounded-lg shadow-md p-3 text-center">
+            <div key={index} className="p-3 text-center border rounded-lg shadow-md">
               {/* Template Image */}
-              <div className="h-40 flex justify-center items-center bg-gray-100 rounded">
+              <div className="flex items-center justify-center h-40 bg-gray-100 rounded">
                 {template.filePath ? (
                   <img 
                     src={pdfPhoto} 
                     alt={template.title} 
-                    className="h-full object-cover"
+                    className="object-cover h-full"
                   />
                 ) : (
                   <p className="text-gray-500">No Preview</p>
@@ -119,11 +118,11 @@ export default function Template() {
               <p className="mt-2 font-semibold">{template.title}</p>
 
               {/* Buttons */}
-              <div className="mt-2 flex justify-between">
+              <div className="flex justify-between mt-2">
                 <button
                   onClick={()=>{}}
                   // onClick={() => showPdf(template.filePath)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                  className="px-3 py-1 text-sm text-white bg-blue-500 rounded"
                 >
                   View
                 </button>
@@ -133,13 +132,13 @@ export default function Template() {
                     setNewTitle(template.title);
                     setModalRenameIsOpen(true);
                   }}
-                  className="px-3 py-1 bg-yellow-500 text-white rounded text-sm"
+                  className="px-3 py-1 text-sm text-white bg-yellow-500 rounded"
                 >
                   Rename
                 </button>
                 <button
                   onClick={() => deleteTemplate(template._id)}
-                  className="px-3 py-1 bg-red-500 text-white rounded text-sm"
+                  className="px-3 py-1 text-sm text-white bg-red-500 rounded"
                 >
                   Delete
                 </button>
@@ -153,7 +152,7 @@ export default function Template() {
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
         contentLabel="Create New User"
-        className="bg-white p-5 rounded-lg shadow-lg max-w-md mx-auto mt-20"
+        className="max-w-md p-5 mx-auto mt-20 bg-white rounded-lg shadow-lg"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
         <h2 className="text-xl font-bold">Upload new template</h2>
@@ -162,7 +161,7 @@ export default function Template() {
         <label>Template Title</label>
         <input
           type="text"
-          className="border p-2 w-full mb-3"
+          className="w-full p-2 mb-3 border"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -171,7 +170,7 @@ export default function Template() {
         <input
           type="file"
           id='file_upload'
-          className="border p-2 w-full mb-3"
+          className="w-full p-2 mb-3 border"
           accept='application/pdf'
           required
           onChange={e=>setFile(e.target.files[0])}
@@ -180,13 +179,13 @@ export default function Template() {
         <label htmlFor="is_public">Make this template public</label>
         <input type="checkbox" checked={isPublic}
         onChange={e => setIsPublic(e.target.checked)}  />
-          <button type="submit" onClick={uploadNewTemplate} className="px-4 py-2 bg-blue-500 text-white rounded">
+          <button type="submit" onClick={uploadNewTemplate} className="px-4 py-2 text-white bg-blue-500 rounded">
             Add template
           </button>
           <button
             type="button"
             onClick={() => setModalIsOpen(false)}
-            className="ml-3 px-4 py-2 bg-gray-500 text-white rounded"
+            className="px-4 py-2 ml-3 text-white bg-gray-500 rounded"
           >
             Close
           </button>
@@ -198,7 +197,7 @@ export default function Template() {
         isOpen={modalRenameIsOpen}
         onRequestClose={() => setModalRenameIsOpen(false)}
         contentLabel="Create New User"
-        className="bg-white p-5 rounded-lg shadow-lg max-w-md mx-auto mt-20"
+        className="max-w-md p-5 mx-auto mt-20 bg-white rounded-lg shadow-lg"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
         <h2 className="text-xl font-bold">File Rename</h2>
@@ -207,19 +206,19 @@ export default function Template() {
         <label>Enter new name</label>
         <input
           type="text"
-          className="border p-2 w-full mb-3"
+          className="w-full p-2 mb-3 border"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
         />
 
 
-          <button type="submit" onClick={ updateNewTitle} className="px-4 py-2 bg-blue-500 text-white rounded">
+          <button type="submit" onClick={ updateNewTitle} className="px-4 py-2 text-white bg-blue-500 rounded">
             Save
           </button>
           <button
             type="button"
             onClick={() => setModalRenameIsOpen(false)}
-            className="ml-3 px-4 py-2 bg-gray-500 text-white rounded"
+            className="px-4 py-2 ml-3 text-white bg-gray-500 rounded"
           >
             Cancel
           </button>

@@ -2,7 +2,7 @@
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import RenameTemplateModal from "./RenameTemplateModal";
-import DeleteModal from "./DeleteModal";
+// import DeleteModal from "./DeleteModal";
 
 export default function MoreTemplateModal({ template, setShowModal, onAction }) {
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
@@ -32,7 +32,7 @@ export default function MoreTemplateModal({ template, setShowModal, onAction }) 
                 }} />
             }
             {
-                isOpenDeleteModal && <DeleteModal type={'template'} onCancel={() => setIsOpenDeleteModal(false)} onAction={() => onAction(template._id)}/>
+                {/* isOpenDeleteModal && <DeleteModal type={'template'} onCancel={() => setIsOpenDeleteModal(false)} onAction={() => onAction(template._id)}/> */}
             }
         </>
     )
