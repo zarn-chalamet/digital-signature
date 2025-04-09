@@ -1,5 +1,5 @@
-import Branding from '../components/auth/Branding'
-import LoginForm from '../components/auth/LoginForm'
+import Branding from '../features/auth/Branding'
+import LoginForm from '../features/auth/LoginForm'
 
 export default function LoginPage() {
 

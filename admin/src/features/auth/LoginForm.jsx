@@ -3,7 +3,7 @@ import { useState } from "react"
 import { cn } from "../../utils/cn"
 import { useForm } from "react-hook-form"
 import { LogInFormFieldsSchema } from "../../utils/zSchema"
-import useLogin from "../../features/user/useLogin"
+import useLogin from "./useLogin"
 
 export default function LoginForm() {
     const { logInUser, isLoggingIn } = useLogin()

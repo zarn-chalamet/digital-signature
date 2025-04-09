@@ -5,10 +5,8 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { useClickOutside } from "../hooks/useClickOutside";
 import Sidebar from "../components/dashboard/Sidebar";
 import Header from "../components/dashboard/Header";
-import useTheme from "../hooks/useTheme";
 
 export default function DashboardLayout() {
-    const { isDark } = useTheme()
     const isDesktopDevice = useMediaQuery("(min-width: 768px)");
     const [collapsed, setCollapsed] = useState(!isDesktopDevice);
 
@@ -24,16 +22,6 @@ export default function DashboardLayout() {
             setCollapsed(true);
         }
     });
-
-    //? Toggle Theme
-    useEffect(() => {
-        if (isDark) {
-            document.body.classList.add('bg-slate-950')
-        }
-        else {
-            document.body.classList.remove('bg-slate-950')
-        }
-    }, [isDark])
 
     return (
         <div className="min-h-screen transition-colors ">
