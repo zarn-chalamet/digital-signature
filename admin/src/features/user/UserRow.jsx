@@ -41,7 +41,7 @@ export default function UserRow({ user, index }) {
 
                             {/* Edit Form */}
                             <Modal.Window name='edit-form'>
-                                <CreateEditUserModal user={user} />
+                                <CreateEditUserModal userToEdit={user} />
                             </Modal.Window>
 
                             {/* Delete Form */}

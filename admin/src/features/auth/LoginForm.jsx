@@ -22,16 +22,17 @@ export default function LoginForm() {
     /**
      * @TODO: Implement login
      */
-    const onHandleSubmitForm = async (data) => {
+    const onHandleSubmitForm = (data) => {
         logInUser({ email: data.email, password: data.password })
     }
     return (
-        <form onSubmit={handleSubmit(onHandleSubmitForm)} className={cn('relative w-full max-w-sm p-6 space-y-6 bg-white rounded-lg md:w-1/2 dark:bg-slate-900')}>
-            <h2 className={cn('text-xl font-medium text-black md:text-2xl dark:text-slate-50')}>SignIn Here</h2>
+        <form onSubmit={handleSubmit(onHandleSubmitForm)} className='relative w-full max-w-sm p-6 space-y-6 bg-white rounded-lg md:w-1/2 dark:bg-slate-900'>
+            <h2 className='text-xl font-medium text-black md:text-2xl dark:text-slate-50'>SignIn Here</h2>
 
             {/* Email */}
             <div>
                 <input
+                    id="email"
                     disabled={isWorking}
                     {...register('email')}
                     type="text"
@@ -46,6 +47,7 @@ export default function LoginForm() {
             {/* Password */}
             <div className="relative">
                 <input
+                    id="password"
                     disabled={isWorking}
                     {...register('password')}
                     type={isVisible ? "text" : "password"}
@@ -78,7 +80,7 @@ export default function LoginForm() {
                 {isWorking ? 'Signing in...' : 'Sign in'}
             </button>
 
-            <p className={cn('max-w-xs text-center lg:hidden dark:text-slate-50')}>
+            <p className='max-w-xs text-center lg:hidden dark:text-slate-50'>
                 If you don’t have an account register, <strong className='text-primary'>You can Contact the IT department!</strong>
             </p>
         </form>

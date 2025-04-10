@@ -24,7 +24,6 @@ const Toggle = ({ id }) => {
     const { openId, close, open, setPosition } = useContext(MenuContext)
 
     const handleClick = (e) => {
-        console.log(id)
         //!
         e.stopPropagation()
         const rect = e.target.closest('button').getBoundingClientRect()
