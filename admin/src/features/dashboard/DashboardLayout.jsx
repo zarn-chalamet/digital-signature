@@ -6,8 +6,12 @@ import Stat from "./Stat";
 import StatusChart from "./StatusChart";
 import TodayActivity from "./TodayActivity";
 import { useSearchParams } from "react-router-dom";
+import useUserLists from '../user/useUserLists'
+import useAllTemplates from '../template/useAllTemplates'
 
 export default function DashboardLayout() {
+    const { userLists } = useUserLists()
+    const { templates } = useAllTemplates()
     const [searchParams] = useSearchParams()
 
     const filterValue = Number(searchParams.get('last')) || 7
@@ -25,8 +29,8 @@ export default function DashboardLayout() {
                 <DashboardFilter />
             </div>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                <Stat label={'Users'} value={453} icon={Users2Icon} color={'text-blue-500'} />
-                <Stat label={'Templates'} value={120} icon={NotepadText} color={'text-orange-500'} />
+                <Stat label={'Users'} value={userLists?.length} icon={Users2Icon} color={'text-blue-500'} />
+                <Stat label={'Templates'} value={templates?.length} icon={NotepadText} color={'text-orange-500'} />
                 <Stat label={'Requests'} value={checkPoint(filterValue)?.req} icon={Flag} color={'text-yellow-500'} />
                 <Stat label={'Fullfillment Rate'} value={checkPoint(filterValue)?.rate} icon={FileCheck} color={'text-green-600'} />
             </div>
