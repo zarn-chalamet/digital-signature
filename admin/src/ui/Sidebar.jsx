@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/utils/cn'
 import logoImage from '@/assets/logo.png'
-import { navbarLinks } from '@/constants/index';
+import { navbarLinks } from '@/utils/constants';
 import useTheme from '@/hooks/useTheme';
 
 const Sidebar = forwardRef(({ collapsed }, ref) => {

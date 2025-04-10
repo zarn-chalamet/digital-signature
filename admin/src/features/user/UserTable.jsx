@@ -1,4 +1,4 @@
-import { tableHeaders } from "@/constants";
+import { tableHeaders } from "@/utils/constants";
 import Menus from "@/ui/Menus";
 import Spinner from "@/ui/Spinner";
 import Table from '@/ui/Table'
