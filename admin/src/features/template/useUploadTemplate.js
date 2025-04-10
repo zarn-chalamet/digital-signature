@@ -9,8 +9,8 @@ const useUploadTemplate = () => {
 
     const { mutate: uploadTemplate, isPending: isUploading } = useMutation({
         mutationFn: (newTemplateData) => uploadNewTemplate({ accessToken, newTemplateData }),
-        onSuccess: () => {
-            toast.success('Template Successfully uploaded.')
+        onSuccess: (data) => {
+            toast.success(data.message)
             queryClient.invalidateQueries({ queryKey: ['templates'] })
         },
         onError: () => {

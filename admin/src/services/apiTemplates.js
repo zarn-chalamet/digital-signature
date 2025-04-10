@@ -4,7 +4,6 @@ import toast from 'react-hot-toast'
 export const getAllTemplates = async () => {
     try {
         let { data } = await api.get('/api/admin/templates')
-
         return data.templates
     }
     catch (err) {
@@ -22,7 +21,7 @@ export const uploadNewTemplate = async ({ accessToken, newTemplateData }) => {
             }
         })
 
-        return data.template
+        return data
     } catch (error) {
         toast.error(error.message)
     }
@@ -36,7 +35,23 @@ export const deleteTemplate = async ({ accessToken, templateId }) => {
             }
         })
 
-        return data
+        return data.message
+    }
+    catch (err) {
+        console.log(err.message)
+        toast.error(err.message)
+    }
+}
+
+export const renameTemplate = async ({ accessToken, templateId, newTitle }) => {
+    try {
+        let { data } = await api.post('/api/admin/rename-template', { templateId, newTitle }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+
+        return data.message
     }
     catch (err) {
         console.log(err.message)

@@ -9,8 +9,8 @@ const useDeleteTemplate = () => {
 
     const { mutate: deleteTemplate, isPending: isDeleting } = useMutation({
         mutationFn: (templateId) => deleteTemplateApi({ accessToken, templateId }),
-        onSuccess: () => {
-            toast.success('Template successfully deleted.')
+        onSuccess: (message) => {
+            toast.success(message)
             queryClient.invalidateQueries({ queryKey: ['templates'] })
         },
         onError: () => {
