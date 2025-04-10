@@ -9,8 +9,8 @@ const useDeleteUser = () => {
 
     const { mutate: deleteUser, isPending: isDeleting } = useMutation({
         mutationFn: (userId) => deleteUserApi({ accessToken, userId }),
-        onSuccess: () => {
-            toast.success("User deleted successfully")
+        onSuccess: (message) => {
+            toast.success(message)
             queryClient.invalidateQueries(["user-lists"])
         },
         onError: () => {

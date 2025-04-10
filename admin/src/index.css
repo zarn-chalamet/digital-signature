@@ -76,7 +76,7 @@
     }
 
     .toggle-btn{
-        @apply transition-all duration-200 transform translate-x-3 border-0 rounded-sm bg-none hover:bg-gray-100 dark:hover:bg-slate-700
+        @apply transition-all duration-200 transform translate-x-3 border-0 rounded-sm bg-none 
     }
 }
 

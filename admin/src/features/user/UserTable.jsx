@@ -10,6 +10,8 @@ export default function UserTable() {
 
     if (usersLoading) return <Spinner />
 
+    if (!userLists.length) return <h1>No</h1>
+
     return (
         <div className='card'>
             <div className="card-header">

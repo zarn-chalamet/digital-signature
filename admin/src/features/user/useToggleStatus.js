@@ -9,8 +9,8 @@ const useToggleStatus = () => {
 
     const { mutate: toggleStatus, isPending: isToggling } = useMutation({
         mutationFn: (userId) => toggleUserStatus({ accessToken, userId }),
-        onSuccess: () => {
-            toast.success("User status updated")
+        onSuccess: (message) => {
+            toast.success(message)
             queryClient.invalidateQueries({ queryKey: ['user-lists'] })
         },
         onError: () => {

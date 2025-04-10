@@ -73,7 +73,7 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
 
     return (
         <>
-            <h2 className="flex items-center gap-2 pb-4 mb-4 text-xl font-bold text-indigo-700 border-b border-slate-300">
+            <h2 className="flex items-center gap-2 pb-4 mb-4 text-xl font-bold text-indigo-700 border-b dark:border-b-slate-700 border-slate-300">
                 {isEditSession ? <UserCog /> : <UserPlus />}
                 <span>{isEditSession ? "Edit User" : "Create User"}</span>
             </h2>
@@ -87,9 +87,14 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                             {...register('first_name')}
                             type="text"
                             placeholder="First Name"
-                            className={cn(errors.first_name ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
+                            className={cn(
+                                'w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 dark:bg-slate-700',
+                                errors.first_name
+                                    ? 'border-red-600 dark:border-red-600 focus:border-red-500 dark:focus:border-red-600'
+                                    : 'border-slate-300 dark:border-slate-500 focus:border-indigo-500 dark:focus:border-indigo-500'
+                            )}
                         />
-                        {errors.first_name && <span className="text-xs italic text-red-500">{errors.first_name.message}</span>}
+                        {errors.first_name && <span className="text-xs italic text-red-600">{errors.first_name.message}</span>}
                     </div>
                     <div className="flex flex-col w-1/2 space-y-1">
                         <label className="text-sm" htmlFor="last_name">Last Name <span className="text-red-600">*</span></label>
@@ -99,9 +104,14 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                             {...register('last_name')}
                             type="text"
                             placeholder="Last Name"
-                            className={cn(errors.last_name ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
+                            className={cn(
+                                'w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 dark:bg-slate-700',
+                                errors.last_name
+                                    ? 'border-red-600 dark:border-red-600 focus:border-red-500 dark:focus:border-red-600'
+                                    : 'border-slate-300 dark:border-slate-500 focus:border-indigo-500 dark:focus:border-indigo-500'
+                            )}
                         />
-                        {errors.last_name && <span className="text-xs italic text-red-500">{errors.last_name.message}</span>}
+                        {errors.last_name && <span className="text-xs italic text-red-600">{errors.last_name.message}</span>}
                     </div>
                 </div>
                 <div className="flex flex-col space-y-1">
@@ -112,7 +122,12 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                         {...register('email')}
                         type="email"
                         placeholder="Email"
-                        className={cn(errors.email ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
+                        className={cn(
+                            'w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 dark:bg-slate-700',
+                            errors.email
+                                ? 'border-red-600 dark:border-red-600 focus:border-red-500 dark:focus:border-red-600'
+                                : 'border-slate-300 dark:border-slate-500 focus:border-indigo-500 dark:focus:border-indigo-500'
+                        )}
                     />
                     {errors.email && <span className="text-xs italic text-red-500">{errors.email.message}</span>}
                 </div>
@@ -124,9 +139,14 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                         {...register('password')}
                         type="password"
                         placeholder="Password"
-                        className={cn(errors.password ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
+                        className={cn(
+                            'w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 dark:bg-slate-700',
+                            errors.password
+                                ? 'border-red-600 dark:border-red-600 focus:border-red-500 dark:focus:border-red-600'
+                                : 'border-slate-300 dark:border-slate-500 focus:border-indigo-500 dark:focus:border-indigo-500'
+                        )}
                     />
-                    {errors.password && <span className="text-xs italic text-red-500">{errors.password.message}</span>}
+                    {errors.password && <span className="text-xs italic text-red-600">{errors.password.message}</span>}
                 </div>
                 <div className="flex flex-col space-y-1">
                     <label className="text-sm" htmlFor="image">Profile Image <span className="text-red-600">*</span></label>
@@ -141,7 +161,7 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                         />
                         {!!preview && <img alt="profile_image" src={preview} className="w-10 h-10 bg-gray-500 rounded-full" />}
                     </div>
-                    {errors.image && <span className="text-xs italic text-red-500">{errors.image.message}</span>}
+                    {errors.image && <span className="text-xs italic text-red-600">{errors.image.message}</span>}
                 </div>
                 <div className="flex justify-end gap-3 pt-2">
                     <button

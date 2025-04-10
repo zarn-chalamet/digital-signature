@@ -18,11 +18,13 @@ export const getUserLists = async (accessToken) => {
 
 export const toggleUserStatus = async ({ accessToken, userId }) => {
     try {
-        await api.post('/api/admin/toggle-restricted', { userId }, {
+        let { data } = await api.post('/api/admin/toggle-restricted', { userId }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         })
+
+        return data.message
     }
     catch (err) {
         toast.err(err.message)
@@ -32,11 +34,13 @@ export const toggleUserStatus = async ({ accessToken, userId }) => {
 
 export const deleteUser = async ({ accessToken, userId }) => {
     try {
-        await api.post(`/api/admin/delete-user/${userId}`, {}, {
+        let { data } = await api.post(`/api/admin/delete-user/${userId}`, {}, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
+
+        return data.message
     } catch (err) {
         toast.err(err.message)
         console.error("Delete user failed:", err);
@@ -66,6 +70,7 @@ export const editUser = async ({ accessToken, userId, userData }) => {
                 Authorization: `Bearer ${accessToken}`,
             },
         })
+
         return data.user
 
     } catch (err) {

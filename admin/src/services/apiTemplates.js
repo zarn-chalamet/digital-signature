@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 export const getAllTemplates = async () => {
     try {
         let { data } = await api.get('/api/admin/templates')
+
         return data.templates
     }
     catch (err) {
@@ -20,6 +21,8 @@ export const uploadNewTemplate = async ({ accessToken, newTemplateData }) => {
                 Authorization: `Bearer ${accessToken}`,
             }
         })
+
+        console.log(data)
 
         return data
     } catch (error) {

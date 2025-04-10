@@ -64,16 +64,21 @@ export default function UploadTemplateModal({ onCloseModal }) {
             <h2 className="flex items-center gap-2 mb-6 text-xl font-bold text-indigo-700">
                 <BookTemplate /><span>Upload new template</span>
             </h2>
-            <form onSubmit={handleSubmit(onHandleUpload)} className="space-y-4">
+            <form onSubmit={handleSubmit(onHandleUpload)} className="space-y-4 dark:text-slate-50">
 
                 <div className="mb-4">
-                    <label htmlFor="title" className="block mb-1 text-sm font-medium text-gray-700">Template Title</label>
+                    <label htmlFor="title" className="block mb-1 text-sm font-medium text-gray-700 dark:text-slate-50">Template Title</label>
                     <input
                         id="title"
                         disabled={isWorking}
                         type="text"
                         {...register('title')}
-                        className={cn(errors.title ? 'border-red-500 focus:border-red-500' : 'focus:border-indigo-500', ' w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0')}
+                        className={cn(
+                            'w-full px-3 py-2 transition-all duration-500 border rounded-md focus:outline-0 dark:bg-slate-700',
+                            errors.title
+                                ? 'border-red-600 dark:border-red-600 focus:border-red-500 dark:focus:border-red-600'
+                                : 'border-slate-300 dark:border-slate-500 focus:border-indigo-500 dark:focus:border-indigo-500'
+                        )}
                         placeholder="Enter template title"
                     />
                     {errors.title && <span className="text-xs italic text-red-500">{errors.title.message}</span>}
@@ -84,10 +89,10 @@ export default function UploadTemplateModal({ onCloseModal }) {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                     onClick={() => inputRef.current.click()}
-                    className="flex flex-col items-center justify-center h-56 mb-4 border border-indigo-300 border-dashed rounded-md cursor-pointer bg-indigo-50"
+                    className="flex flex-col items-center justify-center h-56 mb-4 border border-indigo-300 border-dashed rounded-md cursor-pointer bg-indigo-50 dark:bg-slate-700 dark:text-slate-50"
                 >
                     <FileTextIcon className="mb-2 text-slate-500 size-10" />
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-slate-50r">
                         Drag and drop a PDF file or <span className="text-indigo-600 underline">choose file</span>
                     </p>
                     <input
@@ -116,7 +121,7 @@ export default function UploadTemplateModal({ onCloseModal }) {
                         onChange={(e) => setIsPublic(e.target.checked)}
                         className="w-4 h-4 text-indigo-600 border-gray-300 rounded accent-indigo-700 focus:ring-indigo-500"
                     />
-                    <label htmlFor="isPublic" className="text-sm text-gray-700">Make this public</label>
+                    <label htmlFor="isPublic" className="text-sm text-gray-700 dark:text-slate-50">Make this public</label>
                 </div>
 
                 <div className="flex justify-between">
@@ -124,7 +129,7 @@ export default function UploadTemplateModal({ onCloseModal }) {
                         type="button"
                         disabled={isWorking}
                         onClick={onCloseModal}
-                        className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md disabled:cursor-not-allowed hover:bg-gray-100"
+                        className="px-4 py-2 text-gray-700 transition duration-500 border border-gray-300 rounded-md dark:hover:border-gray-300 dark:hover:text-slate-800 dark:text-slate-50 disabled:cursor-not-allowed hover:bg-gray-100"
                     >
                         Cancel
                     </button>

@@ -3,7 +3,7 @@
 export default function ConfirmDelete({ type, onCloseModal, onAction, disabled }) {
     return (
         <>
-            <div className="flex items-center gap-3 p-4 bg-red-600">
+            <div className="flex items-center gap-3 p-4 bg-red-600 rounded-md">
                 <div className="p-2 bg-white rounded-full">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export default function ConfirmDelete({ type, onCloseModal, onAction, disabled }
                 <h2 className="text-lg font-semibold text-white">Delete {type === 'user' ? 'User Account.' : 'Template File.'}</h2>
             </div>
 
-            <div className="p-6 text-sm text-gray-700">
+            <div className="p-6 text-sm text-gray-700 dark:text-slate-50">
                 <p>{type === 'user' ? 'Are you sure you want to delete this user account?' : 'Are you sure you want to delete this template file?'}</p>
                 <p className="mt-2">
                     If you delete this file, you will permanently lose this data.
@@ -34,7 +34,7 @@ export default function ConfirmDelete({ type, onCloseModal, onAction, disabled }
                 <button
                     disabled={disabled}
                     onClick={onCloseModal}
-                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100"
+                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md dark:hover:text-slate-700 dark:text-slate-50 hover:bg-gray-100"
                 >
                     Cancel
                 </button>

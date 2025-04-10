@@ -21,9 +21,9 @@ export default function TemplatesList() {
                     templates?.map((template, index) => {
                         const fileUrl = `http://localhost:5001/files/${template.filePath}`;
                         return (
-                            <div key={index} className="relative p-4 border rounded-lg bg-slate-50 border-slate-300">
+                            <div key={index} className="relative p-4 border rounded-lg bg-slate-50 dark:bg-slate-900 dark:border-slate-700 border-slate-300">
                                 <Modal>
-                                    <div className="absolute top-6 right-7">
+                                    <div className="absolute z-50 top-6 right-7">
                                         <Menus.Toggle id={template._id} />
                                     </div>
                                     {/* Edit & Delete */}
@@ -48,10 +48,19 @@ export default function TemplatesList() {
                                     </Modal.Window>
 
                                     <div className="cursor-pointer" onClick={() => window.open(fileUrl, "_blank")}>
-                                        <div className="flex items-center justify-center w-full h-64 rounded-lg md:h-44 bg-slate-300">
-                                            <ImageMinus className="text-slate-500 size-8" />
+                                        <div className="flex items-center justify-center w-full h-64 overflow-hidden border rounded-lg md:h-44 bg-slate-300 dark:border-slate-700">
+                                            {fileUrl ? <embed
+                                                src={fileUrl}
+                                                type="application/pdf"
+                                                className="w-full h-full"
+                                                style={{
+                                                    pointerEvents: "none",
+                                                    transform: "scale(1.5)",
+                                                    transformOrigin: "top center",
+                                                }}
+                                            /> : <ImageMinus />}
                                         </div>
-                                        <h3 className="mt-3 text-xl font-semibold text-center">
+                                        <h3 className="mt-3 text-xl font-semibold text-center dark:text-slate-50">
                                             {template.title}
                                         </h3>
                                     </div>
