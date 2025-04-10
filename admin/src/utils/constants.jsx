@@ -5,43 +5,49 @@ export const fakeTodayData = [
         sender: 'Fish',
         receiver: 'Swan',
         status: 'Pending',
-        time: '1 hour ago'
+        time: '1 hour ago',
+        color: 'bg-blue-200',
+        text: 'text-blue-600'
     },
     {
-        sender: 'Fish',
-        receiver: 'Swan',
+        sender: 'Win',
+        receiver: 'Linn',
         status: 'Pending',
-        time: '1 hour ago'
+        time: '1 hour ago',
+        color: 'bg-blue-200',
+        text: 'text-blue-600'
     },
     {
-        sender: 'Fish',
-        receiver: 'Swan',
-        status: 'Pending',
-        time: '1 hour ago'
+        sender: 'Zarni',
+        receiver: 'Min',
+        status: 'Success',
+        time: '1 hour ago',
+        color: 'bg-green-200',
+        text: 'text-green-600'
     },
     {
-        sender: 'Fish',
-        receiver: 'Swan',
-        status: 'Pending',
-        time: '1 hour ago'
+        sender: 'Myat',
+        receiver: 'Phyoe',
+        status: 'Fail',
+        time: '2 hour ago',
+        color: 'bg-red-200',
+        text: 'text-red-600'
     },
     {
-        sender: 'Fish',
-        receiver: 'Swan',
-        status: 'Pending',
-        time: '1 hour ago'
+        sender: 'Sai',
+        receiver: 'George',
+        status: 'Success',
+        time: '2 hour ago',
+        color: 'bg-green-200',
+        text: 'text-green-600'
     },
     {
-        sender: 'Fish',
-        receiver: 'Swan',
+        sender: 'Zoe',
+        receiver: 'Yoe',
         status: 'Pending',
-        time: '1 hour ago'
-    },
-    {
-        sender: 'Fish',
-        receiver: 'Swan',
-        status: 'Pending',
-        time: '1 hour ago'
+        time: '3 hour ago',
+        color: 'bg-blue-200',
+        text: 'text-blue-600'
     },
 ]
 

@@ -8,7 +8,7 @@ export default function TodayActivity() {
                 {
                     fakeTodayData.map((data, index) => (
                         <div key={index} className="flex items-center justify-between px-2 py-3 border-b dark:border-slate-700 last:border-b-0 dark:text-slate-50">
-                            <span className="px-2 text-xs font-bold text-blue-600 bg-blue-200 rounded-full">{data.status}</span>
+                            <span className={`px-2 text-xs font-bold ${data.text} ${data.color} rounded-full`}>{data.status}</span>
                             <h3 className="font-semibold">{data.sender} &rarr; {data.receiver}</h3>
                             <span className="text-sm italic font-thin">{data.time}</span>
                         </div>
