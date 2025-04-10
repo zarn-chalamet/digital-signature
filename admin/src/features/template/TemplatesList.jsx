@@ -48,17 +48,19 @@ export default function TemplatesList() {
                                     </Modal.Window>
 
                                     <div className="cursor-pointer" onClick={() => window.open(fileUrl, "_blank")}>
-                                        <div className="flex items-center justify-center w-full h-64 overflow-hidden border rounded-lg md:h-44 bg-slate-300 dark:border-slate-700">
-                                            {fileUrl ? <embed
-                                                src={fileUrl}
-                                                type="application/pdf"
-                                                className="w-full h-full"
-                                                style={{
-                                                    pointerEvents: "none",
-                                                    transform: "scale(1.5)",
-                                                    transformOrigin: "top center",
-                                                }}
-                                            /> : <ImageMinus />}
+                                        <div className="relative w-full h-64 overflow-hidden border rounded-lg md:h-44 bg-slate-300 dark:border-slate-700">
+                                            {fileUrl ? (
+                                                <embed
+                                                    src={`${fileUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0`}
+                                                    type="application/pdf"
+                                                    className="absolute inset-0 object-cover w-full h-full"
+                                                    style={{
+                                                        pointerEvents: "none",
+                                                    }}
+                                                />
+                                            ) : (
+                                                <ImageMinus className="mx-auto text-slate-500 size-8" />
+                                            )}
                                         </div>
                                         <h3 className="mt-3 text-xl font-semibold text-center dark:text-slate-50">
                                             {template.title}

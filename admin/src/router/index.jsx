@@ -5,7 +5,6 @@ import AppLayout from "@/pages/AppLayout";
 import TemplatePage from "@/pages/TemplatePage";
 import ManageUsersPage from "@/pages/ManageUsersPage";
 import DashboradPage from "@/pages/DashboradPage";
-import ReportPage from "@/pages/ReportPage";
 
 export default function Router() {
   const { isAuthenticated, authReady } = useAuth()
@@ -30,10 +29,6 @@ export default function Router() {
         {
           path: "template",
           element: <TemplatePage />
-        },
-        {
-          path: "reports",
-          element: <ReportPage />
         },
       ]
     },

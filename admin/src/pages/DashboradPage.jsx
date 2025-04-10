@@ -1,7 +1,5 @@
+import DashboardLayout from "../features/dashboard/DashboardLayout";
+
 export default function DashboradPage() {
-    return (
-        <div>
-            Dashboard
-        </div>
-    )
+    return <DashboardLayout />
 }

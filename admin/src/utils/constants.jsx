@@ -1,4 +1,27 @@
-import { LayoutDashboard, ListStartIcon, NotepadText, UserCog, } from "lucide-react";
+import { AlarmSmoke, GitPullRequest, LayoutDashboard, NotepadText, PartyPopperIcon, RotateCwSquare, UserCog, Users2Icon, } from "lucide-react";
+
+export const stats = [
+    {
+        label: 'Users',
+        value: 453,
+        icon: Users2Icon
+    },
+    {
+        label: 'Templates',
+        value: 120,
+        icon: NotepadText,
+    },
+    {
+        label: 'Requests',
+        value: 103,
+        icon: RotateCwSquare
+    },
+    {
+        label: 'Fullfillment Rate',
+        value: 48,
+        icon: PartyPopperIcon
+    },
+]
 
 export const navbarLinks = [
     {
@@ -15,13 +38,8 @@ export const navbarLinks = [
             },
             {
                 label: "Template",
-                icon: ListStartIcon,
-                path: "/template",
-            },
-            {
-                label: "Reports",
                 icon: NotepadText,
-                path: "/reports",
+                path: "/template",
             },
         ],
     }
