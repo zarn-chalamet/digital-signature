@@ -3,7 +3,7 @@
 export default function ConfirmDelete({ type, onCloseModal, onAction, disabled }) {
     return (
         <>
-            <div className="flex items-center gap-3 p-4 bg-red-600 rounded-md">
+            <div className="flex items-center gap-3 p-4 bg-red-600 rounded-t-md">
                 <div className="p-2 bg-white rounded-full">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

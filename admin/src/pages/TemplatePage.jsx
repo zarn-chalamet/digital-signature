@@ -18,7 +18,7 @@ export default function TemplatePage() {
                         </div>
                     </Modal.Open>
 
-                    <Modal.Window name='upload-template'>
+                    <Modal.Window name='upload-template'  width='450px'>
                         <UploadTemplateModal />
                     </Modal.Window>
                 </Modal>

@@ -37,7 +37,6 @@ export default function StatusChart() {
 
     const fakeStatusSummary = getStatusSummary(filterValue);
 
-
     return (
         <div className="p-5 space-y-3 border rounded-md bg-slate-50 dark:bg-slate-900 dark:border-slate-700">
             <h2 className="text-2xl font-bold dark:text-slate-50">Status Summary</h2>

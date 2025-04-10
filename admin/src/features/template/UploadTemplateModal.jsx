@@ -92,7 +92,7 @@ export default function UploadTemplateModal({ onCloseModal }) {
                     className="flex flex-col items-center justify-center h-56 mb-4 border border-indigo-300 border-dashed rounded-md cursor-pointer bg-indigo-50 dark:bg-slate-700 dark:text-slate-50"
                 >
                     <FileTextIcon className="mb-2 text-slate-500 size-10" />
-                    <p className="text-sm text-gray-600 dark:text-slate-50r">
+                    <p className="text-sm text-gray-600 dark:text-slate-50">
                         Drag and drop a PDF file or <span className="text-indigo-600 underline">choose file</span>
                     </p>
                     <input
@@ -107,7 +107,7 @@ export default function UploadTemplateModal({ onCloseModal }) {
                 </div>
 
                 {!!file && (
-                    <div className="mb-4 text-sm text-gray-700">
+                    <div className="mb-4 text-sm text-gray-700 dark:text-slate-50">
                         <span className="font-medium">Selected file:</span> {file.name}
                     </div>
                 )}

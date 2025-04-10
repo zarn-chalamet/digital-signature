@@ -38,12 +38,12 @@ export default function TemplatesList() {
                                     </Menus.List>
 
                                     {/* Edit Form */}
-                                    <Modal.Window name='rename-form'>
+                                    <Modal.Window name='rename-form'  width='450px'>
                                         <RenameTemplateModal currentId={template._id} currentTitle={template.title} />
                                     </Modal.Window>
 
                                     {/* Delete Form */}
-                                    <Modal.Window name='delete'>
+                                    <Modal.Window name='delete'  width='450px' padding={false}>
                                         <ConfirmDelete type='template' disabled={isDeleting} onAction={() => deleteTemplate(template._id)} />
                                     </Modal.Window>
 

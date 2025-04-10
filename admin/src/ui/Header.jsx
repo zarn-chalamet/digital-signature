@@ -5,15 +5,14 @@ import ThemeToggleBtn from './btns/ThemeToggleBtn'
 import { cn } from '@/utils/cn';
 import Avatar from './Avatar';
 import Modal from './modals/Modal';
-import LogoutBtn from './btns/LogoutBtn'
-import ConfrimLogout from './modals/ConfrimLogout';
+import ProfileModal from './modals/ProfileModal';
 
 export default function Header({ collapsed, setCollapsed }) {
     const { isDark } = useTheme();
 
     return (
         <>
-            <header className={cn('relative h-[70px] flex z-10 items-center justify-between bg-white px-4 shadow-md transition-colors',
+            <header className={cn('relative h-[70px] flex z-10 items-center justify-between bg-white px-6 shadow-md transition-colors',
                 isDark && 'bg-slate-900 border-b border-slate-700')}>
                 <div className='flex items-center gap-x-3'>
                     <button
@@ -25,16 +24,15 @@ export default function Header({ collapsed, setCollapsed }) {
                 <Modal>
                     <div className="flex items-center gap-x-3">
                         <ThemeToggleBtn />
-                        <Avatar />
 
                         <Modal.Open opens={'logout'}>
                             <div>
-                                <LogoutBtn />
+                                <Avatar />
                             </div>
                         </Modal.Open>
 
-                        <Modal.Window name={'logout'}>
-                            <ConfrimLogout />
+                        <Modal.Window name={'logout'} padding={false}>
+                            <ProfileModal />
                         </Modal.Window>
                     </div>
                 </Modal>

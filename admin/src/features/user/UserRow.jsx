@@ -19,7 +19,7 @@ export default function UserRow({ user, index }) {
             <Table.Cell className="table-cell">{user.last_name}</Table.Cell>
             <Table.Cell className="table-cell">{user.email}</Table.Cell>
             <Table.Cell className="table-cell">{user.password}</Table.Cell>
-            <Table.Cell className="table-cell">{moment(user?.date).format('L') || 'N/A'}</Table.Cell>
+            <Table.Cell className="table-cell">{moment(user?.date).format("MMM Do YY") || 'N/A'}</Table.Cell>
             <Table.Cell className="table-cell">
                 <div className="flex items-center">
                     <StatusBtn user={user} />
@@ -40,12 +40,12 @@ export default function UserRow({ user, index }) {
                             </Menus.List>
 
                             {/* Edit Form */}
-                            <Modal.Window name='edit-form'>
+                            <Modal.Window name='edit-form' width='450px'>
                                 <CreateEditUserModal userToEdit={user} />
                             </Modal.Window>
 
                             {/* Delete Form */}
-                            <Modal.Window name='delete'>
+                            <Modal.Window name='delete' width='450px' padding={false}>
                                 <ConfirmDelete type='user' disabled={isDeleting} onAction={() => deleteUser(user._id)} />
                             </Modal.Window>
                         </div>

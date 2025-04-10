@@ -21,7 +21,7 @@ const Open = ({ children, opens: openWindowName }) => {
     return cloneElement(children, { onClick: () => open(openWindowName) })
 }
 
-const Window = ({ children, name, width = '384px' }) => {
+const Window = ({ children, name, width, padding = true }) => {
     const { openName, close } = useContext(ModalContext)
 
     const modalRef = useOutsideClick(close)
@@ -30,7 +30,7 @@ const Window = ({ children, name, width = '384px' }) => {
 
     return createPortal(
         <div className="fixed z-[100] inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-xs animate-fadeIn">
-            <div ref={modalRef} className={`w-[${width}] ${width ? 'md:w-[600px]' : ''} p-6 bg-slate-50 dark:bg-slate-900 dark:border-slate-700 border dark:text-slate-50 rounded-lg shadow-lg animate-slideUp`}>
+            <div ref={modalRef} className={`${width ? `md:w-[600px] w-[${width}]` : 'w-96'} ${padding && 'p-6'} bg-slate-50 dark:bg-slate-900 dark:border-slate-700 border dark:text-slate-50 rounded-lg shadow-lg animate-slideUp`}>
                 <div>
                     {cloneElement(children, { onCloseModal: close })}
                 </div>
