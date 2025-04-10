@@ -22,7 +22,7 @@ export default function Header({ collapsed, setCollapsed }) {
                     </button>
                 </div>
                 <Modal>
-                    <div className="flex items-center gap-x-3">
+                    <div className="flex items-center gap-x-2">
                         <ThemeToggleBtn />
 
                         <Modal.Open opens={'logout'}>
