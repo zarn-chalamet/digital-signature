@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { createNewUser } from "../../services/apiUsers"
+import { createNewUser } from "@/services/apiUsers"
 import toast from "react-hot-toast"
 
 const useCreateUser = () => {

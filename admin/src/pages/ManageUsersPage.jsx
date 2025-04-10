@@ -1,10 +1,10 @@
-import CreateBtn from '../components/dashboard/btns/CreateBtn';
-import Title from '../components/dashboard/Title';
-import Modal from '../components/dashboard/modals/Modal'
-import CreateEditUserModal from '../features/user/CreateEditUserModal';
-import UserTable from '../features/user/UserTable'
+import Title from '@/ui/Title';
+import Modal from '@/ui/modals/Modal'
+import CreateEditUserModal from '@/features/user/CreateEditUserModal';
+import UserTable from '@/features/user/UserTable'
+import CreateBtn from '@/ui/btns/CreateBtn';
 
-export default function ManageUsers() {
+export default function ManageUsersPage() {
     return (
         <section className='flex flex-col gap-y-4'>
             <div className="flex items-center justify-between">

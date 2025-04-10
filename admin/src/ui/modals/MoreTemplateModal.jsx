@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
-import RenameTemplateModal from "./RenameTemplateModal";
+import RenameTemplateModal from "@/ui/modals/RenameTemplateModal";
 // import DeleteModal from "./DeleteModal";
 
 export default function MoreTemplateModal({ template, setShowModal, onAction }) {
@@ -32,7 +32,7 @@ export default function MoreTemplateModal({ template, setShowModal, onAction }) 
                 }} />
             }
             {
-                {/* isOpenDeleteModal && <DeleteModal type={'template'} onCancel={() => setIsOpenDeleteModal(false)} onAction={() => onAction(template._id)}/> */}
+                {/* isOpenDeleteModal && <DeleteModal type={'template'} onCancel={() => setIsOpenDeleteModal(false)} onAction={() => onAction(template._id)}/> */ }
             }
         </>
     )

@@ -1,7 +1,7 @@
-import { tableHeaders } from "../../constants";
-import Menus from "../../ui/Menus";
-import Spinner from "../../ui/Spinner";
-import Table from '../../ui/Table'
+import { tableHeaders } from "@/constants";
+import Menus from "@/ui/Menus";
+import Spinner from "@/ui/Spinner";
+import Table from '@/ui/Table'
 import UserRow from "./UserRow";
 import useUserLists from './useUserLists'
 

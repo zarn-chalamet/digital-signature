@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import CreateBtn from "../components/dashboard/btns/CreateBtn";
-import Title from "../components/dashboard/Title";
-import useAuth from '../hooks/useAuth'
+import CreateBtn from "@/ui/btns/CreateBtn";
+import Title from "@/ui/Title";
+import useAuth from '@/hooks/useAuth'
 import { useDispatch, useSelector } from 'react-redux';
 import toast from "react-hot-toast"
-import api from '../utils/api'
-import { deleteTemplate, getTemplates, setTemplates } from '../features/template/templateSlice'
+import api from '@/utils/api'
+import { deleteTemplate, getTemplates, setTemplates } from '@/features/template/templateSlice'
 import { ImageMinus, MoreVertical } from "lucide-react";
-import MoreTemplateModal from "../components/dashboard/modals/MoreTemplateModal";
-import UploadTemplateModal from "../components/dashboard/modals/UploadTemplateModal";
+import MoreTemplateModal from "@/ui/modals/MoreTemplateModal";
+import UploadTemplateModal from "@/ui/modals/UploadTemplateModal";
 
 export default function TemplatePage() {
     const { accessToken } = useAuth()

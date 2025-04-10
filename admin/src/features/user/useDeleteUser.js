@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { deleteUser as deleteUserApi } from "../../services/apiUsers"
-import useAuth from "../../hooks/useAuth"
+import { deleteUser as deleteUserApi } from "@/services/apiUsers"
+import useAuth from "@/hooks/useAuth"
 import toast from "react-hot-toast"
 
 const useDeleteUser = () => {

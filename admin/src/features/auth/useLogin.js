@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
-import { logInUser as logInUserApi } from '../../services/apiAuth'
-import useAuth from "../../hooks/useAuth"
+import { logInUser as logInUserApi } from '@/services/apiAuth'
+import useAuth from "@/hooks/useAuth"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 

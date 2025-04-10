@@ -1,27 +1,31 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import useAuth from "../hooks/useAuth";
-import DashboardLayout from "../pages/DashboardLayout";
-import useTheme from "../hooks/useTheme";
-import TemplatePage from "../pages/TemplatePage";
-import ManageUsers from "../pages/ManageUsers";
+import LoginPage from "@/pages/LoginPage";
+import useAuth from "@/hooks/useAuth";
+import AppLayout from "@/pages/AppLayout";
+import TemplatePage from "@/pages/TemplatePage";
+import ManageUsersPage from "@/pages/ManageUsersPage";
+import DashboradPage from "@/pages/DashboradPage";
+import ReportPage from "@/pages/ReportPage";
 
 export default function Router() {
   const { isAuthenticated, authReady } = useAuth()
-  const { isDark } = useTheme()
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated ? <DashboardLayout /> : <Navigate to="/login" replace />,
+      element: isAuthenticated ? <AppLayout /> : <Navigate to="/login" replace />,
       children: [
         {
           index: true,
-          element: <Navigate to={'manage-users'} replace />
+          element: <Navigate to={'dashboard'} replace />
+        },
+        {
+          path: 'dashboard',
+          element: <DashboradPage />
         },
         {
           path: "manage-users",
-          element: <ManageUsers />,
+          element: <ManageUsersPage />,
         },
         {
           path: "template",
@@ -29,7 +33,7 @@ export default function Router() {
         },
         {
           path: "reports",
-          element: <h1 className={`title dark:text-slate-50`}>Reports</h1>,
+          element: <ReportPage />
         },
       ]
     },

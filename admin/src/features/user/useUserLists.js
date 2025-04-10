@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
-import { getUserLists } from "../../services/apiUsers"
-import useAuth from "../../hooks/useAuth"
+import { getUserLists } from "@/services/apiUsers"
+import useAuth from "@/hooks/useAuth"
 
 const useUserLists = () => {
     const { accessToken } = useAuth()

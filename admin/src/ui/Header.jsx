@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { ChevronsLeft } from 'lucide-react';
-import useTheme from '../../hooks/useTheme';
-import { cn } from '../../utils/cn';
-import ThemeToggleBtn from './btns/ThemeToggleBtn';
+import useTheme from '@/hooks/useTheme';
+import ThemeToggleBtn from './btns/ThemeToggleBtn'
+import { cn } from '@/utils/cn';
 import Avatar from './Avatar';
 import Modal from './modals/Modal';
+import LogoutBtn from './btns/LogoutBtn'
 import ConfrimLogout from './modals/ConfrimLogout';
-import LogoutBtn from './btns/LogoutBtn';
 
 export default function Header({ collapsed, setCollapsed }) {
     const { isDark } = useTheme();

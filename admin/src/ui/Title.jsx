@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import useTheme from "../../hooks/useTheme";
-import { cn } from "../../utils/cn";
+import useTheme from "@/hooks/useTheme";
+import { cn } from "@/utils/cn";
 
 export default function Title({ title }) {
     const { isDark } = useTheme();

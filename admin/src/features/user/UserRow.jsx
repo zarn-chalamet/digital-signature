@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import Table from "../../ui/Table";
-import StatusBtn from '../../components/dashboard/btns/StatusBtn'
+import Table from "@/ui/Table";
+import StatusBtn from '@/ui/btns/StatusBtn'
 import moment from "moment";
-import Modal from '../../components/dashboard/modals/Modal'
-import Menus from "../../ui/Menus";
+import Modal from '@/ui/modals/Modal'
+import Menus from "@/ui/Menus";
 import { HiPencil, HiTrash } from "react-icons/hi2";
 import CreateEditUserModal from './CreateEditUserModal'
-import ConfirmDelete from "../../components/dashboard/modals/ConfirmDelete";
+import ConfirmDelete from "@/ui/modals/ConfirmDelete";
 import useDeleteUser from './useDeleteUser'
 
 export default function UserRow({ user, index }) {

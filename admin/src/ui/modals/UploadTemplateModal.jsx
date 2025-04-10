@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 import { FileTextIcon } from "lucide-react";
 import { useRef, useState } from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "@/utils/cn";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { uploadTemplateFormFieldSchema } from "../../../utils/zSchema";
-import { useClickOutside } from "../../../hooks/useClickOutside";
+import { uploadTemplateFormFieldSchema } from "@/utils/zSchema";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import toast from "react-hot-toast";
-import api from "../../../utils/api";
-import useAuth from "../../../hooks/useAuth";
+import api from "@/utils/api";
+import useAuth from "@/hooks/useAuth";
 import { useDispatch } from 'react-redux';
-import { createTemplate } from "../../../features/template/templateSlice";
+import { createTemplate } from "@/features/template/templateSlice";
 
 export default function UploadTemplateModal({ setShowModal }) {
     const { accessToken } = useAuth()

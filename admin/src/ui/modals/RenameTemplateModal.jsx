@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
-import { useClickOutside } from "../../../hooks/useClickOutside";
-import { cn } from "../../../utils/cn";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { cn } from "@/utils/cn";
 import toast from "react-hot-toast";
-import api from "../../../utils/api";
-import useAuth from "../../../hooks/useAuth";
+import api from "@/utils/api";
+import useAuth from "@/hooks/useAuth";
 import { useDispatch } from 'react-redux';
-import { renameTemplate } from "../../../features/template/templateSlice";
+import { renameTemplate } from "@/features/template/templateSlice";
 
 export default function RenameTemplateModal({ currentId, currentTitle, onClose }) {
     const [newTitle, setNewTitle] = useState(currentTitle || "");

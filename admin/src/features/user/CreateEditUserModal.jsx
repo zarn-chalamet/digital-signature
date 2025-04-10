@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createUserFormFieldSchema } from "../../utils/zSchema";
-import { cn } from "../../utils/cn";
+import { createUserFormFieldSchema } from "@/utils/zSchema";
+import { cn } from "@/utils/cn";
 import { UserCog, UserPlus } from "lucide-react";
 import useCreateUser from "./useCreateUser";
 import useEditUser from "./useEditUser";

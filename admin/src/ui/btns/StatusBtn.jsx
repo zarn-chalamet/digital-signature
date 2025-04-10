@@ -1,5 +1,5 @@
-import useToggleStatus from "../../../features/user/useToggleStatus";
-import { cn } from "../../../utils/cn";
+import useToggleStatus from "@/features/user/useToggleStatus";
+import { cn } from "@/utils/cn";
 
 /* eslint-disable react/prop-types */
 export default function StatusBtn({ user }) {

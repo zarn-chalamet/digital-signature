@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { cn } from "../../utils/cn"
+import { cn } from "@/utils/cn"
 import { useForm } from "react-hook-form"
-import { LogInFormFieldsSchema } from "../../utils/zSchema"
+import { LogInFormFieldsSchema } from "@/utils/zSchema"
 import useLogin from "./useLogin"
 
 export default function LoginForm() {

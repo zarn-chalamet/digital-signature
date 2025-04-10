@@ -1,8 +1,13 @@
-import { LayoutTemplate, NotepadText, UserCog, } from "lucide-react";
+import { LayoutDashboard, ListStartIcon, NotepadText, UserCog, } from "lucide-react";
 
 export const navbarLinks = [
     {
         links: [
+            {
+                label: 'Dashboard',
+                icon: LayoutDashboard,
+                path: '/dashboard'
+            },
             {
                 label: "Manage Users",
                 icon: UserCog,
@@ -10,7 +15,7 @@ export const navbarLinks = [
             },
             {
                 label: "Template",
-                icon: LayoutTemplate,
+                icon: ListStartIcon,
                 path: "/template",
             },
             {

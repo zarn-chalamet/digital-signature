@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import useAuth from "../../hooks/useAuth"
-import { editUser as editUserApi } from "../../services/apiUsers"
+import useAuth from "@/hooks/useAuth"
+import { editUser as editUserApi } from "@/services/apiUsers"
 import toast from "react-hot-toast"
 
 const useEditUser = () => {

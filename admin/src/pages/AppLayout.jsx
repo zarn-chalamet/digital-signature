@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { cn } from "../utils/cn";
+import { cn } from "@/utils/cn";
 import { Outlet } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
-import { useClickOutside } from "../hooks/useClickOutside";
-import Sidebar from "../components/dashboard/Sidebar";
-import Header from "../components/dashboard/Header";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import Sidebar from "@/ui/Sidebar";
+import Header from "@/ui/Header";
 
-export default function DashboardLayout() {
+export default function AppLayout() {
     const isDesktopDevice = useMediaQuery("(min-width: 768px)");
     const [collapsed, setCollapsed] = useState(!isDesktopDevice);
 

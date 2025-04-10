@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toggleUserStatus } from "../../services/apiUsers"
+import { toggleUserStatus } from "@/services/apiUsers"
 import toast from "react-hot-toast"
-import useAuth from "../../hooks/useAuth"
+import useAuth from "@/hooks/useAuth"
 
 const useToggleStatus = () => {
     const { accessToken } = useAuth()

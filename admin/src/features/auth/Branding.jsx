@@ -1,6 +1,6 @@
-import loginDisplay from '../../assets/login_page.png'
-import logoImage from '../../assets/logo.png'
-import { cn } from '../../utils/cn'
+import loginDisplay from '@/assets/login_page.png'
+import logoImage from '@/assets/logo.png'
+import { cn } from '@/utils/cn'
 
 export default function Branding() {
 

@@ -2,9 +2,9 @@
 import { forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/utils/cn'
-import logoImage from '../../assets/logo.png'
-import { navbarLinks } from '../../constants/index';
-import useTheme from '../../hooks/useTheme';
+import logoImage from '@/assets/logo.png'
+import { navbarLinks } from '@/constants/index';
+import useTheme from '@/hooks/useTheme';
 
 const Sidebar = forwardRef(({ collapsed }, ref) => {
     const { isDark } = useTheme()
