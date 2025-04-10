@@ -12,7 +12,7 @@ export default function ManageUsersPage() {
                 <Modal>
                     <Modal.Open opens={'create-user'}>
                         <div>
-                            <CreateBtn />
+                            <CreateBtn text='Create New User' />
                         </div>
                     </Modal.Open>
 

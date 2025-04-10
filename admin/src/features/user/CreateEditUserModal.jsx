@@ -80,7 +80,7 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
             <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
                 <div className="flex w-full gap-4">
                     <div className="flex flex-col w-1/2 space-y-1">
-                        <label className="text-sm" htmlFor="">First Name <span className="text-red-600">*</span></label>
+                        <label className="text-sm" htmlFor="first_name">First Name <span className="text-red-600">*</span></label>
                         <input
                             id="first_name"
                             disabled={isWorking}
@@ -92,7 +92,7 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                         {errors.first_name && <span className="text-xs italic text-red-500">{errors.first_name.message}</span>}
                     </div>
                     <div className="flex flex-col w-1/2 space-y-1">
-                        <label className="text-sm" htmlFor="">Last Name <span className="text-red-600">*</span></label>
+                        <label className="text-sm" htmlFor="last_name">Last Name <span className="text-red-600">*</span></label>
                         <input
                             id="last_name"
                             disabled={isWorking}
@@ -105,9 +105,9 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                     </div>
                 </div>
                 <div className="flex flex-col space-y-1">
-                    <label className="text-sm" htmlFor="">Email <span className="text-red-600">*</span></label>
+                    <label className="text-sm" htmlFor="email">Email <span className="text-red-600">*</span></label>
                     <input
-                        id="eail"
+                        id="email"
                         disabled={isWorking}
                         {...register('email')}
                         type="email"
@@ -117,7 +117,7 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                     {errors.email && <span className="text-xs italic text-red-500">{errors.email.message}</span>}
                 </div>
                 <div className="flex flex-col space-y-1">
-                    <label className="text-sm" htmlFor="">Password <span className="text-red-600">*</span></label>
+                    <label className="text-sm" htmlFor="password">Password <span className="text-red-600">*</span></label>
                     <input
                         id="password"
                         disabled={isWorking}
@@ -129,7 +129,7 @@ export default function CreateEditUserModal({ userToEdit = {}, onCloseModal }) {
                     {errors.password && <span className="text-xs italic text-red-500">{errors.password.message}</span>}
                 </div>
                 <div className="flex flex-col space-y-1">
-                    <label className="text-sm" htmlFor="">Profile Image <span className="text-red-600">*</span></label>
+                    <label className="text-sm" htmlFor="image">Profile Image <span className="text-red-600">*</span></label>
                     <div className="flex items-center justify-between">
                         <input
                             id="image"
