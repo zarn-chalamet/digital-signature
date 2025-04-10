@@ -1,25 +1,47 @@
-import { AlarmSmoke, GitPullRequest, LayoutDashboard, NotepadText, PartyPopperIcon, RotateCwSquare, UserCog, Users2Icon, } from "lucide-react";
+import { LayoutDashboard, NotepadText, UserCog } from "lucide-react";
 
-export const stats = [
+export const fakeTodayData = [
     {
-        label: 'Users',
-        value: 453,
-        icon: Users2Icon
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
     },
     {
-        label: 'Templates',
-        value: 120,
-        icon: NotepadText,
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
     },
     {
-        label: 'Requests',
-        value: 103,
-        icon: RotateCwSquare
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
     },
     {
-        label: 'Fullfillment Rate',
-        value: 48,
-        icon: PartyPopperIcon
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
+    },
+    {
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
+    },
+    {
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
+    },
+    {
+        sender: 'Fish',
+        receiver: 'Swan',
+        status: 'Pending',
+        time: '1 hour ago'
     },
 ]
 
