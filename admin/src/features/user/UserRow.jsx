@@ -9,12 +9,11 @@ import CreateEditUserModal from './CreateEditUserModal'
 import ConfirmDelete from "@/ui/modals/ConfirmDelete";
 import useDeleteUser from './useDeleteUser'
 
-export default function UserRow({ user, index }) {
+export default function UserRow({ user }) {
     const { deleteUser, isDeleting } = useDeleteUser()
 
     return (
         <Table.Row>
-            <Table.Cell className="table-cell">{index + 1}</Table.Cell>
             <Table.Cell className="table-cell">{user.first_name}</Table.Cell>
             <Table.Cell className="table-cell">{user.last_name}</Table.Cell>
             <Table.Cell className="table-cell">{user.email}</Table.Cell>

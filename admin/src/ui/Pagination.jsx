@@ -25,7 +25,7 @@ export default function Pagination({ count }) {
         setSearchParams(searchParams)
     }
 
-    // if (totalPage <= 1) return null
+    if (totalPage <= 1) return null
 
     return (
         <div className="flex items-center justify-between w-full mt-3 dark:text-slate-50">
