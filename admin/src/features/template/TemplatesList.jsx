@@ -7,10 +7,20 @@ import Modal from "@/ui/modals/Modal";
 import ConfirmDelete from '@/ui/modals/ConfirmDelete'
 import { HiPencil, HiTrash } from "react-icons/hi2";
 import RenameTemplateModal from "./RenameTemplateModal";
+import { useSearchParams } from "react-router-dom";
 
 export default function TemplatesList() {
     const { templates, templatesLoading } = useAllTemplates()
     const { deleteTemplate, isDeleting } = useDeleteTemplate()
+
+    const [searchParams] = useSearchParams()
+
+    const filterValue = searchParams.get('isPublic') ?? 'all'
+    let filteredTemplates;
+
+    if (filterValue === 'all') filteredTemplates = templates
+    if (filterValue === 'true') filteredTemplates = templates?.filter(template => template.isPublic)
+    if (filterValue === 'false') filteredTemplates = templates?.filter(template => !template.isPublic)
 
     if (templatesLoading) return <Spinner />
 
@@ -18,7 +28,7 @@ export default function TemplatesList() {
         <Menus>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {
-                    templates?.map((template, index) => {
+                    filteredTemplates?.map((template, index) => {
                         const fileUrl = `http://localhost:5001/files/${template.filePath}`;
                         return (
                             <div key={index} className="relative p-4 border rounded-lg bg-slate-50 dark:bg-slate-900 dark:border-slate-700 border-slate-300">
@@ -38,12 +48,12 @@ export default function TemplatesList() {
                                     </Menus.List>
 
                                     {/* Edit Form */}
-                                    <Modal.Window name='rename-form'  width='450px'>
+                                    <Modal.Window name='rename-form' width='450px'>
                                         <RenameTemplateModal currentId={template._id} currentTitle={template.title} />
                                     </Modal.Window>
 
                                     {/* Delete Form */}
-                                    <Modal.Window name='delete'  width='450px' padding={false}>
+                                    <Modal.Window name='delete' width='450px' padding={false}>
                                         <ConfirmDelete type='template' disabled={isDeleting} onAction={() => deleteTemplate(template._id)} />
                                     </Modal.Window>
 
