@@ -16,8 +16,8 @@ const useLogin = () => {
             dispatch({ type: 'auth/login', payload: data.token })
             navigate('/', { replace: true })
         },
-        onError: () => {
-            toast.error('Login failed. Please try again.')
+        onError: (error) => {
+            toast.error(error.response?.data?.message || 'Login failed. Please try again.');
         }
     })
 

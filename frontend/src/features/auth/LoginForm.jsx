@@ -11,8 +11,8 @@ export default function LoginForm() {
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         defaultValues: {
-            email: 'admin@digital.com',
-            password: '123456'
+            email: 'mtt123@digital.com',
+            password: 'mtt1234'
         },
         resolver: zodResolver(LogInFormFieldsSchema)
     })

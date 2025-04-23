@@ -6,40 +6,55 @@ const { transporter } = require("../middleware/nodemailer");
 // user login
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  //check the inputs are null or not
+
+  // Check for required fields
   if (!email || !password) {
-    return res.json({ success: false, message: "Invalid Email" });
+    return res.status(400).json({ success: false, message: "Email and password are required" });
   }
+
   try {
-    //find the user by email
+    // Find user by email
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return res.json({ success: false, message: "Invalid email" });
+      return res.status(401).json({ success: false, message: "Invalid email" });
     }
-    //check the password
-    // const isCorrectPassword = await bcrypt.compare(password, user.password);
+
+    // Check password (replace with bcrypt in production)
     const isCorrectPassword = user.password === password;
 
     if (!isCorrectPassword) {
-      return res.json({ success: false, message: "Invalid password" });
+      return res.status(401).json({ success: false, message: "Invalid password" });
     }
 
-    //cookies
+    // Check if the user is restricted
+    if (!user.isRestricted) {
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: "Your account is blocked. Please contact the IT department.",
+        });
+    }
+
+    // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "7d",
     });
 
+    // Set token in cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return res.json({ success: true });
+    // Send success response
+    return res.status(200).json({ success: true, accessToken: token });
+
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

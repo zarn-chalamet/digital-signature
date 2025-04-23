@@ -1,14 +1,23 @@
 import defaultImage from '@/assets/default.jpg';
-import LogoutBtn from '../btns/LogoutBtn'
-import useAuth from '@/hooks/useAuth'
+import LogoutBtn from '../btns/LogoutBtn';
+import useAuth from '@/hooks/useAuth';
 import { jwtDecode } from 'jwt-decode';
 
 export default function ProfileModal() {
-    const { accessToken } = useAuth()
+    const { accessToken } = useAuth();
 
-    const decoded = jwtDecode(accessToken)
-    const expTime = decoded.exp
-    const currentTime = Math.floor(Date.now() / 1000)
+    let decoded = null;
+    let expTime = null;
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    if (accessToken && typeof accessToken === 'string') {
+        try {
+            decoded = jwtDecode(accessToken);
+            expTime = decoded.exp;
+        } catch (error) {
+            console.error('Invalid token:', error.message);
+        }
+    }
 
     return (
         <>
@@ -25,11 +34,13 @@ export default function ProfileModal() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                     admin@digital.com
                 </p>
-                <p className="mb-5 text-sm text-slate-500 dark:text-slate-400">
-                    Session expires in {Math.floor((expTime - currentTime) / 3600)} hours
-                </p>
+                {expTime && (
+                    <p className="mb-5 text-sm text-slate-500 dark:text-slate-400">
+                        Session expires in {Math.floor((expTime - currentTime) / 3600)} hours
+                    </p>
+                )}
                 <LogoutBtn />
             </div>
         </>
-    )
+    );
 }
