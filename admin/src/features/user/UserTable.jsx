@@ -74,12 +74,11 @@ export default function UserTable() {
                                     )}
                                 />
                             </Table>
-                            <Pagination count={sortedUsers.length} />
                         </Menus>
                     </div>
                 </div>
             </div>
-
+            <Pagination count={sortedUsers.length} />
         </>
     )
 }

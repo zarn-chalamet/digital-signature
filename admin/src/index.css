@@ -78,6 +78,10 @@
     .toggle-btn{
         @apply transition-all duration-200 transform translate-x-3 border-0 rounded-sm bg-none 
     }
+
+    .pagination-btn{
+        @apply flex items-center justify-center gap-2 p-1 px-2 transition-colors duration-300 border rounded-md cursor-pointer dark:disabled:hover:border-slate-700 disabled:hover:border-slate-300 border-slate-300 dark:hover:border-indigo-700 hover:border-indigo-700 dark:border-slate-700 disabled:hover:bg-white dark:disabled:hover:bg-slate-900 dark:disabled:hover:text-slate-50 disabled:hover:text-black disabled:cursor-not-allowed hover:bg-indigo-700 hover:text-slate-50
+    }
 }
 
 .recharts-default-tooltip {
