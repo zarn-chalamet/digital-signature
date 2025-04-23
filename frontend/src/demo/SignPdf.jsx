@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AppContext } from '../context-api/AppContext';
-import PdfViewer from '../components/PdfViewer';
+import PdfViewer from './PdfViewer';
 import Modal from "react-modal";
-import SignPad from "../components/SignPad";
+import SignPad from "./SignPad";
 
 export default function SignPdf() {
   const { id } = useParams();
@@ -35,7 +35,7 @@ export default function SignPdf() {
         className="bg-white p-5 rounded-lg shadow-lg mt-20"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
-        <SignPad request={requestById} setIsModalOpen={setIsModalOpen}/>
+        <SignPad request={requestById} setIsModalOpen={setIsModalOpen} />
       </Modal>
 
       {/* show many pdf versions */}
@@ -43,7 +43,7 @@ export default function SignPdf() {
         console.log(requestById.pdfVersions)
       }
       {
-        requestById.pdfVersions && requestById.pdfVersions.map((pdf,index) => (
+        requestById.pdfVersions && requestById.pdfVersions.map((pdf, index) => (
           <div key={index}>
             <h2>Version - {pdf.version}</h2>
             <p>Signed By - {pdf.signedBy.userId.first_name + " " + pdf.signedBy.userId.last_name}</p>

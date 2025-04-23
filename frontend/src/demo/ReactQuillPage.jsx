@@ -63,7 +63,7 @@ export default function ReactQuillPage() {
       <label>Template Title</label>
       <input
         type="text"
-        className="border p-2 w-full mb-3"
+        className="w-full p-2 mb-3 border"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />

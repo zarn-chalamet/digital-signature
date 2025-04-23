@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 export default function Request() {
   const { myRequests, getMyRequests, requestsByOthers, getRequestsByOthers } =
     useContext(AppContext);
-  
+
   const navigate = useNavigate();
 
   const checkFinishedSignedCount = (recipients) => {
     if (!Array.isArray(recipients)) return [];
     return recipients.filter((recipient) => recipient.signed === true);
   };
-  
+
   useEffect(() => {
     getMyRequests();
     getRequestsByOthers();
@@ -49,22 +49,21 @@ export default function Request() {
                         </span>
                       ))}
                     </td>
-                      {/* need to update data */}
+                    {/* need to update data */}
                     <td className="p-3 border">
-                    {request.recipients ? checkFinishedSignedCount(request.recipients).length : 0}/{request.recipients.length}
+                      {request.recipients ? checkFinishedSignedCount(request.recipients).length : 0}/{request.recipients.length}
                     </td>
                     <td className="p-3 border">
                       {new Date(request.createdAt).toLocaleDateString()}
                     </td>
                     <td className="p-3 border">
                       <span
-                        className={`px-3 py-1 rounded-full text-white ${
-                          request.status === "pending"
-                            ? "bg-yellow-500"
-                            : request.status === "approved"
+                        className={`px-3 py-1 rounded-full text-white ${request.status === "pending"
+                          ? "bg-yellow-500"
+                          : request.status === "approved"
                             ? "bg-green-500"
                             : "bg-red-500"
-                        }`}
+                          }`}
                       >
                         {request.status}
                       </span>
@@ -110,7 +109,7 @@ export default function Request() {
                       {new Date(request.createdAt).toLocaleDateString()}
                     </td>
                     <td className="p-3 border">
-                      <button onClick={()=>navigate(`/sign-pdf/${request._id}`)} className="border border-black px-2 hover:bg-blue-400"> sign </button>
+                      <button onClick={() => navigate(`/sign-pdf/${request._id}`)} className="border border-black px-2 hover:bg-blue-400"> sign </button>
                     </td>
                   </tr>
                 ))

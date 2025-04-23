@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context-api/AppContext'
-import { ProfileInfo } from './ProfileInfo';
+import { ProfileInfo } from '../components/ProfileInfo';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 

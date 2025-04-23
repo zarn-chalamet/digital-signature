@@ -4,18 +4,18 @@ import { AppContext } from '../context-api/AppContext'
 
 export default function Report() {
 
-  const {requests,getRequests} = useContext(AppContext);
+  const { requests, getRequests } = useContext(AppContext);
 
-  const [requestsCount,setRequestsCount] = useState(0);
-  const [success,setSuccess] = useState(0)
-  const [denied,setDenied] = useState(0)
-  const [pending,setPending] = useState()
+  const [requestsCount, setRequestsCount] = useState(0);
+  const [success, setSuccess] = useState(0)
+  const [denied, setDenied] = useState(0)
+  const [pending, setPending] = useState()
 
-  useEffect(()=>{
+  useEffect(() => {
     getRequests();
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (requests && requests.length > 0) {
       setRequestsCount(requests.length);
 
@@ -28,7 +28,7 @@ export default function Report() {
       setDenied(deniedCount);
       setPending(pendingCount);
     }
-  },[requests])
+  }, [requests])
 
   return (
     <div>

@@ -3,15 +3,15 @@ import { AppContext } from '../context-api/AppContext'
 
 export default function History() {
 
-  const { requests,getRequests,myRequests,getMyRequests,
-    requestsByOthers,getRequestsByOthers } = useContext(AppContext);
-  const [filteredRequests,setFilteredRequests] = useState([]);
+  const { requests, getRequests, myRequests, getMyRequests,
+    requestsByOthers, getRequestsByOthers } = useContext(AppContext);
+  const [filteredRequests, setFilteredRequests] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getRequests();
     getMyRequests();
     getRequestsByOthers();
-  },[])
+  }, [])
 
   useEffect(() => {
     if (requests) {
@@ -24,10 +24,10 @@ export default function History() {
       <div className='flex flex-row justify-between'>
         <h2>History {console.log(myRequests)} {console.log(requestsByOthers)}</h2>
         <div className='flex flex-row justify-evenly'>
-          <p className='px-2 cursor-pointer' onClick={()=>{setFilteredRequests(requests)}}>All</p>
-          <p className='px-2 cursor-pointer' onClick={()=>{setFilteredRequests(myRequests)}}>My Request </p>
-          <p className='px-2 cursor-pointer' onClick={()=>{setFilteredRequests(requestsByOthers)}}>Request by other </p>
-          <p className='px-2 cursor-pointer' onClick={()=>{}}>Downloads</p>
+          <p className='px-2 cursor-pointer' onClick={() => { setFilteredRequests(requests) }}>All</p>
+          <p className='px-2 cursor-pointer' onClick={() => { setFilteredRequests(myRequests) }}>My Request </p>
+          <p className='px-2 cursor-pointer' onClick={() => { setFilteredRequests(requestsByOthers) }}>Request by other </p>
+          <p className='px-2 cursor-pointer' onClick={() => { }}>Downloads</p>
         </div>
       </div>
       <div>
@@ -64,13 +64,12 @@ export default function History() {
                       </td>
                       <td className="p-3 border">
                         <span
-                          className={`px-3 py-1 rounded-full text-white ${
-                            request.status === "pending"
-                              ? "bg-yellow-500"
-                              : request.status === "approved"
+                          className={`px-3 py-1 rounded-full text-white ${request.status === "pending"
+                            ? "bg-yellow-500"
+                            : request.status === "approved"
                               ? "bg-green-500"
                               : "bg-red-500"
-                          }`}
+                            }`}
                         >
                           {request.status}
                         </span>
