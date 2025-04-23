@@ -28,7 +28,7 @@
     }
 
     .title {
-        @apply text-xl font-semibold transition-colors lg:text-3xl text-slate-900;
+        @apply text-xl font-semibold transition-colors lg:text-3xl text-slate-900 dark:text-slate-50;
     }
 
     .btn-ghost {

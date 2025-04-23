@@ -1,4 +1,4 @@
-import { LayoutDashboard, NotepadText, UserCog } from "lucide-react";
+import { LayoutDashboard, NotepadText, FileClock, ScrollText, ClipboardMinus } from "lucide-react";
 
 export const navbarLinks = [
     {
@@ -9,14 +9,24 @@ export const navbarLinks = [
                 path: '/dashboard'
             },
             {
-                label: "Manage Users",
-                icon: UserCog,
-                path: "/manage-users",
+                label: "Requests",
+                icon: ScrollText,
+                path: "/requests",
             },
             {
-                label: "Template",
+                label: "Templates",
                 icon: NotepadText,
-                path: "/template",
+                path: "/templates",
+            },
+            {
+                label: "Reports",
+                icon: ClipboardMinus,
+                path: "/reports",
+            },
+            {
+                label: "History",
+                icon: FileClock,
+                path: "/history",
             },
         ],
     }

@@ -67,7 +67,7 @@ export const navbarLinks = [
                 path: "/manage-users",
             },
             {
-                label: "Template",
+                label: "Templates",
                 icon: NotepadText,
                 path: "/template",
             },
