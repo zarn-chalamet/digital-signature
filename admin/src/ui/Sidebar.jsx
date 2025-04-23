@@ -16,7 +16,7 @@ const Sidebar = forwardRef(({ collapsed }, ref) => {
             )}>
             <div className='flex flex-col items-center justify-center p-4 h-[70px]'>
                 <img src={logoImage} alt="doitung_logo" className='w-24' />
-                {!collapsed && <p className='text-sm font-medium tracking-widest text-primary whitespace-nowrap'>Digital Signature System</p>}
+                {!collapsed && <p className='text-sm font-semibold tracking-widest text-primary whitespace-nowrap'>Digital Signature System</p>}
             </div>
             <div className="flex w-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden p-3 px-4 [scrollbar-width:_thin]">
                 {
