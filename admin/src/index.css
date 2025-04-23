@@ -21,9 +21,9 @@
     }
 
     .sidebar-item {
-        @apply flex h-[40px] w-full flex-shrink-0 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 transition-colors hover:bg-slate-200;
+        @apply flex h-[40px] w-full flex-shrink-0 dark:text-slate-400 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600 dark:hover:text-slate-50;
         &.active {
-            @apply bg-primary text-slate-50;
+            @apply bg-primary text-slate-50 hover:bg-primary dark:bg-primary dark:hover:bg-primary;
         }
     }
 
@@ -100,6 +100,21 @@
 @keyframes slideUp {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+}
+
+.animate-slideDown{
+    animation: slideDown 0.3s ease-out forwards;
 }
 
 .animate-fadeIn {
