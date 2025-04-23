@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { ChevronsLeft } from 'lucide-react';
-// import ThemeToggleBtn from './btns/ThemeToggleBtn'
+import ThemeToggleBtn from './btns/ThemeToggleBtn'
 import { cn } from '@/utils/cn';
-// import Avatar from './Avatar';
-// import Modal from './modals/Modal';
-// import ProfileModal from './modals/ProfileModal';
+import Avatar from './Avatar';
+import Modal from './modals/Modal';
+import ProfileModal from './modals/ProfileModal';
 
 export default function Header({ collapsed, setCollapsed }) {
 
@@ -18,7 +18,7 @@ export default function Header({ collapsed, setCollapsed }) {
                         <ChevronsLeft className={`${collapsed && 'rotate-180'}`} />
                     </button>
                 </div>
-                {/* <Modal>
+                <Modal>
                     <div className="flex items-center gap-x-2">
                         <ThemeToggleBtn />
 
@@ -32,7 +32,7 @@ export default function Header({ collapsed, setCollapsed }) {
                             <ProfileModal />
                         </Modal.Window>
                     </div>
-                </Modal> */}
+                </Modal>
             </header>
         </>
     );

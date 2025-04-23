@@ -1,6 +1,6 @@
 import { LayoutDashboard, NotepadText, UserCog } from "lucide-react";
 
-export const PAGE_SIZE = 8
+export const PAGE_SIZE = 10
 
 export const fakeTodayData = [
     {

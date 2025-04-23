@@ -1,13 +1,16 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import AppLayout from "../pages/AppLayout";
 import LoginPage from "../pages/LoginPage";
 import DashboardPage from "../pages/DashboardPage";
+import useAuth from '@/hooks/useAuth'
 
 export default function Router() {
+    const { isAuthenticated, authReady } = useAuth()
+
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <AppLayout />,
+            element: isAuthenticated ? <AppLayout /> : <Navigate to="/login" replace />,
             children: [
                 {
                     index: true,
@@ -17,9 +20,9 @@ export default function Router() {
         },
         {
             path: '/login',
-            element: <LoginPage />
+            element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" replace />
         }
     ])
 
-    return <RouterProvider router={router} />
+    return authReady && <RouterProvider router={router} />
 }
