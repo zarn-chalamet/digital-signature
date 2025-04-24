@@ -7,42 +7,34 @@ const { transporter } = require("../middleware/nodemailer");
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  // Check for required fields
   if (!email || !password) {
     return res.status(400).json({ success: false, message: "Email and password are required" });
   }
 
   try {
-    // Find user by email
     const user = await userModel.findOne({ email });
 
     if (!user) {
       return res.status(401).json({ success: false, message: "Invalid email" });
     }
 
-    // Check password (replace with bcrypt in production)
-    const isCorrectPassword = user.password === password;
+    const isCorrectPassword = user.password === password; // Use bcrypt in production
 
     if (!isCorrectPassword) {
       return res.status(401).json({ success: false, message: "Invalid password" });
     }
 
-    // Check if the user is restricted
     if (!user.isRestricted) {
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Your account is blocked. Please contact the IT department.",
-        });
+      return res.status(401).json({
+        success: false,
+        message: "Your account is blocked. Please contact the IT department.",
+      });
     }
 
-    // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "7d",
     });
 
-    // Set token in cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -50,8 +42,23 @@ const loginUser = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    // Send success response
-    return res.status(200).json({ success: true, accessToken: token });
+    // Filtered safe user data
+    const userData = {
+      id: user._id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      image: user.image,
+      isRestricted: user.isRestricted,
+      recentTemplates: user.recentTemplates,
+      date: user.date,
+    };
+
+    return res.status(200).json({
+      success: true,
+      accessToken: token,
+      user: userData,
+    });
 
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });

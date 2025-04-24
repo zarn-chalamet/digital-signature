@@ -8,6 +8,7 @@ export const getUserLists = async (accessToken) => {
                 Authorization: `Bearer ${accessToken}`
             }
         })
+        console.log(data.users)
         return data.users
     }
     catch (err) {
